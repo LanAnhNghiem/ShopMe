@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <LinearLayout
+        android:weightSum="10"
+        android:orientation="vertical"
+        android:background="@drawable/bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_weight="0.5"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <ImageView
+                android:id="@+id/imgSidemenu"
+                android:src="@drawable/iconsidemenu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_marginTop="100dp"
+        android:layout_width="257dp"
+        android:layout_height="427dp"
+        android:layout_gravity="start"
+        >
+        <LinearLayout
+            android:background="@drawable/bg_sidemenu"
+            android:weightSum="10"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v4.widget.Space
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+            <android.support.v4.widget.Space
+                android:layout_weight="0.5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+            //Accout 1
+            <LinearLayout
+                android:weightSum="11"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/icon_account"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:textColor="@color/color_text"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:text="@string/account"
+                    android:paddingLeft="20dp"
+                    android:layout_weight="14"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+            //Send feedback 1
+            <LinearLayout
+                android:weightSum="11"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/icon_feedback"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:textColor="@color/color_green"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:text="@string/feedback"
+                    android:paddingLeft="20dp"
+                    android:layout_weight="14"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+            //Rate 1
+            <LinearLayout
+                android:weightSum="11"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/icon_rate"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:textColor="@color/color_text"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:text="@string/rate"
+                    android:paddingLeft="20dp"
+                    android:layout_weight="14"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+            //Share 1
+            <LinearLayout
+                android:weightSum="11"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/icon_share"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:textColor="@color/color_text"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:text="@string/share"
+                    android:paddingLeft="20dp"
+                    android:layout_weight="14"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+            //Sign out 1.5
+            <LinearLayout
+                android:weightSum="2"
+                android:orientation="vertical"
+                android:layout_weight="1.5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <android.support.v4.widget.Space
+                    android:layout_weight="0.5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+                <ImageView
+                    android:src="@drawable/btn_signout"
+                    android:layout_weight="1.2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+            </LinearLayout>
+            //Create store
+            <LinearLayout
+                android:padding="8dp"
+                android:layout_weight="1.5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <TextView
+                    android:id="@+id/txtCreateStore"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_green"
+                    android:gravity="center"
+                    android:text="@string/create_store"
+                    android:background="@drawable/bg_create_store"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <TextView
+                android:textColor="#002906"
+                android:paddingRight="10dp"
+                android:gravity="top|right"
+                android:textSize="10sp"
+                android:text="@string/shopme"
+                android:layout_weight="0.5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+            </TextView>
+        </LinearLayout>
+    </android.support.design.widget.NavigationView>
+</android.support.v4.widget.DrawerLayout>

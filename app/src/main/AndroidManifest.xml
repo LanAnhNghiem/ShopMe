@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SidemenuActivity"
+            android:label="@string/title_activity_sidemenu"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".create_store.CreateStoreActivity"/>
+        <activity android:name=".create_store.CreateStore_2Activity"/>
     </application>
 
 </manifest>

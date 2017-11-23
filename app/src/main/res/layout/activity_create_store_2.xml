@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@drawable/bg_createstore_2"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.threesome.shopme.create_store.CreateStore_2Activity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            //5
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp">
+            </LinearLayout>
+            //Name 1
+            <LinearLayout
+                android:weightSum="10"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/bg_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <ImageView
+                    android:padding="12dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/icon_phone"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+                <EditText
+                    android:textSize="16sp"
+                    android:background="@android:color/transparent"
+                    android:textColorHint="@android:color/white"
+                    android:textColor="@android:color/white"
+                    android:hint="PhoneNumber"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            //Email 1
+            <LinearLayout
+                android:weightSum="10"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/bg_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <ImageView
+                    android:padding="12dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/icon_address"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+                <EditText
+                    android:background="@android:color/transparent"
+                    android:textSize="16sp"
+                    android:textColorHint="@android:color/white"
+                    android:textColor="@android:color/white"
+                    android:hint="Address"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            //Password 1
+            <LinearLayout
+                android:weightSum="10"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/bg_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <ImageView
+                    android:padding="12dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/icon_password"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+                <EditText
+                    android:background="@android:color/transparent"
+                    android:textSize="16sp"
+                    android:textColorHint="@android:color/white"
+                    android:textColor="@android:color/white"
+                    android:hint="Password"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            //continue 1
+            <LinearLayout
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/bg_continue"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:textSize="17sp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:text="Continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

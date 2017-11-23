@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">ShopMe</string>
+    <string name="title_activity_sidemenu">SidemenuActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="skip">skip</string>
+    <string name="account">Account</string>
+    <string name="feedback">Send your feedback</string>
+    <string name="rate">Rate for us!</string>
+    <string name="share">Share for orthers</string>
+    <string name="create_store">Create your store?Sign Up</string>
+    <string name="shopme">Shopme version 1.0</string>
 </resources>
