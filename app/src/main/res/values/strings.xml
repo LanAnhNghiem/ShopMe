@@ -13,4 +13,6 @@
     <string name="share">Share for orthers</string>
     <string name="create_store">Create your store?Sign Up</string>
     <string name="shopme">Shopme version 1.0</string>
+    <string name="note_choose_image">(*) Vui lòng chọn ảnh có chất lượng tốt nhất!
+       kích thước tối thiểu là 50x50 px.</string>
 </resources>

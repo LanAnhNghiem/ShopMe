@@ -2,6 +2,9 @@ package com.threesome.shopme;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.TransitionInflater;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,6 +25,7 @@ public class SidemenuActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_sidemenu);
         addControls ();
         addEvents ();
+        setupWindowAnimations();
     }
 
     private void addEvents() {
@@ -61,5 +65,10 @@ public class SidemenuActivity extends AppCompatActivity implements View.OnClickL
 
     private void createNewStore() {
           startActivity(new Intent(SidemenuActivity.this, CreateStoreActivity.class));
+    }
+    private void setupWindowAnimations() {
+        Slide slide = new Slide();
+        slide.setDuration(1000);
+        getWindow().setExitTransition(slide);
     }
 }

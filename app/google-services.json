@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "317129012560-td3gtnl5hpl1nv7n06klnc0qj26r082b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.threesome.shopme",
+            "certificate_hash": "af67d4e0c75cdd1342874663b89bacb3c34f068e"
+          }
+        },
+        {
           "client_id": "317129012560-qa7fdhfg564c0aalu0q63ivelgrq7iom.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317129012560-qa7fdhfg564c0aalu0q63ivelgrq7iom.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

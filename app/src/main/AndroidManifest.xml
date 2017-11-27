@@ -20,8 +20,9 @@
             android:name=".SidemenuActivity"
             android:label="@string/title_activity_sidemenu"
             android:theme="@style/AppTheme" />
-        <activity android:name=".create_store.CreateStoreActivity"/>
-        <activity android:name=".create_store.CreateStore_2Activity"/>
+        <activity android:name=".create_store.CreateStoreActivity" />
+        <activity android:name=".create_store.CreateStore_2Activity" />
+        <activity android:name=".create_store.CreateStore_3Activity"></activity>
     </application>
 
 </manifest>
