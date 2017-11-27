@@ -13,7 +13,9 @@
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".SignInActivity" />
+        <activity android:name=".SignInGgActivity">
+
+        </activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

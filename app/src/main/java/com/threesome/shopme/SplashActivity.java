@@ -42,15 +42,19 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         initGoogleAPIClient();//Init Google API Client
         checkPermissions();//Check Permission
-//        new Handler().postDelayed(new Runnable(){
-//            @Override
-//            public void run() {
-//                /* Create an Intent that will start the Menu-Activity. */
-//                Intent mainIntent = new Intent(SplashActivity.this, SignInActivity.class);
-//                startActivity(mainIntent);
-//                finish();
-//            }
-//        }, Utilities.DISPLAY_LENGTH);
+        registerReceiver(gpsLocationReceiver, new IntentFilter(BROADCAST_ACTION));//Register broadcast receiver to check the status of GPS
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    Intent intent = new Intent(SplashActivity.this, SignInGgActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }, 2000);
+
+        }
     }
     // Initiate Google API Client
     private void initGoogleAPIClient(){
@@ -69,6 +73,7 @@ public class SplashActivity extends AppCompatActivity {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
         builder.setAlwaysShow(true);
+
         Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
         result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
             @Override
@@ -77,7 +82,7 @@ public class SplashActivity extends AppCompatActivity {
                     LocationSettingsResponse response = task.getResult(ApiException.class);
                     // All location settings are satisfied. The client can initialize location
                     // requests here.
-                    Toast.makeText(SplashActivity.this, "GPS is enable in your device", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(SplashActivity.this, getResources().getString(R.string.GPS_enabled), Toast.LENGTH_SHORT).show();
                 } catch (ApiException exception) {
                     switch (exception.getStatusCode()) {
                         case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
@@ -142,12 +147,12 @@ public class SplashActivity extends AppCompatActivity {
                 switch (resultCode) {
                     case RESULT_OK:
                         Log.e("Settings", "Result OK");
-                        Toast.makeText(this, "GPS is enabled in your device(result ok)", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, getResources().getString(R.string.GPS_enabled), Toast.LENGTH_SHORT).show();
                         //startLocationUpdates();
                         break;
                     case RESULT_CANCELED:
                         Log.e("Settings", "Result Cancel");
-                        Toast.makeText(this, "GPS is disabled in your device(result canceled)", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, getResources().getString(R.string.GPS_disabled), Toast.LENGTH_SHORT).show();
                         break;
                 }
                 break;
@@ -156,7 +161,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(gpsLocationReceiver, new IntentFilter(BROADCAST_ACTION));//Register broadcast receiver to check the status of GPS
+
     }
 
     @Override
@@ -185,12 +190,19 @@ public class SplashActivity extends AppCompatActivity {
                 //Check if GPS is turned ON or OFF
                 if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     Log.e("About GPS", "GPS is Enabled in your device");
-                    Toast.makeText(context, "GPS is enabled in your device(about gps 1)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.GPS_enabled, Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable(){
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(SplashActivity.this, SignInGgActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 2000);
                 } else {
                     //If GPS turned OFF show Location Dialog
+                    Toast.makeText(context, R.string.GPS_disabled, Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(sendUpdatesToUI, 5);
-                    // showSettingDialog();
-                    Toast.makeText(context, "GPS is disabled in your device(about gps 2)", Toast.LENGTH_SHORT).show();
                     Log.e("About GPS", "GPS is Disabled in your device");
                 }
 
@@ -211,13 +223,12 @@ public class SplashActivity extends AppCompatActivity {
                     if (mGoogleApiClient == null) {
                         initGoogleAPIClient();
                         showSettingDialog();
-                    } else
+                    } else {
                         showSettingDialog();
-
-
+                    }
                 } else {
-                    Toast.makeText(this, "Location Permission denied.", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(SplashActivity.this, "Location Permission denied.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.location_permission_denied), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SplashActivity.this, getResources().getString(R.string.location_permission_denied), Toast.LENGTH_SHORT).show();
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }

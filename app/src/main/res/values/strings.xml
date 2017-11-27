@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ShopMe</string>
+    <!--<string name="default_web_client_id">317129012560-qa7fdhfg564c0aalu0q63ivelgrq7iom.apps.googleusercontent.com</string>-->
+    <string name="login_success">Logged In Successfully</string>
+    <string name="signout_success">Signed Out Successfully</string>
+    <string name="login_failed">Login Attempt Failed</string>
+    <string name="location_permission_denied">Location Permission denied.</string>
+    <string name="GPS_enabled">GPS is enabled in your device.</string>
+    <string name="GPS_disabled">GPS is disabled in your device.</string>
 </resources>
