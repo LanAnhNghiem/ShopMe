@@ -39,6 +39,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent" />
                     <EditText
+                        android:id="@+id/edtNameStore"
                         android:textSize="16sp"
                         android:background="@android:color/transparent"
                         android:textColorHint="@android:color/white"
@@ -66,6 +67,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent" />
                     <EditText
+                        android:id="@+id/edtPhoneNumber"
+                        android:inputType="phone"
                         android:textSize="16sp"
                         android:background="@android:color/transparent"
                         android:textColorHint="@android:color/white"
@@ -93,6 +96,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent" />
                     <EditText
+                        android:id="@+id/edtAddressStore"
                         android:background="@android:color/transparent"
                         android:textSize="16sp"
                         android:textColorHint="@android:color/white"

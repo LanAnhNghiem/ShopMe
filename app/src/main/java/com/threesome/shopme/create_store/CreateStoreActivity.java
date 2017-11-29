@@ -31,7 +31,6 @@ public class CreateStoreActivity extends Utility implements View.OnClickListener
 
     private TextView txtContinue;
     private FirebaseAuth mAuth;
-    private DatabaseReference mData;
     private EditText edtEmail, edtPassword, edtConfirmPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +51,11 @@ public class CreateStoreActivity extends Utility implements View.OnClickListener
         edtPassword = findViewById(R.id.edtPassword);
         edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         mAuth = FirebaseAuth.getInstance();
-        mData = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
     public void onClick(View view) {
+        showProgress("Loading...");
         int id = view.getId();
         switch (id){
             case R.id.txtContinue1 :
@@ -110,22 +109,30 @@ public class CreateStoreActivity extends Utility implements View.OnClickListener
         }
         if (flag) {
            createNewStore (email, password);
+        }else {
+            hideProgress();
         }
     }
 
-    private void createNewStore(String email, String password) {
+    private void createNewStore(final String email, final String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+                            hideProgress();
                             Log.d(" TAG", "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            //addToDataBase ();
+                            Intent intent = new Intent(CreateStoreActivity.this, CreateStore_2Activity.class);
+                            intent.putExtra(Constant.STORE_EMAIL, email);
+                            intent.putExtra(Constant.PASSWORD, password);
+                            intent.putExtra(Constant.ID_STORE, user.getUid());
+                            startActivity(intent);
 
                         } else {
                             // If sign in fails, display a message to the user.
+                            hideProgress();
                             Log.w("TAG", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(CreateStoreActivity.this, "Đăng kí thất bại!",
                                     Toast.LENGTH_SHORT).show();
@@ -134,24 +141,8 @@ public class CreateStoreActivity extends Utility implements View.OnClickListener
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                hideProgress();
                 Toast.makeText(CreateStoreActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void addToDataBase() {
-        final DatabaseReference myRef = mData.child(Constant.STORE);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null){
-                    Store store = new Store();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
