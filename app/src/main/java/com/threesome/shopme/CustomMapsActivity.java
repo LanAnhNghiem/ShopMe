@@ -2,6 +2,7 @@ package com.threesome.shopme;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,8 +13,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -31,13 +34,26 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.threesome.shopme.Common.Common;
+import com.threesome.shopme.Retrofit.IGoogleAPI;
 import com.threesome.shopme.adapters.ItemStoreGoogleMap;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
 
@@ -53,6 +69,7 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
     ItemStoreGoogleMap itemStoreGoogleMap;
     String userId;
     private GoogleMap mMap;
+    private Polyline line;
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
@@ -65,8 +82,45 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
     private int radius = 10;
     private boolean driverFound = false;
     private ArrayList<String> driverFoundIds = new ArrayList<>();
+    private IGoogleAPI mService;
 
     //poly
+
+    public static List<LatLng> decode(final String encodedPath) {
+        int len = encodedPath.length();
+
+        // For speed we preallocate to an upper bound on the final length, then
+        // truncate the array before returning.
+        final List<LatLng> path = new ArrayList<LatLng>();
+        int index = 0;
+        int lat = 0;
+        int lng = 0;
+
+        while (index < len) {
+            int result = 1;
+            int shift = 0;
+            int b;
+            do {
+                b = encodedPath.charAt(index++) - 63 - 1;
+                result += b << shift;
+                shift += 5;
+            } while (b >= 0x1f);
+            lat += (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+
+            result = 1;
+            shift = 0;
+            do {
+                b = encodedPath.charAt(index++) - 63 - 1;
+                result += b << shift;
+                shift += 5;
+            } while (b >= 0x1f);
+            lng += (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+
+            path.add(new LatLng(lat * 1e-5, lng * 1e-5));
+        }
+
+        return path;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +157,8 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
 //        });
 
         initItemRCV();
+
+        mService = Common.getGoogleAPI();
     }
 
     private void initItemRCV() {
@@ -130,6 +186,11 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
                 mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(location.latitude, location.longitude)));
 
+                if (!driverFound) {
+                    driverFound = true;
+                    getDirection(new LatLng(location.latitude, location.longitude));
+                }
+
             }
 
             @Override
@@ -154,7 +215,6 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
         });
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -167,7 +227,6 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
 
         mMap.setMyLocationEnabled(true);
     }
-
 
     private void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -202,6 +261,7 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
         getClosetStore();
 
 
+
     }
 
     @Override
@@ -228,5 +288,60 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
 
     }
 
+    private void getDirection(LatLng store) {
+        LatLng currentPosition = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
+        String requestApi = null;
+        try {
+            requestApi = "https://maps.googleapis.com/maps/api/directions/json?" +
+                    "mode=driving&" +
+                    "transit_routing_preference=less_driving&" +
+                    "origin=" + currentPosition.latitude + "," + currentPosition.longitude + "&" +
+                    "destination=" + store.latitude + "," + store.longitude + "&" +
+                    "key=" + getResources().getString(R.string.google_direction_api);
+
+            Log.d("NhanD", requestApi);
+
+            mService.getPath(requestApi)
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.body().toString());
+                                String status = jsonObject.getString("status");
+                                if (status.equals("NOT_FOUND")) {
+                                    Toast.makeText(CustomMapsActivity.this, "NOT FOUND", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                JSONArray jsonArray = jsonObject.getJSONArray("routes");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject route = jsonArray.getJSONObject(i);
+                                    JSONObject poly = route.getJSONObject("overview_polyline");
+                                    String polyline = poly.getString("points");
+                                    List<LatLng> list = decode(polyline);
+
+                                    for (int z = 0; z < list.size() - 1; z++) {
+                                        LatLng src = list.get(z);
+                                        LatLng dest = list.get(z + 1);
+                                        line = mMap.addPolyline(new PolylineOptions()
+                                                .add(new LatLng(src.latitude, src.longitude),
+                                                        new LatLng(dest.latitude, dest.longitude))
+                                                .width(5).color(Color.BLUE).geodesic(true));
+                                    }
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Toast.makeText(CustomMapsActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
