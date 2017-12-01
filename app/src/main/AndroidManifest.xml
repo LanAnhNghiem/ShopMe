@@ -39,17 +39,28 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".StartActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".StoreLoginActivity" />
         <activity android:name=".CustomerLoginActivity" />
         <activity
             android:name=".CustomMapsActivity"
             android:theme="@style/AppTheme.FullScreen"></activity>
+
+        <activity android:name=".LA.SignInGgActivity">
+
+        </activity>
+        <activity android:name=".LA.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".AT.createstore.CreateStoreActivity" />
+        <activity android:name=".AT.createstore.CreateStore_2Activity" />
+        <activity android:name=".AT.createstore.CreateStore_3Activity"></activity>
     </application>
 
 </manifest>

@@ -9,13 +9,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
@@ -32,15 +35,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.skyfishjy.library.RippleBackground;
+import com.threesome.shopme.AT.createstore.CreateStoreActivity;
 import com.threesome.shopme.Common.Common;
+import com.threesome.shopme.LA.SignInGgActivity;
 import com.threesome.shopme.Retrofit.IGoogleAPI;
 import com.threesome.shopme.adapters.ItemStoreGoogleMap;
 
@@ -49,42 +53,43 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
+public class CustomMapsActivity extends FragmentActivity implements View.OnClickListener, OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
 
 
-    //Play Services
-    private static final int MY_PERMISSION_REQUEST_CODE = 7000;
-    private static final int PLAY_SERVICE_RES_REQUEST = 7001;
     private static int UPDATE_INTERVAL = 5000;
     private static int FATEST_INTERVAL = 3000;
-    private static int DISPLACEMENT = 10;
-    //RecyclerView
     RecyclerView itemStoreGmRv;
     ItemStoreGoogleMap itemStoreGoogleMap;
-    String userId;
+    //    private ImageView imgSidemenu;
+    private DrawerLayout drawer;
+    private TextView txtCreateStore;
+    private ImageView imgLogin;
+    //    String userId;
     private GoogleMap mMap;
-    private Polyline line;
+
+    private Polyline line = null;
+
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private LatLng mPickupLocation;
-    private DatabaseReference drivers;
-    private GeoFire geoFire;
-    private Marker mCurrent;
+
     private SupportMapFragment mapFragment;
-    private Button logout, request;
+
     private int radius = 10;
     private boolean driverFound = false;
-    private ArrayList<String> driverFoundIds = new ArrayList<>();
+    private Set<String> driverFoundIds = new HashSet<>();
     private IGoogleAPI mService;
 
-    //poly
+    private boolean isFirstLoad = false;
 
     public static List<LatLng> decode(final String encodedPath) {
         int len = encodedPath.length();
@@ -127,38 +132,30 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_maps);
 
+
+        addControls();
+        addEvents();
+
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        logout = (Button) findViewById(R.id.logout);
-//        request = (Button) findViewById(R.id.request);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(CustomMapsActivity.this, StartActivity.class));
-                finish();
-                return;
-            }
-        });
 
-
-        userId = FirebaseAuth.getInstance().getUid();
-//        request.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//
-//                request.setText("GETING YOUR DRIVER");
-//
-//                getClosetStore();
-//            }
-//        });
+//        userId = FirebaseAuth.getInstance().getUid();
 
         initItemRCV();
 
         mService = Common.getGoogleAPI();
+
+        final RippleBackground rippleBackground = (RippleBackground) findViewById(R.id.content);
+        ImageView imageView = (ImageView) findViewById(R.id.centerImage);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rippleBackground.startRippleAnimation();
+            }
+        });
+
     }
 
     private void initItemRCV() {
@@ -181,12 +178,14 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
+                int size = driverFoundIds.size();
                 driverFoundIds.add(key);
                 itemStoreGoogleMap.notifyDataSetChanged();
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(location.latitude, location.longitude)));
+                if (driverFoundIds.size() - size == 1)
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(location.latitude, location.longitude)));
 
-                if (!driverFound) {
+                if (driverFoundIds.size() == 2) {
                     driverFound = true;
                     getDirection(new LatLng(location.latitude, location.longitude));
                 }
@@ -225,7 +224,6 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
 
         buildGoogleApiClient();
 
-        mMap.setMyLocationEnabled(true);
     }
 
     private void buildGoogleApiClient() {
@@ -239,27 +237,21 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
 
     @Override
     public void onLocationChanged(Location location) {
-        mLastLocation = location;
 
-        LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-//        if (mCurrent != null)
-//            mCurrent.remove();
-//        mCurrent = mMap.addMarker(new MarkerOptions()
-//                .position(latLng)
-//                .title("Your location"));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+        if (!isFirstLoad) {
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("CustomerRequest");
+            isFirstLoad = true;
+            mLastLocation = location;
 
-        GeoFire geoFire = new GeoFire(ref);
+            LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
-        if (userId != null || !userId.equals(""))
-            geoFire.setLocation(userId, new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
 
-        mPickupLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            mPickupLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
-        getClosetStore();
+            getClosetStore();
 
+        }
 
 
     }
@@ -343,5 +335,43 @@ public class CustomMapsActivity extends FragmentActivity implements OnMapReadyCa
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void addEvents() {
+        txtCreateStore.setOnClickListener(this);
+        imgLogin.setOnClickListener(this);
+    }
+
+    private void addControls() {
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        txtCreateStore = findViewById(R.id.txtCreateStore);
+        imgLogin = (ImageView) findViewById(R.id.imgLogin);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.txtCreateStore:
+                createNewStore();
+                break;
+            case R.id.imgLogin:
+                startActivity(new Intent(CustomMapsActivity.this, SignInGgActivity.class));
+            default:
+                break;
+        }
+    }
+
+    private void createNewStore() {
+        startActivity(new Intent(CustomMapsActivity.this, CreateStoreActivity.class));
     }
 }

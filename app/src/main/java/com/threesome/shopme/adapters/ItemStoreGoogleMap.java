@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.threesome.shopme.CustomMapsActivity;
 import com.threesome.shopme.R;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by Nhan on 11/29/2017.
@@ -21,9 +21,9 @@ public class ItemStoreGoogleMap extends RecyclerView.Adapter<ItemStoreGoogleMap.
     private static final int NUM = 10;
     private CustomMapsActivity context;
     private int widthItem;
-    private ArrayList<String> driverFoundIds;
+    private Set<String> driverFoundIds;
 
-    public ItemStoreGoogleMap(CustomMapsActivity context, ArrayList<String> driverFoundIds) {
+    public ItemStoreGoogleMap(CustomMapsActivity context, Set<String> driverFoundIds) {
         this.context = context;
         this.driverFoundIds = driverFoundIds;
 
