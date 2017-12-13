@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ShopMe.iml" filepath="$PROJECT_DIR$/ShopMe.iml" />
+      <module fileurl="file://C:\Users\Kunka\Desktop\Shopme_Sprin2\ShopMe.iml" filepath="C:\Users\Kunka\Desktop\Shopme_Sprin2\ShopMe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Shopme_Sprin2.iml" filepath="$PROJECT_DIR$/Shopme_Sprin2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

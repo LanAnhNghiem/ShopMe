@@ -160,11 +160,12 @@
                     android:layout_weight="0.5" />
 
                 <ImageView
+                    android:padding="3dp"
                     android:id="@+id/imgLogin"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3"
-                    android:src="@drawable/btn_signout" />
+                    android:src="@drawable/btnsignin" />
 
             </LinearLayout>
             //Create store
@@ -181,7 +182,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_create_store"
                     android:gravity="center"
-                    android:text="@string/create_store"
+                    android:text="Instruction registration store"
                     android:textColor="@color/color_green"
                     android:textStyle="bold" />
             </LinearLayout>

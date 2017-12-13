@@ -38,4 +38,7 @@
     <string name="shopme">Shopme version 1.0</string>
     <string name="note_choose_image">(*) Vui lòng chọn ảnh có chất lượng tốt nhất!
        kích thước tối thiểu là 50x50 px.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

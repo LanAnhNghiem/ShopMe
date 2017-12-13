@@ -43,6 +43,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.skyfishjy.library.RippleBackground;
 import com.threesome.shopme.AT.createstore.CreateStoreActivity;
+import com.threesome.shopme.AT.createstore.RegisterStoreActivity;
+import com.threesome.shopme.AT.signIn.RequestSignInActivity;
 import com.threesome.shopme.Common.Common;
 import com.threesome.shopme.LA.SignInGgActivity;
 import com.threesome.shopme.Retrofit.IGoogleAPI;
@@ -365,13 +367,13 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
                 createNewStore();
                 break;
             case R.id.imgLogin:
-                startActivity(new Intent(CustomMapsActivity.this, SignInGgActivity.class));
+                startActivity(new Intent(CustomMapsActivity.this, RequestSignInActivity.class));
             default:
                 break;
         }
     }
 
     private void createNewStore() {
-        startActivity(new Intent(CustomMapsActivity.this, CreateStoreActivity.class));
+        startActivity(new Intent(CustomMapsActivity.this, RegisterStoreActivity.class));
     }
 }

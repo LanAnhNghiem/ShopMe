@@ -151,4 +151,5 @@ public class CreateStoreActivity extends Utility implements View.OnClickListener
         slide.setDuration(3000);
         getWindow().setExitTransition(slide);
     }
+
 }
