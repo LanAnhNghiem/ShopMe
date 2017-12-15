@@ -2,14 +2,13 @@ package com.threesome.shopme.AT.createstore;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,12 +60,12 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frame_content, firstFragment, "FIRST_FRAGMENT");
         fragmentTransaction.commit();
-        txtContinue = findViewById(R.id.txtContinue);
-        layoutContinue = findViewById(R.id.layoutContinue);
+        txtContinue = (TextView) findViewById(R.id.txtContinue);
+        layoutContinue = (LinearLayout) findViewById(R.id.layoutContinue);
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        txtBack = findViewById(R.id.txtBack);
-        stepView = findViewById(R.id.step_view);
+        txtBack = (TextView) findViewById(R.id.txtBack);
+        stepView = (StepView) findViewById(R.id.step_view);
         stepView.setSteps(new ArrayList<String>() {{
             add("");
             add("");

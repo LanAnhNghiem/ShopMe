@@ -296,9 +296,9 @@ public class CreateStore_3Activity extends Utility implements View.OnClickListen
         nameStore = intent.getStringExtra(Constant.STORE_NAME);
         address = intent.getStringExtra(Constant.STORE_ADDRESS);
         phoneNumber = intent.getStringExtra(Constant.STORE_PHONENUMBER);
-        txtContinue = findViewById(R.id.txtComplete);
-        imgAvata = findViewById(R.id.imgAvataStore);
-        imgChooseImage = findViewById(R.id.imgChooseImage);
+        txtContinue = (TextView) findViewById(R.id.txtComplete);
+        imgAvata = (ImageView) findViewById(R.id.imgAvataStore);
+        imgChooseImage = (ImageView) findViewById(R.id.imgChooseImage);
         mData = FirebaseDatabase.getInstance().getReference();
         mStorageRef = FirebaseStorage.getInstance().getReference();
     }

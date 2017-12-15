@@ -44,10 +44,10 @@ public class CreateStoreActivity extends Utility implements View.OnClickListener
     }
 
     private void addControls() {
-        txtContinue = findViewById(R.id.txtContinue1);
-        edtEmail = findViewById(R.id.edtEmail);
-        edtPassword = findViewById(R.id.edtPassword);
-        edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
+        txtContinue = (TextView)findViewById(R.id.txtContinue1);
+        edtEmail = (EditText) findViewById(R.id.edtEmail);
+        edtPassword = (EditText) findViewById(R.id.edtPassword);
+        edtConfirmPassword = (EditText) findViewById(R.id.edtConfirmPassword);
         mAuth = FirebaseAuth.getInstance();
     }
 

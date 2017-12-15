@@ -37,10 +37,10 @@ public class CreateStore_2Activity extends Utility implements View.OnClickListen
         Intent intent = getIntent();
         email = intent.getStringExtra(Constant.STORE_EMAIL);
         idStore = intent.getStringExtra(Constant.ID_STORE);
-        txtContinue = findViewById(R.id.txtContinue2);
-        edtName = findViewById(R.id.edtNameStore);
-        edtPhoneNumber = findViewById(R.id.edtPhoneNumber);
-        edtAddress = findViewById(R.id.edtAddressStore);
+        txtContinue = (TextView) findViewById(R.id.txtContinue2);
+        edtName = (EditText) findViewById(R.id.edtNameStore);
+        edtPhoneNumber = (EditText) findViewById(R.id.edtPhoneNumber);
+        edtAddress = (EditText) findViewById(R.id.edtAddressStore);
 
         mData = FirebaseDatabase.getInstance().getReference();
     }
