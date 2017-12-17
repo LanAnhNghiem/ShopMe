@@ -1,6 +1,7 @@
 package com.threesome.shopme;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -9,13 +10,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.facebook.login.LoginManager;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -29,11 +37,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.threesome.shopme.AT.signIn.RequestSignInActivity;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
 
-
+    //Sign out
+    private Button btnSignOut;
     //Play Services
     private static final int MY_PERMISSION_REQUEST_CODE = 7000;
     private static final int PLAY_SERVICE_RES_REQUEST = 7001;
@@ -68,13 +78,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MapsActivity.this, StartActivity.class));
-                finish();
+                String user = String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl());
+                if (user.contains("google")) {
+                    signOut();
+                } else {
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(MapsActivity.this, StartActivity.class));
+                    finish();
+                }
+                Log.d("current", user);
+
                 return;
             }
         });
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        // [END config_signin]
 
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
         userId = FirebaseAuth.getInstance().getUid();
     }
@@ -143,13 +169,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    protected void onStop() {
+        super.onStop();
 
     }
 
+    private void signOut() {
+        AlertDialog.Builder aler = new AlertDialog.Builder(this);
+        aler.setCancelable(false);
+        aler.setMessage(getResources().getString(R.string.logout_message));
+        aler.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        aler.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseAuth fAuth = FirebaseAuth.getInstance();
+                fAuth.signOut();
+                LoginManager.getInstance().logOut();
+                // Google sign out
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                        new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(@NonNull Status status) {
+                            }
+                        });
+                startActivity(new Intent(MapsActivity.this, RequestSignInActivity.class));
+                finish();
+            }
+        });
+        aler.show();
+    }
+
     @Override
-    protected void onStop() {
-        super.onStop();
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 }

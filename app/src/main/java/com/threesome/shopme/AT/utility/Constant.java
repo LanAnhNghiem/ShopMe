@@ -13,4 +13,6 @@ public class Constant {
     public static final String CONFIRM_PASSWORD = "Confirm_password";
     public static final String STORE_PHONENUMBER = "storePhoneNumber";
     public static final String STORE_ADDRESS = "storeAddress";
+
+    public static final int REQUEST_CODE_LOAD_IMAGE = 4;
 }

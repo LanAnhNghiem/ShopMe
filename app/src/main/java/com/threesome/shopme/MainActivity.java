@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addControls() {
-        txtSkip = findViewById(R.id.txtSkip);
+        txtSkip = (TextView) findViewById(R.id.txtSkip);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

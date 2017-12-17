@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.ProviderQueryResult;
 import com.shuhart.stepview.StepView;
+import com.threesome.shopme.AT.GPSTracker.GPSTracker;
 import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.R;
 
@@ -36,7 +37,9 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
     private LinearLayout layoutContinue;
     public ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
+    private GPSTracker gps;
     private int INDEX = 0;
+    private double latitude = 0, longitude = 0;
     private String emailStore = "", password = "", confirmPassword = "", nameStore = "", phoneNumber = "", address = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,27 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(gps.canGetLocation()){
+
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
+           // Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+        }else{
+            gps.showSettingsAlert();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gps.stopUsingGPS();
+    }
+
     private void addControls() {
+        gps = new GPSTracker(this);
         firstFragment = new FirstFragment();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frame_content, firstFragment, "FIRST_FRAGMENT");

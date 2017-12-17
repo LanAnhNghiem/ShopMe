@@ -8,26 +8,18 @@
     <string name="title_activity_maps">Maps</string>
     <string name="title_activity_maps_test">Map</string>
     <string name="google_direction_api">AIzaSyAnLXe-1prdB0L1BX7WLAo36eS_cxX4vjM</string>
-
     <string name="stores">Stores</string>
     <string name="users">Users</string>
     <string name="customers">Customers</string>
-
     <string name="large_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tu quidem reddes; Utinam quidem dicerent alium alio beatiorem! Iam ruinas videres. Quae duo sunt, unum facit. Quicquid porro animo cernimus, id omne oritur a sensibus; Duo Reges: constructio interrete. Quonam modo? Non enim iam stirpis bonum quaeret, sed animalis. Hi curatione adhibita levantur in dies, valet alter plus cotidie, alter videt.  Dici enim nihil potest verius. Nosti, credo, illud: Nemo pius est, qui pietatem-; Nos cum te, M. Neminem videbis ita laudatum, ut artifex callidus comparandarum voluptatum diceretur. Ne in odium veniam, si amicum destitero tueri. Ita relinquet duas, de quibus etiam atque etiam consideret. Illa sunt similia: hebes acies est cuipiam oculorum, corpore alius senescit; Quis Aristidem non mortuum diligit? Audax negotium, dicerem impudens, nisi hoc institutum postea translatum ad philosophos nostros esset. Omnis enim est natura diligens sui. Quid ad utilitatem tantae pecuniae?  Huius ego nunc auctoritatem sequens idem faciam. Hoc dictum in una re latissime patet, ut in omnibus factis re, non teste moveamur. Hosne igitur laudas et hanc eorum, inquam, sententiam sequi nos censes oportere? Inde sermone vario sex illa a Dipylo stadia confecimus. Contineo me ab exemplis. Ut optime, secundum naturam affectum esse possit.  Restinguet citius, si ardentem acceperit. Fortitudinis quaedam praecepta sunt ac paene leges, quae effeminari virum vetant in dolore.  Nisi autem rerum natura perspecta erit, nullo modo poterimus sensuum iudicia defendere. Tollitur beneficium, tollitur gratia, quae sunt vincla concordiae.</string>
-
-
-    <string name="login_success">Logged In Successfully</string>
     <string name="signout_success">Signed Out Successfully</string>
     <string name="login_failed">Login Attempt Failed</string>
     <string name="location_permission_denied">Location Permission denied.</string>
     <string name="GPS_enabled">GPS is enabled in your device.</string>
     <string name="GPS_disabled">GPS is disabled in your device.</string>
-
     <string name="title_activity_sidemenu">SidemenuActivity</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
     <string name="skip">skip</string>
     <string name="account">Account</string>
@@ -41,4 +33,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+        <string name="login_success">Logged In Successfully</string>
+        <string name="logout_success">Logged Out Successfully</string>
+        <string name="logout_message">Are you sure you want to log out?</string>
+        <string name="login_canceled">Log In Canceled</string>
+        <!-- TODO: Remove or change this placeholder text -->
+        <string name="loading">Loading...</string>
+        <!--facebook string-->
+        <string name="facebook_app_id">382989748812381</string>
+        <string name="fb_login_protocol_scheme">fb382989748812381</string>
+        <string name="no">No</string>
+        <string name="yes">Yes</string>
+
 </resources>

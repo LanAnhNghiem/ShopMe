@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.R;
 
 import java.io.IOException;
@@ -53,24 +54,37 @@ public class ThirdFragment extends Fragment {
         return view;
     }
     private void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+        Intent pickIntent = new Intent();
+        pickIntent.setType("image/*");
+        pickIntent.setAction(Intent.ACTION_PICK);
+        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String pickTitle = "Take or select a photo";
+        Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{takePhotoIntent});
+        startActivityForResult(chooserIntent, Constant.REQUEST_CODE_LOAD_IMAGE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE) {
-            //TODO: action
-            //linkPhoto = data.getData().toString();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+        if (requestCode == Constant.REQUEST_CODE_LOAD_IMAGE && resultCode == getActivity().RESULT_OK) {
+            if (data.getAction() != null) {
+                bitmap = (Bitmap) data.getExtras().get("data");
+             //   bitmap = cropImage(bitmap);
+               // presenter.updatePhoto(bitmap, idUser);
                 imgAvataStore.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                Uri filePath = data.getData();
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+                  //  bitmap = cropImage(bitmap);
+                  //  presenter.updatePhoto(bitmap, idUser);
+                    imgAvataStore.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.threesome.shopme.AT.createstore;
 
+import java.util.HashMap;
+
 /**
  * Created by Kunka on 11/27/2017.
  */
@@ -11,14 +13,24 @@ public class Store {
     private String addressStore;
     private String emailStore;
     private String phoneNumber;
+    private HashMap<String, Double> mapLocation;
 
-    public Store(String idStore, String nameStore, String linkPhotoStore, String addressStore, String emailStore, String phoneNumber) {
+    public Store(String idStore, String nameStore, String linkPhotoStore, String addressStore, String emailStore, String phoneNumber, HashMap<String, Double> mapLocation) {
         this.idStore = idStore;
         this.nameStore = nameStore;
         this.linkPhotoStore = linkPhotoStore;
         this.addressStore = addressStore;
         this.emailStore = emailStore;
         this.phoneNumber = phoneNumber;
+        this.mapLocation = mapLocation;
+    }
+
+    public HashMap<String, Double> getMapLocation() {
+        return mapLocation;
+    }
+
+    public void setMapLocation(HashMap<String, Double> mapLocation) {
+        this.mapLocation = mapLocation;
     }
 
     public Store() {

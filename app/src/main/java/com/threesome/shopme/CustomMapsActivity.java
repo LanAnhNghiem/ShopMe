@@ -42,11 +42,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.skyfishjy.library.RippleBackground;
-import com.threesome.shopme.AT.createstore.CreateStoreActivity;
 import com.threesome.shopme.AT.createstore.RegisterStoreActivity;
 import com.threesome.shopme.AT.signIn.RequestSignInActivity;
 import com.threesome.shopme.Common.Common;
-import com.threesome.shopme.LA.SignInGgActivity;
 import com.threesome.shopme.Retrofit.IGoogleAPI;
 import com.threesome.shopme.adapters.ItemStoreGoogleMap;
 
@@ -72,13 +70,10 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
     ItemStoreGoogleMap itemStoreGoogleMap;
     //    private ImageView imgSidemenu;
     private DrawerLayout drawer;
-    private TextView txtCreateStore;
     private ImageView imgLogin;
     //    String userId;
     private GoogleMap mMap;
-
     private Polyline line = null;
-
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
@@ -340,13 +335,11 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
     }
 
     private void addEvents() {
-        txtCreateStore.setOnClickListener(this);
         imgLogin.setOnClickListener(this);
     }
 
     private void addControls() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        txtCreateStore = findViewById(R.id.txtCreateStore);
         imgLogin = (ImageView) findViewById(R.id.imgLogin);
     }
 
@@ -363,17 +356,10 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.txtCreateStore:
-                createNewStore();
-                break;
             case R.id.imgLogin:
                 startActivity(new Intent(CustomMapsActivity.this, RequestSignInActivity.class));
             default:
                 break;
         }
-    }
-
-    private void createNewStore() {
-        startActivity(new Intent(CustomMapsActivity.this, RegisterStoreActivity.class));
     }
 }
