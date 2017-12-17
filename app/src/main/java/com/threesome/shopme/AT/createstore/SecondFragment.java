@@ -21,6 +21,7 @@ public class SecondFragment extends Fragment {
     private String nameStore = "";
     private String phoneStore = "";
     private String addressStore = "";
+    private String emailStore, password;
     private EditText edtNameStore, edtAddress, edtPhoneNumber;
 
     public SecondFragment() {
@@ -34,6 +35,9 @@ public class SecondFragment extends Fragment {
             nameStore = getArguments().getString(Constant.STORE_NAME);
             phoneStore = getArguments().getString(Constant.STORE_PHONENUMBER);
             addressStore = getArguments().getString(Constant.STORE_ADDRESS);
+
+            emailStore = getArguments().getString(Constant.STORE_EMAIL);
+            password = getArguments().getString(Constant.PASSWORD);
         }
     }
 
@@ -88,5 +92,13 @@ public class SecondFragment extends Fragment {
 
     public String getAddressStore() {
         return addressStore;
+    }
+
+    public String getEmailStore() {
+        return emailStore;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

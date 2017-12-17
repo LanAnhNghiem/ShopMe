@@ -1,4 +1,4 @@
-package com.threesome.shopme.AT.createstore;
+package com.threesome.shopme.AT.store;
 
 import java.util.HashMap;
 

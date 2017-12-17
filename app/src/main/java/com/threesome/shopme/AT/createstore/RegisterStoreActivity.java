@@ -2,6 +2,9 @@ package com.threesome.shopme.AT.createstore;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,15 +19,29 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.ProviderQueryResult;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.shuhart.stepview.StepView;
 import com.threesome.shopme.AT.GPSTracker.GPSTracker;
+import com.threesome.shopme.AT.store.Store;
+import com.threesome.shopme.AT.store.StoreDetailActivity;
 import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.R;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RegisterStoreActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,10 +54,13 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
     private LinearLayout layoutContinue;
     public ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
+    private DatabaseReference mData;
     private GPSTracker gps;
     private int INDEX = 0;
     private double latitude = 0, longitude = 0;
-    private String emailStore = "", password = "", confirmPassword = "", nameStore = "", phoneNumber = "", address = "";
+    private Bitmap bitmap = null;
+    private StorageReference mStorage;
+    private String emailStore = "", password = "", confirmPassword = "", nameStore = "", phoneNumber = "", address = "", linkCoverStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +99,8 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
     }
 
     private void addControls() {
+        mData = FirebaseDatabase.getInstance().getReference();
+        mStorage = FirebaseStorage.getInstance().getReference();
         gps = new GPSTracker(this);
         firstFragment = new FirstFragment();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -130,6 +152,8 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
     private void backCreateStore() { Fragment fragment = null;
         if (INDEX == 2){
             Bundle bundle = new Bundle();
+            bundle.putString(Constant.STORE_EMAIL, emailStore);
+            bundle.putString(Constant.PASSWORD, password);
             bundle.putString(Constant.STORE_NAME, nameStore);
             bundle.putString(Constant.STORE_ADDRESS, address);
             bundle.putString(Constant.STORE_PHONENUMBER, phoneNumber);
@@ -167,10 +191,19 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
             }
         }else if (INDEX == 1){
             if (secondFragment.isNext()) {
+                emailStore = secondFragment.getEmailStore();
+                password = secondFragment.getPassword();
                 nameStore = secondFragment.getNameStore();
                 address = secondFragment.getAddressStore();
                 phoneNumber = secondFragment.getPhoneStore();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.STORE_EMAIL, emailStore);
+                bundle.putString(Constant.PASSWORD, password);
+                bundle.putString(Constant.STORE_NAME, nameStore);
+                bundle.putString(Constant.STORE_ADDRESS, address);
+                bundle.putString(Constant.STORE_PHONENUMBER, phoneNumber);
                 thirdFragment = new ThirdFragment();
+                thirdFragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.frame_content, thirdFragment).commit();
                 txtContinue.setText("Complete");
@@ -179,8 +212,81 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
                 INDEX = 2;
                 stepView.go(stepView.getCurrentStep() + 1, true);
             }
+        }else if (INDEX == 2){
+            showProgress("Loading...");
+            if (thirdFragment != null) {
+                bitmap = thirdFragment.getBitmap();
+                mAuth.createUserWithEmailAndPassword(emailStore, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            addStoreToFirebase(task.getResult().getUser().getUid().toString());
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        hideProgress();
+                        Toast.makeText(RegisterStoreActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else {
+                hideProgress();
+            }
         }
 
+    }
+
+    private void addStoreToFirebase(final String idStore) {
+        if (bitmap != null) {
+            showProgress("Loading...");
+            StorageReference mountainsRef = mStorage.child(Constant.STORE).child(idStore);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            final byte[] data = baos.toByteArray();
+            UploadTask uploadTask = mountainsRef.putBytes(data);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    hideProgress();
+                    Toast.makeText(RegisterStoreActivity.this, "Upload cover Unsuccessfull", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    linkCoverStore = String.valueOf(downloadUrl);
+                    if (!linkCoverStore.equals("")) {
+                        final DatabaseReference mChild = mData.child(Constant.STORE).child(idStore);
+                        mChild.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue() == null){
+                                    if (latitude != 0 && longitude != 0){
+                                        HashMap<String, Double> location = new HashMap<>();
+                                        location.put(Constant.LONGTITUDE, longitude);
+                                        location.put(Constant.LATITUDE, latitude);
+                                        Store store = new Store(idStore, nameStore, linkCoverStore, address, emailStore, phoneNumber, location);
+                                        mChild.setValue(store);
+                                        hideProgress();
+                                        Toast.makeText(RegisterStoreActivity.this, "Registation a Store Successful", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(RegisterStoreActivity.this, StoreDetailActivity.class));
+                                    }else {
+                                        hideProgress();
+                                        Toast.makeText(RegisterStoreActivity.this, "We dont have your location, Please check GPS again!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            });
+        }
     }
 
 

@@ -53,9 +53,11 @@ public class RequestSignInActivity extends AppCompatActivity implements View.OnC
         imgSignInStore.setOnClickListener(this);
         mBtnSignInFb.setOnClickListener(this);
         mBtnSignInGg.setOnClickListener(this);
+        txtCreateStore.setOnClickListener(this);
     }
 
     private void addControls() {
+        txtCreateStore = findViewById(R.id.txtCreateNewStore);
         imgSignInStore= (ImageView) findViewById(R.id.imgSignInStore);
         mBtnSignInGg = (ImageView) findViewById(R.id.btn_signInGg);
         mBtnSignInFb = (ImageView) findViewById(R.id.btn_signInFb);

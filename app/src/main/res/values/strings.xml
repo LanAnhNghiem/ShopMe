@@ -33,16 +33,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-        <string name="login_success">Logged In Successfully</string>
-        <string name="logout_success">Logged Out Successfully</string>
-        <string name="logout_message">Are you sure you want to log out?</string>
-        <string name="login_canceled">Log In Canceled</string>
-        <!-- TODO: Remove or change this placeholder text -->
-        <string name="loading">Loading...</string>
-        <!--facebook string-->
-        <string name="facebook_app_id">382989748812381</string>
-        <string name="fb_login_protocol_scheme">fb382989748812381</string>
-        <string name="no">No</string>
-        <string name="yes">Yes</string>
+    <string name="login_success">Logged In Successfully</string>
+    <string name="logout_success">Logged Out Successfully</string>
+    <string name="logout_message">Are you sure you want to log out?</string>
+    <string name="login_canceled">Log In Canceled</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="loading">Loading...</string>
+    <!--facebook string-->
+    <string name="facebook_app_id">382989748812381</string>
+    <string name="fb_login_protocol_scheme">fb382989748812381</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 
 </resources>
