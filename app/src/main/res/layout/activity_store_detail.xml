@@ -24,19 +24,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_sidemenu"
             android:orientation="vertical"
             android:weightSum="10">
 
-            <android.support.v4.widget.Space
+            //2.5
+            <ImageView
+                android:scaleType="fitXY"
+                android:src="@drawable/bannerstore"
+                android:layout_weight="2.5"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2" />
-
-            <android.support.v4.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5" />
+                android:layout_height="0dp" />
             //Accout 1
 
             <LinearLayout
@@ -79,7 +76,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:layout_weight="1"
-                    android:src="@drawable/icon_feedback" />
+                    android:src="@drawable/icon_product" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -87,7 +84,7 @@
                     android:layout_weight="14"
                     android:gravity="center_vertical"
                     android:paddingLeft="20dp"
-                    android:text="@string/feedback"
+                    android:text="Create Product"
                     android:textColor="@color/color_green"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -115,7 +112,7 @@
                     android:layout_weight="14"
                     android:gravity="center_vertical"
                     android:paddingLeft="20dp"
-                    android:text="@string/rate"
+                    android:text="My Category"
                     android:textColor="@color/color_text"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -150,7 +147,6 @@
 
             </LinearLayout>
             //Sign out 1.5
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -173,7 +169,7 @@
                     android:src="@drawable/btnsignin" />
 
             </LinearLayout>
-            //Create store
+            //Create store 1.5
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -187,11 +183,11 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_create_store"
                     android:gravity="center"
-                    android:text="Instruction registration store"
+                    android:text="Instruction create product"
                     android:textColor="@color/color_green"
                     android:textStyle="bold" />
             </LinearLayout>
-
+//0.5
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
