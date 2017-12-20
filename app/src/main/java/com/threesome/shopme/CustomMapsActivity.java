@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -49,7 +50,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,6 +62,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.rodolfonavalon.shaperipplelibrary.ShapeRipple;
 import com.skyfishjy.library.RippleBackground;
@@ -67,6 +72,7 @@ import com.threesome.shopme.AT.store.Store;
 import com.threesome.shopme.AT.store.StoreDetailActivity;
 import com.threesome.shopme.AT.user.UserProfileActivity;
 import com.threesome.shopme.AT.utility.Constant;
+import com.threesome.shopme.AT.utility.GeoLocat;
 import com.threesome.shopme.Common.Common;
 import com.threesome.shopme.Retrofit.IGoogleAPI;
 import com.threesome.shopme.adapters.ItemStoreGoogleMap;
@@ -75,7 +81,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -84,7 +92,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CustomMapsActivity extends FragmentActivity implements View.OnClickListener, OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
+public class CustomMapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, View.OnClickListener, OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
 
 
     private static int UPDATE_INTERVAL = 5000;
@@ -111,7 +119,7 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
 
     private SupportMapFragment mapFragment;
 
-    private int radius = 10;
+    private int radius = 3;
     private boolean driverFound = false;
     private Set<String> driverFoundIds = new HashSet<>();
     private IGoogleAPI mService;
@@ -157,6 +165,7 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
     //Createtor AnhTam : 19/12/2017
     private RippleBackground rippleBackground;
     private ImageView imageView;
+    private ArrayList<GeoLocat> arrGeoLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +183,7 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
         imgLogin.setOnClickListener(this);
         imgSlideMenu.setOnClickListener(this);
         txtAccount.setOnClickListener(this);
+        rippleBackground.startRippleAnimation();
     }
 
     private void addControls() {
@@ -185,6 +195,7 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
         mData = FirebaseDatabase.getInstance().getReference();
         rippleBackground = (RippleBackground) findViewById(R.id.content);
         imageView = (ImageView) findViewById(R.id.centerImage);
+        arrGeoLocation = new ArrayList<>();
     }
 
     @Override
@@ -248,8 +259,7 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
         alert.show();
     }
 
-    private void setUpRipple() {
-        rippleBackground.startRippleAnimation();
+    private void setUpRipple(final LatLng latLng) {
         heightFindme = imageView.getLayoutParams().height;
         widthFindme = imageView.getLayoutParams().width;
         CountDownTimer Timer = new CountDownTimer(3000, 80) {
@@ -262,9 +272,27 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
             }
 
             public void onFinish() {
-                rippleBackground.setVisibility(View.INVISIBLE);
+                setUpRippleMarker (latLng);
             }
         }.start();
+    }
+
+    private void setUpRippleMarker(final LatLng latLng) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rippleBackground.setVisibility(View.INVISIBLE);
+                // mMap is GoogleMap object, latLng is the location on map from which ripple should start
+                MapRipple mapRipple = new MapRipple(mMap, latLng, CustomMapsActivity.this);
+                mapRipple.withFillColor(Color.GREEN);
+                mapRipple.withStrokeColor(Color.GREEN);
+                //mapRipple.withNumberOfRipples(3);// 10dp
+                mapRipple.withDistance(450);   // 2000 metres radius
+                mapRipple.withRippleDuration(2000);    //12000ms
+                mapRipple.withTransparency(0.8f);
+                mapRipple.startRippleMapAnimation();
+            }
+        }, 1000);
     }
 
     private void moveToAccountActivity() {
@@ -353,7 +381,6 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
 
     private void getDirection(LatLng store) {
         LatLng currentPosition = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-
         String requestApi = null;
         try {
             requestApi = "https://maps.googleapis.com/maps/api/directions/json?" +
@@ -362,9 +389,7 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
                     "origin=" + currentPosition.latitude + "," + currentPosition.longitude + "&" +
                     "destination=" + store.latitude + "," + store.longitude + "&" +
                     "key=" + getResources().getString(R.string.google_direction_api);
-
             Log.d("NhanD", requestApi);
-
             mService.getPath(requestApi)
                     .enqueue(new Callback<String>() {
                         @Override
@@ -389,7 +414,7 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
                                         line = mMap.addPolyline(new PolylineOptions()
                                                 .add(new LatLng(src.latitude, src.longitude),
                                                         new LatLng(dest.latitude, dest.longitude))
-                                                .width(5).color(Color.BLUE).geodesic(true));
+                                                .width(7).color(Color.rgb(0, 153, 51)).geodesic(true));
                                     }
                                 }
 
@@ -409,37 +434,24 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
     }
 
     private void getClosetStore() {
-        DatabaseReference storeLocation = FirebaseDatabase.getInstance().getReference("DriverAvailable");
-
-        GeoFire geoFire = new GeoFire(storeLocation);
+        DatabaseReference storeLocation = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mRef = storeLocation.child("LocationStore");
+        GeoFire geoFire = new GeoFire(mRef);
         GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(mPickupLocation.latitude, mPickupLocation.longitude), radius);
-
-        geoQuery.removeAllListeners();
+     //   geoQuery.removeAllListeners();
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
-                int size = driverFoundIds.size();
-                driverFoundIds.add(key);
-                itemStoreGoogleMap.notifyDataSetChanged();
-                if (driverFoundIds.size() - size == 1)
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(location.latitude, location.longitude)));
-
-                if (driverFoundIds.size() == 2) {
-                    driverFound = true;
-                    getDirection(new LatLng(location.latitude, location.longitude));
-                }
-
+                Log.d("KEY", key + "");
+                arrGeoLocation.add(new GeoLocat(key, location));
             }
 
             @Override
             public void onKeyExited(String key) {
-
             }
 
             @Override
             public void onKeyMoved(String key, GeoLocation location) {
-
             }
 
             @Override
@@ -449,6 +461,35 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
 
             @Override
             public void onGeoQueryError(DatabaseError error) {
+                Toast.makeText(CustomMapsActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+    private void getInfoStore(String title) {
+        mData.child(Constant.STORE).child(title).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null){
+                    Store store = dataSnapshot.getValue(Store.class);
+                    if (store != null && store.getMapLocation() != null){
+                        HashMap<String, Double> mapLocation = new HashMap<>();
+                        mapLocation = store.getMapLocation();
+                        /*if (line != null) {
+                            mMap.clear();
+                            drawMarkerCurrentLocation();
+                            getClosetStore();
+                            line = null;
+                        }
+                        getDirection(new LatLng(mapLocation.get("latitude"), mapLocation.get("longtitude")));*/
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -457,7 +498,7 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        mMap.setOnMarkerClickListener(this);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -483,29 +524,83 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
             mLastLocation = location;
             longtitude = mLastLocation.getLongitude();
             latitude = mLastLocation.getLatitude();
-            LatLng latLng = new LatLng(latitude, longtitude);
-            // Creating an instance of MarkerOptions
-            MarkerOptions markerOptions = new MarkerOptions();
-            // Setting latitude and longitude for the marker
-            markerOptions.position(latLng);
-            //  markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_account));
-            // Adding marker on the Google Map
-            // mMap.addMarker(markerOptions);
-            setUpRipple();
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
-            // mMap is GoogleMap object, latLng is the location on map from which ripple should start
-            MapRipple mapRipple = new MapRipple(mMap, latLng, CustomMapsActivity.this);
-            mapRipple.withFillColor(R.color.color_green);
-            //mapRipple.withNumberOfRipples(3);// 10dp
-            mapRipple.withDistance(400);   // 2000 metres radius
-            mapRipple.withRippleDuration(2000);    //12000ms
-            mapRipple.withTransparency(0.5f);
-            mapRipple.startRippleMapAnimation();
+            drawMarkerCurrentLocation ();
             // Use same procedure to stop Animation and start it again as mentioned anove in Default Ripple Animation Sample
             mPickupLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             getClosetStore();
+            drawMarkerStore ();
         }
     }
+
+    private void drawMarkerStore() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (arrGeoLocation.size() > 0) {
+                    int index =0;
+                    double minDistance = calculationByDistance(arrGeoLocation.get(0).getLocation().latitude, arrGeoLocation.get(0).getLocation().longitude);
+                    for (int i = 0; i < arrGeoLocation.size(); i++) {
+                        double lon = arrGeoLocation.get(i).getLocation().longitude;
+                        double lat = arrGeoLocation.get(i).getLocation().latitude;
+                        double distance = calculationByDistance(lat, lon);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            index = i;
+                        }
+                    }
+                    //draw marker
+                    for (int i = 0; i< arrGeoLocation.size(); i++){
+                        double lon = arrGeoLocation.get(i).getLocation().longitude;
+                        double lat = arrGeoLocation.get(i).getLocation().latitude;
+                        LatLng latLng = new LatLng(lat, lon);
+                        if (i == index){
+                            Marker mMarker = mMap.addMarker(new MarkerOptions()
+                                    .position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_account)));
+                        }else {
+                            Marker mMarker = mMap.addMarker(new MarkerOptions()
+                                    .position(latLng));
+                        }
+                    }
+                    Log.d("DISTANCE", minDistance + "");
+                }
+            }
+        }, 1000);
+    }
+    //Caculator Distance
+    public double calculationByDistance(double lat, double lon) {
+        int Radius = 6371;// radius of earth in Km
+        double dLat = Math.toRadians(lat - latitude);
+        double dLon = Math.toRadians(lon - longtitude);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat))
+                * Math.cos(Math.toRadians(lat)) * Math.sin(dLon / 2)
+                * Math.sin(dLon / 2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double valueResult = Radius * c;
+        double km = valueResult / 1;
+        DecimalFormat newFormat = new DecimalFormat("####");
+        int kmInDec = Integer.valueOf(newFormat.format(km));
+        double meter = valueResult % 1000;
+        int meterInDec = Integer.valueOf(newFormat.format(meter));
+        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
+                + " Meter   " + meterInDec);
+
+        return Radius * c;
+    }
+
+    private void drawMarkerCurrentLocation() {
+        LatLng latLng = new LatLng(latitude, longtitude);
+        // Creating an instance of MarkerOptions
+        MarkerOptions markerOptions = new MarkerOptions();
+        // Setting latitude and longitude for the marker
+        markerOptions.position(latLng);
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.current_location));
+        // Adding marker on the Google Map
+        mMap.addMarker(markerOptions);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+        setUpRipple(latLng);
+    }
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -519,5 +614,11 @@ public class CustomMapsActivity extends FragmentActivity implements View.OnClick
         }
 
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        getInfoStore(marker.getTag().toString());
+        return false;
     }
 }
