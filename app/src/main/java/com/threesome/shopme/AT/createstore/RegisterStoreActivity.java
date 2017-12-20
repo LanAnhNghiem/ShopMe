@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -216,20 +218,26 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
             showProgress("Loading...");
             if (thirdFragment != null) {
                 bitmap = thirdFragment.getBitmap();
-                mAuth.createUserWithEmailAndPassword(emailStore, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            addStoreToFirebase(task.getResult().getUser().getUid().toString());
+                if (bitmap != null){
+                    mAuth.createUserWithEmailAndPassword(emailStore, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                addStoreToFirebase(task.getResult().getUser().getUid().toString());
+                            }
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        hideProgress();
-                        Toast.makeText(RegisterStoreActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            hideProgress();
+                            Toast.makeText(RegisterStoreActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else {
+                    hideProgress();
+                    Toast.makeText(RegisterStoreActivity.this, "You dont choose CoverStore", Toast.LENGTH_SHORT).show();
+                }
+
             }else {
                 hideProgress();
             }
@@ -258,6 +266,8 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
                     linkCoverStore = String.valueOf(downloadUrl);
                     if (!linkCoverStore.equals("")) {
                         final DatabaseReference mChild = mData.child(Constant.STORE).child(idStore);
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("LocationStore");
+                        final GeoFire geoFire = new GeoFire(ref);
                         mChild.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -268,6 +278,7 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
                                         location.put(Constant.LATITUDE, latitude);
                                         Store store = new Store(idStore, nameStore, linkCoverStore, address, emailStore, phoneNumber, location);
                                         mChild.setValue(store);
+                                        geoFire.setLocation(idStore, new GeoLocation(latitude, longitude));
                                         hideProgress();
                                         Toast.makeText(RegisterStoreActivity.this, "Registation a Store Successful", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(RegisterStoreActivity.this, StoreDetailActivity.class));
@@ -283,6 +294,7 @@ public class RegisterStoreActivity extends AppCompatActivity implements View.OnC
 
                             }
                         });
+
                     }
                 }
             });
