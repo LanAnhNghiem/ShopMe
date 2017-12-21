@@ -39,6 +39,8 @@
         <activity android:name=".StoreLoginActivity" />
         <activity android:name=".CustomerLoginActivity" />
         <activity
+            android:largeHeap="true"
+            android:hardwareAccelerated="false"
             android:name=".CustomMapsActivity"
             android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".LA.SplashActivity">

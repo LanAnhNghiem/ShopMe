@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -59,6 +60,7 @@ import com.threesome.shopme.AT.store.Store;
 import com.threesome.shopme.AT.store.StoreDetailActivity;
 import com.threesome.shopme.AT.user.UserProfileActivity;
 import com.threesome.shopme.AT.utility.Constant;
+import com.threesome.shopme.AT.utility.DirectionsJSONParser;
 import com.threesome.shopme.AT.utility.GeoLocat;
 import com.threesome.shopme.Common.Common;
 import com.threesome.shopme.Retrofit.IGoogleAPI;
@@ -67,6 +69,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -148,10 +156,12 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     private RippleBackground rippleBackground;
     private ImageView imageView;
     private ArrayList<GeoLocat> arrGeoLocation;
-    private int index =0;
+    private int index = 0;
     private FrameLayout layoutStore;
     private TextView txtStoreName;
     private TextView txtAddressStore;
+    private MapRipple mapRipple;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -260,7 +270,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
             }
 
             public void onFinish() {
-                setUpRippleMarker (latLng);
+                setUpRippleMarker(latLng);
             }
         }.start();
     }
@@ -416,7 +426,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
         DatabaseReference mRef = storeLocation.child("LocationStore");
         GeoFire geoFire = new GeoFire(mRef);
         GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(mPickupLocation.latitude, mPickupLocation.longitude), radius);
-     //   geoQuery.removeAllListeners();
+        //   geoQuery.removeAllListeners();
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
@@ -459,7 +469,6 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
         }
         buildGoogleApiClient();
 
-
     }
 
     private void buildGoogleApiClient() {
@@ -479,11 +488,11 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
             mLastLocation = location;
             longtitude = mLastLocation.getLongitude();
             latitude = mLastLocation.getLatitude();
-            drawMarkerCurrentLocation ();
+            drawMarkerCurrentLocation();
             // Use same procedure to stop Animation and start it again as mentioned anove in Default Ripple Animation Sample
             mPickupLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             getClosetStore();
-            drawMarkerStore ();
+            drawMarkerStore();
         }
     }
 
@@ -503,17 +512,18 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
                         }
                     }
                     //draw marker
-                    for (int i = 0; i< arrGeoLocation.size(); i++){
+                    for (int i = 0; i < arrGeoLocation.size(); i++) {
                         double lon = arrGeoLocation.get(i).getLocation().longitude;
                         double lat = arrGeoLocation.get(i).getLocation().latitude;
                         LatLng latLng = new LatLng(lat, lon);
-                        if (i == index){
+                        if (i == index) {
                             Marker mMarker = mMap.addMarker(new MarkerOptions()
                                     .position(latLng)
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.store_active)));
                             mMarker.setTag(arrGeoLocation.get(i).getKey());
+                            drawDirection(latLng);
                             showStore(arrGeoLocation.get(i).getKey().toString());
-                        }else {
+                        } else {
                             Marker mMarker = mMap.addMarker(new MarkerOptions()
                                     .position(latLng)
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.store_nonactive)));
@@ -525,21 +535,22 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
             }
         }, 2000);
     }
+
     private void drawMarkerStoreAgain(String key) {
         if (arrGeoLocation.size() > 0) {
             //Clear map and draw marker agian
             mMap.clear();
-            for (int i = 0; i< arrGeoLocation.size(); i++){
+            for (int i = 0; i < arrGeoLocation.size(); i++) {
                 double lon = arrGeoLocation.get(i).getLocation().longitude;
                 double lat = arrGeoLocation.get(i).getLocation().latitude;
                 LatLng latLng = new LatLng(lat, lon);
-                if (key.contains(arrGeoLocation.get(i).getKey())){
+                if (key.contains(arrGeoLocation.get(i).getKey())) {
                     Marker mMarker = mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.store_active)));
                     mMarker.setTag(arrGeoLocation.get(i).getKey());
-                    getDirection(latLng);
-                }else {
+                    drawDirection(latLng);
+                } else {
                     Marker mMarker = mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.store_nonactive)));
@@ -547,16 +558,17 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
                 }
             }
         }
-        drawMarkerCurrentLocation();
+        drawMarkerCurrentLocationAgain();
         showStore(key);
     }
-    private void showStore (String idStore){
+
+    private void showStore(String idStore) {
         mData.child(Constant.STORE).child(idStore).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null){
+                if (dataSnapshot.getValue() != null) {
                     Store store = dataSnapshot.getValue(Store.class);
-                    if (store != null && store.getLinkPhotoStore() != null){
+                    if (store != null && store.getLinkPhotoStore() != null) {
                         txtStoreName.setText(store.getNameStore());
                         txtAddressStore.setText(store.getAddressStore());
                         layoutStore.setVisibility(View.VISIBLE);
@@ -571,6 +583,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
             }
         });
     }
+
     //Caculator Distance
     public double calculationByDistance(double lat, double lon) {
         int Radius = 6371;// radius of earth in Km
@@ -606,6 +619,18 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
         setUpRipple(latLng);
     }
 
+    private void drawMarkerCurrentLocationAgain() {
+        LatLng latLng = new LatLng(latitude, longtitude);
+        // Creating an instance of MarkerOptions
+        MarkerOptions markerOptions = new MarkerOptions();
+        // Setting latitude and longitude for the marker
+        markerOptions.position(latLng);
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.current_location));
+        // Adding marker on the Google Map
+        mMap.addMarker(markerOptions);
+        // mMap is GoogleMap object, latLng is the location on map from which ripple should start
+        // mapRipple.startRippleMapAnimation();
+    }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -625,5 +650,157 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     public boolean onMarkerClick(Marker marker) {
         drawMarkerStoreAgain(marker.getTag().toString());
         return false;
+    }
+
+    private class DownloadTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... url) {
+
+            String data = "";
+
+            try {
+                data = downloadUrl(url[0]);
+            } catch (Exception e) {
+                Log.d("Background Task", e.toString());
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            ParserTask parserTask = new ParserTask();
+
+
+            parserTask.execute(result);
+
+        }
+    }
+
+    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
+
+        // Parsing the data in non-ui thread
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                DirectionsJSONParser parser = new DirectionsJSONParser();
+
+                routes = parser.parse(jObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList points = null;
+            PolylineOptions lineOptions = null;
+
+            for (int i = 0; i < result.size(); i++) {
+                points = new ArrayList();
+                lineOptions = new PolylineOptions();
+
+                List<HashMap<String, String>> path = result.get(i);
+
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                lineOptions.addAll(points);
+                lineOptions.width(6);
+                lineOptions.color(Color.RED);
+                lineOptions.geodesic(true);
+
+            }
+
+// Drawing polyline in the Google Map for the i-th route
+            if (lineOptions != null) {
+                mMap.addPolyline(lineOptions);
+            }
+        }
+    }
+
+    private String getDirectionsUrl(LatLng origin, LatLng dest) {
+
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+        String mode = "mode=driving";
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
+
+
+        return url;
+    }
+
+    private String downloadUrl(String strUrl) throws IOException {
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try {
+            URL url = new URL(strUrl);
+
+            urlConnection = (HttpURLConnection) url.openConnection();
+
+            urlConnection.connect();
+
+            iStream = urlConnection.getInputStream();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+
+            StringBuffer sb = new StringBuffer();
+
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+            data = sb.toString();
+
+            br.close();
+
+        } catch (Exception e) {
+            Log.d("Exception", e.toString());
+        } finally {
+            iStream.close();
+            urlConnection.disconnect();
+        }
+        return data;
+    }
+
+    private void drawDirection(LatLng latLngStore) {
+        // Getting URL to the Google Directions API
+        LatLng origin = new LatLng(latitude, longtitude);
+        String url = getDirectionsUrl(origin, latLngStore);
+
+        DownloadTask downloadTask = new DownloadTask();
+
+        // Start downloading json data from Google Directions API
+        downloadTask.execute(url);
     }
 }
