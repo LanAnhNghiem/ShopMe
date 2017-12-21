@@ -13,10 +13,10 @@ import com.threesome.shopme.AT.utility.Constant;
  */
 
 public class FirebaseDB {
-    public static FirebaseDB instance = null;
+    private static FirebaseDB instance = null;
     public DatabaseReference mData;
 
-    public FirebaseDB() {
+    private FirebaseDB() {
         mData = FirebaseDatabase.getInstance().getReference();
     }
 

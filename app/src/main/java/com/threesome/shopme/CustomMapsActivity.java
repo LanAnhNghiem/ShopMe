@@ -15,29 +15,22 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arsy.maps_library.MapRipple;
+import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
 import com.firebase.geofire.GeoQueryEventListener;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -47,13 +40,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,11 +52,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.rodolfonavalon.shaperipplelibrary.ShapeRipple;
 import com.skyfishjy.library.RippleBackground;
-import com.threesome.shopme.AT.createstore.RegisterStoreActivity;
 import com.threesome.shopme.AT.signIn.RequestSignInActivity;
 import com.threesome.shopme.AT.store.Store;
 import com.threesome.shopme.AT.store.StoreDetailActivity;
@@ -75,7 +62,6 @@ import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.AT.utility.GeoLocat;
 import com.threesome.shopme.Common.Common;
 import com.threesome.shopme.Retrofit.IGoogleAPI;
-import com.threesome.shopme.adapters.ItemStoreGoogleMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -98,8 +84,6 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     private static int UPDATE_INTERVAL = 5000;
     private static int FATEST_INTERVAL = 3000;
     private double longtitude = 0.0, latitude = 0.0;
-    RecyclerView itemStoreGmRv;
-    ItemStoreGoogleMap itemStoreGoogleMap;
     //    private ImageView imgSidemenu;
     private DrawerLayout drawer;
     private ImageView imgLogin, imgSlideMenu;
@@ -115,13 +99,11 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     private DatabaseReference mData;
     private boolean isStore = false;
     private String idUser;
-    private int heightFindme, widthFindme, heightRipple, widhtRipple;
+    private int heightFindme, widthFindme;
 
     private SupportMapFragment mapFragment;
 
     private int radius = 3;
-    private boolean driverFound = false;
-    private Set<String> driverFoundIds = new HashSet<>();
     private IGoogleAPI mService;
 
     private boolean isFirstLoad = false;
@@ -166,7 +148,10 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     private RippleBackground rippleBackground;
     private ImageView imageView;
     private ArrayList<GeoLocat> arrGeoLocation;
-
+    private int index =0;
+    private FrameLayout layoutStore;
+    private TextView txtStoreName;
+    private TextView txtAddressStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,7 +160,6 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
         addEvents();
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        initItemRCV();
         mService = Common.getGoogleAPI();
     }
 
@@ -187,6 +171,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     }
 
     private void addControls() {
+        layoutStore = findViewById(R.id.frameStore);
         txtAccount = findViewById(R.id.txtAccount);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         imgLogin = (ImageView) findViewById(R.id.imgLogin);
@@ -196,6 +181,9 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
         rippleBackground = (RippleBackground) findViewById(R.id.content);
         imageView = (ImageView) findViewById(R.id.centerImage);
         arrGeoLocation = new ArrayList<>();
+
+        txtStoreName = findViewById(R.id.txtNameStoreList);
+        txtAddressStore = findViewById(R.id.txtAddressStoreList);
     }
 
     @Override
@@ -359,16 +347,6 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
         });
     }
 
-    private void initItemRCV() {
-        itemStoreGmRv = (RecyclerView) findViewById(R.id.itemStoreGmRv);
-        itemStoreGoogleMap = new ItemStoreGoogleMap(this, driverFoundIds);
-        itemStoreGmRv.setAdapter(itemStoreGoogleMap);
-        itemStoreGmRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
-        SnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(itemStoreGmRv);
-    }
-
     @Override
     public void onConnectionSuspended(int i) {
 
@@ -468,36 +446,13 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     }
 
 
-    private void getInfoStore(String title) {
-        mData.child(Constant.STORE).child(title).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null){
-                    Store store = dataSnapshot.getValue(Store.class);
-                    if (store != null && store.getMapLocation() != null){
-                        HashMap<String, Double> mapLocation = new HashMap<>();
-                        mapLocation = store.getMapLocation();
-                        /*if (line != null) {
-                            mMap.clear();
-                            drawMarkerCurrentLocation();
-                            getClosetStore();
-                            line = null;
-                        }
-                        getDirection(new LatLng(mapLocation.get("latitude"), mapLocation.get("longtitude")));*/
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.setTrafficEnabled(true);
+        mMap.setBuildingsEnabled(true);
+        mMap.setIndoorEnabled(true);
         mMap.setOnMarkerClickListener(this);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -537,7 +492,6 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
             @Override
             public void run() {
                 if (arrGeoLocation.size() > 0) {
-                    int index =0;
                     double minDistance = calculationByDistance(arrGeoLocation.get(0).getLocation().latitude, arrGeoLocation.get(0).getLocation().longitude);
                     for (int i = 0; i < arrGeoLocation.size(); i++) {
                         double lon = arrGeoLocation.get(i).getLocation().longitude;
@@ -555,16 +509,67 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
                         LatLng latLng = new LatLng(lat, lon);
                         if (i == index){
                             Marker mMarker = mMap.addMarker(new MarkerOptions()
-                                    .position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_account)));
+                                    .position(latLng)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.store_active)));
+                            mMarker.setTag(arrGeoLocation.get(i).getKey());
+                            showStore(arrGeoLocation.get(i).getKey().toString());
                         }else {
                             Marker mMarker = mMap.addMarker(new MarkerOptions()
-                                    .position(latLng));
+                                    .position(latLng)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.store_nonactive)));
+                            mMarker.setTag(arrGeoLocation.get(i).getKey());
                         }
                     }
                     Log.d("DISTANCE", minDistance + "");
                 }
             }
-        }, 1000);
+        }, 2000);
+    }
+    private void drawMarkerStoreAgain(String key) {
+        if (arrGeoLocation.size() > 0) {
+            //Clear map and draw marker agian
+            mMap.clear();
+            for (int i = 0; i< arrGeoLocation.size(); i++){
+                double lon = arrGeoLocation.get(i).getLocation().longitude;
+                double lat = arrGeoLocation.get(i).getLocation().latitude;
+                LatLng latLng = new LatLng(lat, lon);
+                if (key.contains(arrGeoLocation.get(i).getKey())){
+                    Marker mMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.store_active)));
+                    mMarker.setTag(arrGeoLocation.get(i).getKey());
+                    getDirection(latLng);
+                }else {
+                    Marker mMarker = mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.store_nonactive)));
+                    mMarker.setTag(arrGeoLocation.get(i).getKey());
+                }
+            }
+        }
+        drawMarkerCurrentLocation();
+        showStore(key);
+    }
+    private void showStore (String idStore){
+        mData.child(Constant.STORE).child(idStore).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null){
+                    Store store = dataSnapshot.getValue(Store.class);
+                    if (store != null && store.getLinkPhotoStore() != null){
+                        txtStoreName.setText(store.getNameStore());
+                        txtAddressStore.setText(store.getAddressStore());
+                        layoutStore.setVisibility(View.VISIBLE);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
     //Caculator Distance
     public double calculationByDistance(double lat, double lon) {
@@ -618,7 +623,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        getInfoStore(marker.getTag().toString());
+        drawMarkerStoreAgain(marker.getTag().toString());
         return false;
     }
 }
