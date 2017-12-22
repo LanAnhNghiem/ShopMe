@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -93,6 +94,12 @@ public class CreateProductFragment2 extends Fragment {
             }
         });
         btnReset = view.findViewById(R.id.btnReset);
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GlideApp.with(getContext()).load("").placeholder(ContextCompat.getDrawable(getContext(),R.drawable.default_image)).into(imgView);
+            }
+        });
         btnCreate = view.findViewById(R.id.btnCreate);
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override

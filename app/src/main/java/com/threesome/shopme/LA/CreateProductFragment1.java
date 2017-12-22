@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.threesome.shopme.R;
 import com.threesome.shopme.models.Product;
@@ -43,12 +44,20 @@ public class CreateProductFragment1 extends Fragment {
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                txtProductName.setText("");
+                txtDescription.setText("");
+                txtPrice.setText("");
             }
         });
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveData();
+                if(txtDescription.getText().toString().trim().length() > 0&& txtProductName.getText().toString().trim().length() > 0
+                        && txtPrice.getText().toString().trim().length() > 0){
+                    saveData();
+                }else{
+                    Toast.makeText(getActivity(), "Please fill in the blanks", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;
@@ -58,19 +67,5 @@ public class CreateProductFragment1 extends Fragment {
         Log.d(TAG, String.valueOf(txtPrice.getEditableText()));
         Product product = new Product(txtProductName.getEditableText().toString(), String.valueOf(txtPrice.getEditableText()),txtDescription.getEditableText().toString());
         sendProductData.getData(product);
-//        String id = mProductRef.push().getKey();
-//        mProductRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for(DataSnapshot data: dataSnapshot.getChildren()){
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        })
     }
 }
