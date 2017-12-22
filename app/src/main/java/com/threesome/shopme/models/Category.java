@@ -8,11 +8,14 @@ public class Category {
     private String id;
     private String name;
     private int quantity; //số lượng item trong 1 category
-    public Category(){}
-    public Category(String id, String name, int quantity) {
+    private String idStore;
+    public Category(){
+    }
+    public Category(String id, String name, int quantity, String idStore) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
+        this.idStore = idStore;
     }
 
     public String getId() {
@@ -39,4 +42,11 @@ public class Category {
         this.quantity = quantity;
     }
 
+    public String getIdStore() {
+        return idStore;
+    }
+
+    public void setIdStore(String idStore) {
+        this.idStore = idStore;
+    }
 }

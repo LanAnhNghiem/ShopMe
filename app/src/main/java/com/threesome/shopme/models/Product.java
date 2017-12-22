@@ -1,21 +1,28 @@
 package com.threesome.shopme.models;
 
+import java.io.Serializable;
+
 /**
  * Created by LanAnh on 18/12/2017.
  */
 
-public class Product {
+public class Product implements Serializable{
     private String id;
+    private String cateId;
+    private String storeId;
     private String image;
     private String name;
-    private long price;
+    private String price;
     private String description;
 
-    public Product(String id, String image, String name, long price, String description) {
-        this.id = id;
-        this.image = image;
+    public Product(){}
+    public Product(String name, String price ,String description) {
+        this.id = "";
+        this.image = "";
         this.name = name;
         this.price = price;
+        this.cateId = "";
+        this.storeId = "";
         this.description = description;
     }
 
@@ -43,11 +50,11 @@ public class Product {
         this.name = name;
     }
 
-    public long getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -57,5 +64,21 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCateId() {
+        return cateId;
+    }
+
+    public void setCateId(String cateId) {
+        this.cateId = cateId;
+    }
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
     }
 }

@@ -40,13 +40,15 @@ public class CategoryFragment extends Fragment {
     GridLayoutManager layoutManager;
     ArrayList<Category> mList = new ArrayList<>();
     DatabaseReference mData = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference categoryNode = mData.child("Categories");
+    DatabaseReference categoriesByStore = mData.child(Constant.CATEGORIES_BY_STORE);
     private ProgressDialog progressDialog;
+    private static final String mId = "9mbOtOnnPPg6jj4r0KPax48hspY2";
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //createData();
         progressDialog = new ProgressDialog(getActivity());
+        categoriesByStore = categoriesByStore.child(mId);
         showProgress();
         new LoadDataTask().execute();
     }
@@ -63,29 +65,24 @@ public class CategoryFragment extends Fragment {
         rvCategory.addOnItemTouchListener(new ItemTouchListener(getContext(), rvCategory, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                //Toast.makeText(getContext(), "Click "+position+" size: "+mList.size(), Toast.LENGTH_SHORT).show();
                 if(position == mList.size())
                     addCategory();
                 else{
                     Intent intent = new Intent(getContext(), ListProductActivity.class);
+                    intent.putExtra("cateId",mList.get(position).getId());
+                    intent.putExtra("storeId", mList.get(position).getIdStore());
                     getContext().startActivity(intent);
                 }
             }
 
             @Override
             public void onLongClick(View view, final int position) {
-                //Toast.makeText(getContext(), "Long Click "+position, Toast.LENGTH_SHORT).show();
                 if(position != mList.size())
                     showDialog(position);
 
             }
         }));
         return view;
-    }
-    public void createData(){
-        for(int i=0;i<10;i++){
-            mList.add(new Category("1","Con chó", 10));
-        }
     }
     @Override
     public void onAttach(Context context) {
@@ -105,12 +102,12 @@ public class CategoryFragment extends Fragment {
                         editNameDialog(position);
                         break;
                     case 1:
-                        categoryNode.addValueEventListener(new ValueEventListener() {
+                        categoriesByStore.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if(dataSnapshot != null){
+                                if(dataSnapshot.exists()){
                                     Log.d("remove", String.valueOf(position));
-                                    categoryNode.child(id).removeValue();
+                                    categoriesByStore.child(id).removeValue();
                                     adapter.notifyDataSetChanged();
                                     Toast.makeText(getContext(), "Item has been removed", Toast.LENGTH_SHORT).show();
                                 }
@@ -141,13 +138,13 @@ public class CategoryFragment extends Fragment {
                         if(taskEditText.getText().toString().trim().equals("")){
                             taskEditText.setError("Invalid name");
                         }else{
-                            categoryNode.addListenerForSingleValueEvent(new ValueEventListener() {
+                            final String id = categoriesByStore.push().getKey();
+                            final Category category = new Category(id, taskEditText.getEditableText().toString(),0, mId);
+                            categoriesByStore.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    String id = categoryNode.push().getKey();
                                     Log.d("id nè", id);
-                                    Category category = new Category(id, taskEditText.getEditableText().toString(),0);
-                                    categoryNode.child(id).setValue(category);
+                                    categoriesByStore.child(id).setValue(category);
                                 }
 
                                 @Override
@@ -172,6 +169,7 @@ public class CategoryFragment extends Fragment {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT );
         params.setMargins(10,10,10,10);
         taskEditText.setLayoutParams(params);
+        taskEditText.setText(mList.get(position).getName());
         AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setTitle("New category's name")
                 .setView(taskEditText)
@@ -180,9 +178,10 @@ public class CategoryFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if(taskEditText.getText().toString().trim().equals("")){
                             taskEditText.setError("Invalid name");
+                            Toast.makeText(getContext(), "Invalid name.", Toast.LENGTH_SHORT).show();
                         }else{
                             mList.get(position).setName(taskEditText.getEditableText().toString());
-                            categoryNode.addValueEventListener(new ValueEventListener() {
+                            categoriesByStore.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     if(dataSnapshot!= null){
@@ -192,12 +191,11 @@ public class CategoryFragment extends Fragment {
                                             if(data.getKey().equals(mList.get(position).getId())){
                                                 String id = String.valueOf(data.getKey());
                                                 Category item = mList.get(position);
-                                                categoryNode.child(id).setValue(item);
+                                                categoriesByStore.child(id).setValue(item);
                                             }
                                         }
                                     }
                                 }
-
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
 
@@ -219,11 +217,11 @@ public class CategoryFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            categoryNode.addValueEventListener(new ValueEventListener() {
+            categoriesByStore.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mList.clear();
-                    Log.d("datasnap", dataSnapshot.toString());
+                    Log.d("datasnape", dataSnapshot.toString());
                     if(!dataSnapshot.exists()){
                         publishProgress();
                     }else{

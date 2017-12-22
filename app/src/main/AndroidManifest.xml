@@ -70,12 +70,14 @@
             android:theme="@style/StoreTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".LA.ListProductActivity" />
-        <activity android:name=".LA.CreateProductActivity"></activity>
+        <activity android:name=".LA.CreateProductActivity"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
     </application>
 
 </manifest>

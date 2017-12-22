@@ -4,132 +4,162 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.threesome.shopme.LA.CreateProductActivity"
-    android:padding="20dp">
+    android:layout_marginTop="20dp"
+    tools:context="com.threesome.shopme.LA.CreateProductActivity">
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="19sp"
-        android:textAlignment="center"
         android:text="So you think you can create a product?"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold"/>
+        android:textAlignment="center"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/layoutProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="3" />
+
     <LinearLayout
         android:id="@+id/layoutProgress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        app:layout_constraintBottom_toTopOf="@+id/txtIntro1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        app:layout_constraintVertical_weight="3">
+
         <ImageView
             android:id="@+id/imgStep1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_unselect"/>
+            android:src="@drawable/ic_unselect" />
+
         <TextView
             android:layout_width="80dp"
             android:layout_height="2dp"
-            android:background="@color/ballReleaseColor"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:background="@color/ballReleaseColor" />
+
         <ImageView
             android:id="@+id/imgStep2"
             android:layout_width="18dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_unselect2"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_unselect2" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/txtIntro1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/layoutProgress"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="Click continue button to show form progression."/>
+        android:text="Click continue button to show form progression."
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txtIntro2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutProgress"
+        app:layout_constraintVertical_weight="2" />
+
     <TextView
         android:id="@+id/txtIntro2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/txtIntro1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
-        android:text="Please fill in the fields below and choose the product category, product price so we can display some information about your products."/>
-    <Spinner
-        android:id="@+id/spinnerCategory"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtIntro2"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Please fill in the fields below so we can display some information about your products."
+        app:layout_constraintBottom_toTopOf="@+id/txtProductName"
         app:layout_constraintEnd_toEndOf="parent"
-        android:prompt="@string/choose_category"
-        android:entries="@array/category_array"></Spinner>
-    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtIntro1"
+        app:layout_constraintVertical_weight="5" />
+
+    <EditText
         android:id="@+id/txtProductName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCategory"
         android:layout_marginTop="10dp"
         android:hint="Product name"
-        android:padding="10dp"/>
-    <TextView
-        android:id="@+id/txtCurrency"
+        android:padding="10dp"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/txtPrice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtIntro2"
+        app:layout_constraintVertical_weight="2" />
+
+    <EditText
+        android:id="@+id/txtPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtProductName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:hint="Price (VND)"
-        android:padding="10dp"></TextView>
-    <TextView
+        android:padding="10dp"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toTopOf="@+id/txtDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtProductName"
+        app:layout_constraintVertical_weight="1"></EditText>
+
+    <EditText
         android:id="@+id/txtDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtCurrency"
-        app:layout_constraintStart_toStartOf="parent"
+        android:hint="Description"
+        android:padding="10dp"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@id/layout"
         app:layout_constraintEnd_toEndOf="parent"
-        android:hint="Price (VND)"
-        android:padding="10dp"></TextView>
-    <Button
-        android:id="@+id/btnReset"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPrice"
+        app:layout_constraintVertical_weight="1"></EditText>
+    <LinearLayout
+        android:id="@+id/layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
+        android:weightSum="10"
         app:layout_constraintTop_toBottomOf="@+id/txtDescription"
-        app:layout_constraintEnd_toStartOf="@id/btnContinue"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_weight="5"
-        android:layout_marginRight="5dp"
-        android:text="Reset"
-        android:textColor="@color/colorAccent"
-        android:background="@drawable/button_bg_1"/>
-    <Button
-        android:id="@+id/btnContinue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_bg_2"
-        app:layout_constraintStart_toEndOf="@id/btnReset"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_weight="5"
-        android:text="Continue"
-        android:textColor="@android:color/white"
-        android:layout_marginStart="5dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_weight="2">
+
+        <Button
+            android:id="@+id/btnReset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="5"
+            android:background="@drawable/button_bg_1"
+            android:text="Reset"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/btnContinue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="5"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/button_bg_2"
+            android:text="Continue"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
+
