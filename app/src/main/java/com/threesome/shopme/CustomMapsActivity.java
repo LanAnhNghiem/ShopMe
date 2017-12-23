@@ -263,15 +263,15 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
         widthFindme = imageView.getLayoutParams().width;
         CountDownTimer Timer = new CountDownTimer(3000, 70) {
             public void onTick(long millisUntilFinished) {
-                heightFindme -= 6;
-                widthFindme -= 6;
+                heightFindme -= 7;
+                widthFindme -= 7;
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(heightFindme, widthFindme);
                 params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
                 imageView.setLayoutParams(params);
             }
 
             public void onFinish() {
-                setUpRippleMarker(latLng);
+                rippleBackground.setVisibility(View.INVISIBLE);
             }
         }.start();
     }
@@ -572,7 +572,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
                     if (store != null && store.getLinkPhotoStore() != null) {
                         txtStoreName.setText(store.getNameStore());
                         txtAddressStore.setText(store.getAddressStore());
-                        layoutStore1.setVisibility(View.VISIBLE);
+                        layoutStore1.setBackgroundResource(R.drawable.bg_item_store);
                     }
 
                 }

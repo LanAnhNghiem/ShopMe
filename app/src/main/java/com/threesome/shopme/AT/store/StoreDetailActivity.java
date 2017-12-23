@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.CustomMapsActivity;
 import com.threesome.shopme.LA.CategoryFragment;
 import com.threesome.shopme.R;
@@ -67,6 +68,9 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CategoryFragment fragmentCategory = new CategoryFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.ID_STORE, idStore);
+        fragmentCategory.setArguments(bundle);
         fragmentTransaction.add(R.id.category_container, fragmentCategory);
         fragmentTransaction.commit();
     }

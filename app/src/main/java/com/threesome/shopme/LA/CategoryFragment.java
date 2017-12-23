@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.threesome.shopme.AT.utility.*;
+import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.R;
 import com.threesome.shopme.models.Category;
 
@@ -40,15 +42,18 @@ public class CategoryFragment extends Fragment {
     GridLayoutManager layoutManager;
     ArrayList<Category> mList = new ArrayList<>();
     DatabaseReference mData = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference categoriesByStore = mData.child(Constant.CATEGORIES_BY_STORE);
+    DatabaseReference categoriesByStore;
     private ProgressDialog progressDialog;
-    private static final String mId = "9mbOtOnnPPg6jj4r0KPax48hspY2";
+    private String idStore;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //createData();
+        if (getArguments() != null) {
+            idStore = getArguments().getString(Constant.ID_STORE);
+        }
         progressDialog = new ProgressDialog(getActivity());
-        categoriesByStore = categoriesByStore.child(mId);
+        categoriesByStore = mData.child(com.threesome.shopme.LA.Constant.CATEGORIES_BY_STORE).child(idStore);
         showProgress();
         new LoadDataTask().execute();
     }
@@ -138,13 +143,13 @@ public class CategoryFragment extends Fragment {
                         if(taskEditText.getText().toString().trim().equals("")){
                             taskEditText.setError("Invalid name");
                         }else{
-                            final String id = categoriesByStore.push().getKey();
-                            final Category category = new Category(id, taskEditText.getEditableText().toString(),0, mId);
+                            final String idCategory = categoriesByStore.push().getKey();
+                            final Category category = new Category(idCategory, taskEditText.getEditableText().toString(),0, idStore);
                             categoriesByStore.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    Log.d("id nè", id);
-                                    categoriesByStore.child(id).setValue(category);
+                                    Log.d("id nè", idCategory);
+                                    categoriesByStore.child(idCategory).setValue(category);
                                 }
 
                                 @Override
