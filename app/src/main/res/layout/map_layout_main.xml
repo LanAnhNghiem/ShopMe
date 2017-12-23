@@ -48,7 +48,7 @@
     </com.skyfishjy.library.RippleBackground>
 
     <FrameLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:background="@drawable/bg_item_store"
@@ -68,7 +68,7 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:gravity="center_horizontal|bottom"
-                android:text="Trà Sữa Sky"
+                android:text=""
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
@@ -76,7 +76,7 @@
                 android:id="@+id/txtAddressStoreList"
                 android:textColor="@android:color/white"
                 android:gravity="center_horizontal|top"
-                android:text="Khu phố 6, Phường Linh Trung, Quận Thủ Đức"
+                android:text=""
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
         </LinearLayout>

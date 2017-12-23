@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     //16:DA:32:D8:D9:A9:5B:B7:66:85:B0:70:FF:F3:E9:B8:57:BF:4C:35
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDD_xVXukbeZJ2LgsAdn6Xuvdq3SxyrQsE</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve"
+        translatable="false">AIzaSyASLPYVfoH7sxHRa_-68T_Oeuvu29u3Xh4</string>
 </resources>
