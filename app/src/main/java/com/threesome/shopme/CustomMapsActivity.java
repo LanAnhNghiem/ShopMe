@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -157,10 +158,10 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     private ImageView imageView;
     private ArrayList<GeoLocat> arrGeoLocation;
     private int index = 0;
-    private FrameLayout layoutStore;
     private TextView txtStoreName;
     private TextView txtAddressStore;
     private MapRipple mapRipple;
+    private LinearLayout layoutStore1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,8 +182,8 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     }
 
     private void addControls() {
-        layoutStore = findViewById(R.id.frameStore);
         txtAccount = findViewById(R.id.txtAccount);
+        layoutStore1 = findViewById(R.id.layoutStore);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         imgLogin = (ImageView) findViewById(R.id.imgLogin);
         imgSlideMenu = findViewById(R.id.imgSlideMenuMap);
@@ -260,7 +261,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     private void setUpRipple(final LatLng latLng) {
         heightFindme = imageView.getLayoutParams().height;
         widthFindme = imageView.getLayoutParams().width;
-        CountDownTimer Timer = new CountDownTimer(3000, 80) {
+        CountDownTimer Timer = new CountDownTimer(3000, 70) {
             public void onTick(long millisUntilFinished) {
                 heightFindme -= 6;
                 widthFindme -= 6;
@@ -571,7 +572,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
                     if (store != null && store.getLinkPhotoStore() != null) {
                         txtStoreName.setText(store.getNameStore());
                         txtAddressStore.setText(store.getAddressStore());
-                        layoutStore.setVisibility(View.VISIBLE);
+                        layoutStore1.setVisibility(View.VISIBLE);
                     }
 
                 }

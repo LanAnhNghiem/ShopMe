@@ -27,7 +27,7 @@
             android:weightSum="10">
 
             <LinearLayout
-                android:background="@color/green_light"
+                android:background="@color/color_green"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3">

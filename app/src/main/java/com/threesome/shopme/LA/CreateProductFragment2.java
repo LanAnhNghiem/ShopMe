@@ -85,7 +85,7 @@ public class CreateProductFragment2 extends Fragment {
                     if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
                     } else {
-                        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
                     }
                 } catch (Exception e) {
@@ -97,7 +97,7 @@ public class CreateProductFragment2 extends Fragment {
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GlideApp.with(getContext()).load("").placeholder(ContextCompat.getDrawable(getContext(),R.drawable.default_image)).into(imgView);
+                GlideApp.with(getContext()).load("").placeholder(ContextCompat.getDrawable(getContext(), R.drawable.default_image)).into(imgView);
             }
         });
         btnCreate = view.findViewById(R.id.btnCreate);
@@ -119,7 +119,7 @@ public class CreateProductFragment2 extends Fragment {
         switch (requestCode){
             case PICK_FROM_GALLERY:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
                 } else {
                     //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery

@@ -55,6 +55,11 @@ dependencies {
     compile 'com.github.aarsy.googlemapsanimations:googlemapsanimations:1.0.5'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.facebook.android:facebook-login:[4,5)'
+    implementation 'com.github.bumptech.glide:glide:4.4.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+    implementation 'com.android.support:support-v4:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.google.code.gson:gson:2.8.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

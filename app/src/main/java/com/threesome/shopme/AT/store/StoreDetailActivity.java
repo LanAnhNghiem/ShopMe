@@ -2,17 +2,21 @@ package com.threesome.shopme.AT.store;
 
 import android.content.Intent;
 import android.media.Image;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.threesome.shopme.CustomMapsActivity;
+import com.threesome.shopme.LA.CategoryFragment;
 import com.threesome.shopme.R;
 
 public class StoreDetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -21,6 +25,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     private DrawerLayout drawerLayout;
     private FirebaseAuth mAuth;
     private String idStore;
+    private LinearLayout btnCreateProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +37,13 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
 
     private void addEvents() {
         imgSlidemenu.setOnClickListener(this);
+        btnCreateProduct.setOnClickListener(this);
     }
 
     private void addControls() {
         imgSlidemenu = (ImageView) findViewById(R.id.imgSlideMenuStore);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_Store);
+        btnCreateProduct = findViewById(R.id.btnCreateProduct);
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -50,7 +57,20 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
                 super.onBackPressed();
             }
         }
+        if (id == R.id.btnCreateProduct){
+            createProduct ();
+        }
     }
+
+    private void createProduct() {
+        drawerLayout.closeDrawers();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        CategoryFragment fragmentCategory = new CategoryFragment();
+        fragmentTransaction.add(R.id.category_container, fragmentCategory);
+        fragmentTransaction.commit();
+    }
+
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

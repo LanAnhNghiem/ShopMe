@@ -18,6 +18,7 @@ import com.threesome.shopme.models.Product;
 import java.util.ArrayList;
 
 //import com.bumptech.glide.annotation.GlideModule;
+
 /**
  * Created by LanAnh on 21/12/2017.
  */
@@ -40,8 +41,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
 
     @Override
     public void onBindViewHolder(ProductHolder holder, int position) {
-        GlideApp.with(mContext).load(mList.get(position).getImage()).placeholder(scaleImage(mPlaceHolder, Constant.PRODUCT_WIDTH, (int)(Constant.PRODUCT_WIDTH/Constant.GOLDEN_RATIO)))
-                .override(Constant.PRODUCT_WIDTH, (int)(Constant.PRODUCT_WIDTH/Constant.GOLDEN_RATIO))
+        GlideApp.with(mContext).load(mList.get(position).getImage()).placeholder(scaleImage(mPlaceHolder, Constant.PRODUCT_WIDTH, (int)(Constant.PRODUCT_WIDTH/ Constant.GOLDEN_RATIO)))
+                .override(Constant.PRODUCT_WIDTH, (int)(Constant.PRODUCT_WIDTH/ Constant.GOLDEN_RATIO))
                 .centerCrop().into(holder.imgProduct);
         holder.txtName.setText(mList.get(position).getName());
         String price = String.valueOf(mList.get(position).getPrice());

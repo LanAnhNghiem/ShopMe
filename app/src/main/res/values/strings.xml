@@ -28,6 +28,7 @@
     <string name="share">Share for orthers</string>
     <string name="create_store">Create your store?Sign Up</string>
     <string name="shopme">Shopme version 1.0</string>
+    <string name="home">Home</string>
     <string name="note_choose_image">(*) Vui lòng chọn ảnh có chất lượng tốt nhất!
        kích thước tối thiểu là 50x50 px.</string>
 
@@ -44,5 +45,11 @@
     <string name="fb_login_protocol_scheme">fb382989748812381</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+
+    <string name="choose_category">Choose the category</string>
+    <string-array name="category_array">
+        <item>Category 1</item>
+    </string-array>
+
 
 </resources>
