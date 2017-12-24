@@ -1,4 +1,4 @@
-package com.threesome.shopme.LA;
+package com.threesome.shopme.LA.deprecated;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

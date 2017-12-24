@@ -13,6 +13,7 @@ public class Constant {
     public static final String CATEGORIES_BY_STORE = "CategoriesByStore";
     public static final int SCREEN_WIDTH = Resources.getSystem().getDisplayMetrics().widthPixels;
     public static final int CATEGORY_WIDTH = (int)(SCREEN_WIDTH/3-30);
+    public static final int PRODUCT_LANDSCAPE = (int)(SCREEN_WIDTH/ 5);
     public static final int PRODUCT_WIDTH = (int) (SCREEN_WIDTH/2);
     public static final double GOLDEN_RATIO = 1.618;
 }

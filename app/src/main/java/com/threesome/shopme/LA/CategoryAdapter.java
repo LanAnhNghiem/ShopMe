@@ -94,16 +94,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return false;
         }
 
-//        public void displaySelection(boolean isShow){
-//            if(isShow){
-//                btnSelect.setVisibility(View.VISIBLE);
-//                btnUnselect.setVisibility(View.VISIBLE);
-//            }else{
-//                btnSelect.setVisibility(GONE);
-//                btnUnselect.setVisibility(GONE);
-//            }
-//        }
-
         @Override
         public void onClick(View view) {
 

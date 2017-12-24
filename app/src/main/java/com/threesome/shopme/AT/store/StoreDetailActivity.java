@@ -48,6 +48,12 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_Store);
         btnCreateProduct = findViewById(R.id.btnCreateProduct);
         btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToHome();
+            }
+        });
         mAuth = FirebaseAuth.getInstance();
     }
 

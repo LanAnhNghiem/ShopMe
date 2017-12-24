@@ -1,12 +1,15 @@
 package com.threesome.shopme.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
  * Created by LanAnh on 18/12/2017.
  */
 
-public class Product implements Serializable{
+public class Product implements Serializable, Parcelable{
     private String id;
     private String cateId;
     private String storeId;
@@ -24,6 +27,10 @@ public class Product implements Serializable{
         this.cateId = "";
         this.storeId = "";
         this.description = description;
+    }
+
+    public Product(Parcel parcel) {
+        name = parcel.readString();
     }
 
     public String getId() {
@@ -81,4 +88,25 @@ public class Product implements Serializable{
     public void setStoreId(String storeId) {
         this.storeId = storeId;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+    }
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel parcel) {
+            return new Product(parcel);
+        }
+
+        @Override
+        public Product[] newArray(int i) {
+            return new Product[i];
+        }
+    };
 }
