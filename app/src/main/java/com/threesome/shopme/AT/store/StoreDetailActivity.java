@@ -1,13 +1,12 @@
 package com.threesome.shopme.AT.store;
 
 import android.content.Intent;
-import android.media.Image;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.CustomMapsActivity;
 import com.threesome.shopme.LA.CategoryFragment;
+import com.threesome.shopme.LA.StoreDetailFragment;
 import com.threesome.shopme.R;
 
 public class StoreDetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -27,6 +27,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     private FirebaseAuth mAuth;
     private String idStore;
     private LinearLayout btnCreateProduct;
+    private LinearLayout btnHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_store_detail);
         addControls ();
         addEvents ();
+
     }
 
     private void addEvents() {
@@ -45,6 +47,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         imgSlidemenu = (ImageView) findViewById(R.id.imgSlideMenuStore);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_Store);
         btnCreateProduct = findViewById(R.id.btnCreateProduct);
+        btnHome = findViewById(R.id.btnHome);
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -61,6 +64,9 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         if (id == R.id.btnCreateProduct){
             createProduct ();
         }
+        if(id == R.id.btnHome){
+            goToHome();
+        }
     }
 
     private void createProduct() {
@@ -74,7 +80,27 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         fragmentTransaction.add(R.id.category_container, fragmentCategory);
         fragmentTransaction.commit();
     }
-
+    private void goToHome(){
+        drawerLayout.closeDrawers();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        StoreDetailFragment storeDetailFragment = new StoreDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.ID_STORE, idStore);
+        storeDetailFragment.setArguments(bundle);
+        fragmentTransaction.add(R.id.category_container, storeDetailFragment);
+        fragmentTransaction.commit();
+    }
+    private void addHomeFragment(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        StoreDetailFragment storeDetailFragment = new StoreDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.ID_STORE, idStore);
+        storeDetailFragment.setArguments(bundle);
+        fragmentTransaction.add(R.id.category_container, storeDetailFragment);
+        fragmentTransaction.commit();
+    }
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -89,10 +115,11 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null){
-            Toast.makeText(this, "Sign Outed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Signed Out", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(StoreDetailActivity.this, CustomMapsActivity.class));
         }else {
             idStore = currentUser.getUid();
+            addHomeFragment();
         }
     }
 }

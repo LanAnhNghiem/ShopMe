@@ -54,7 +54,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
         return mList.size();
     }
 
-    public class ProductHolder extends RecyclerView.ViewHolder {
+    public static class ProductHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct;
         TextView txtName;
         TextView txtPrice;

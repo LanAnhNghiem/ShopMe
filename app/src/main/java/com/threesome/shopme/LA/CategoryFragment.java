@@ -25,7 +25,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.threesome.shopme.AT.utility.*;
 import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.R;
 import com.threesome.shopme.models.Category;
@@ -48,7 +47,6 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //createData();
         if (getArguments() != null) {
             idStore = getArguments().getString(Constant.ID_STORE);
         }

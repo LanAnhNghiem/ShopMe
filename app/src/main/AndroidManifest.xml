@@ -44,11 +44,7 @@
             android:name=".CustomMapsActivity"
             android:theme="@style/AppTheme.FullScreen" />
         <activity android:name=".LA.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".AT.createstore.RegisterStoreActivity" />
         <activity android:name=".AT.signIn.RequestSignInActivity" />
@@ -67,13 +63,18 @@
             android:exported="true" />
         <activity
             android:name=".AT.store.StoreDetailActivity"
-            android:theme="@style/StoreTheme" />
+            android:theme="@style/StoreTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".AT.store.ResetPasswordActivity" />
         <activity android:name=".AT.user.UserProfileActivity"></activity>
         <activity android:name=".LA.ListProductActivity" />
         <activity android:name=".LA.CreateProductActivity"
             android:windowSoftInputMode="adjustPan">
-
         </activity>
     </application>
 
