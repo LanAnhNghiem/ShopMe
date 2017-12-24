@@ -26,7 +26,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     private DrawerLayout drawerLayout;
     private FirebaseAuth mAuth;
     private String idStore;
-    private LinearLayout btnCreateProduct;
+    private LinearLayout btnCreateProduct, layoutMyProfileStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +39,15 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     private void addEvents() {
         imgSlidemenu.setOnClickListener(this);
         btnCreateProduct.setOnClickListener(this);
+        layoutMyProfileStore.setOnClickListener(this);
+
     }
 
     private void addControls() {
         imgSlidemenu = (ImageView) findViewById(R.id.imgSlideMenuStore);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_Store);
         btnCreateProduct = findViewById(R.id.btnCreateProduct);
+        layoutMyProfileStore = findViewById(R.id.layoutMyProfileStore);
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -61,6 +64,21 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         if (id == R.id.btnCreateProduct){
             createProduct ();
         }
+        if (id == R.id.layoutMyProfileStore){
+            myProfileFragment ();
+        }
+    }
+
+    private void myProfileFragment() {
+        drawerLayout.closeDrawers();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        AccountStoreFragment fragmentAccountStore = new AccountStoreFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.ID_STORE, idStore);
+        fragmentAccountStore.setArguments(bundle);
+        fragmentTransaction.replace(R.id.category_container, fragmentAccountStore);
+        fragmentTransaction.commit();
     }
 
     private void createProduct() {
