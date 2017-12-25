@@ -20,6 +20,7 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.threesome.shopme.AT.singleton.FirebaseDB;
+import com.threesome.shopme.AT.store.homeStoreDetail.HomeStoreDetailFragment;
 import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.CustomMapsActivity;
 import com.threesome.shopme.LA.CategoryFragment;
@@ -35,7 +36,8 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     private TextView txtEditProfile;
     private int indexEdit = 0;
     private ProfileStoreFragment fragmentProfileStore;
-    private LinearLayout btnCreateProduct, layoutMyProfileStore;
+    private HomeStoreDetailFragment homeStoreDetailFragment;
+    private LinearLayout btnCreateProduct, layoutMyProfileStore, layoutHomeDetailStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         imgSlidemenu.setOnClickListener(this);
         btnCreateProduct.setOnClickListener(this);
         layoutMyProfileStore.setOnClickListener(this);
+        layoutHomeDetailStore.setOnClickListener(this);
         imgSignOut.setOnClickListener(this);
 
     }
@@ -74,6 +77,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_Store);
         btnCreateProduct = findViewById(R.id.btnCreateProduct);
         layoutMyProfileStore = findViewById(R.id.layoutMyProfileStore);
+        layoutHomeDetailStore= findViewById(R.id.layoutHomeDetailStore);
         txtEditProfile = findViewById(R.id.txtEditProfile);
         mAuth = FirebaseAuth.getInstance();
     }
@@ -95,6 +99,8 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
             myProfileFragment ();
         }if (id == R.id.imgSignOut){
             signOut ();
+        }if (id == R.id.layoutHomeDetailStore){
+            homeDetailStore ();
         }
 
         //showTextEditProfile
@@ -174,6 +180,21 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         bundle.putString(Constant.ID_STORE, idStore);
         fragmentCategory.setArguments(bundle);
         fragmentTransaction.add(R.id.category_container, fragmentCategory);
+        fragmentTransaction.commit();
+    }
+
+    private void homeDetailStore() {
+        drawerLayout.closeDrawers();
+        indexEdit = 0;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (homeStoreDetailFragment == null) {
+            homeStoreDetailFragment = new HomeStoreDetailFragment();
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.ID_STORE, idStore);
+        homeStoreDetailFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.category_container, homeStoreDetailFragment);
         fragmentTransaction.commit();
     }
 
