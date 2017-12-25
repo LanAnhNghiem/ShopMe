@@ -10,6 +10,7 @@
     tools:openDrawer="start">
 
     <LinearLayout
+        android:background="@android:color/white"
         android:orientation="vertical"
         android:weightSum="10"
         android:layout_width="match_parent"
@@ -34,13 +35,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/txtshopme" />
-            <ImageView
+            <TextView
+                android:id="@+id/txtEditProfile"
+                android:visibility="gone"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:text="Edit"
                 android:layout_gravity="right"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/icon_setting" />
+                android:layout_width="70dp"
+                android:layout_height="match_parent" />
         </FrameLayout>
         <FrameLayout
             android:id="@+id/category_container"
@@ -68,6 +73,7 @@
             //3.5
 
             <ImageView
+                android:id="@+id/imgBanerStoreSlide"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3.5"
@@ -176,22 +182,38 @@
                 android:weightSum="11">
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:layout_weight="1"
-                    android:src="@drawable/icon_share" />
-
-                <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="14"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:text="@string/share"
-                    android:textColor="@color/btnRegister"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:src="@drawable/ic_notification_selected" />
+
+                <FrameLayout
+                    android:layout_weight="10"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="20dp"
+                        android:text="Notification"
+                        android:textColor="@color/btnRegister"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:text="3"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:background="@drawable/bg_notification"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                </FrameLayout>
+
 
             </LinearLayout>
             //Sign out 1
@@ -205,7 +227,7 @@
                 android:weightSum="4">
 
                 <ImageView
-                    android:id="@+id/imgLogin"
+                    android:id="@+id/imgSignOut"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingTop="5dp"

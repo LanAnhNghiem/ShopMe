@@ -43,12 +43,13 @@
     //Slogan 1
     <TextView
         android:id="@+id/txtSlogan"
-        android:textStyle="bold|italic"
-        android:textSize="17sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:textSize="15sp"
         android:gravity="center"
         android:textColor="@android:color/white"
         android:text="Nearby me and order online"
-        android:layout_weight="0.5"
+        android:layout_weight="0.6"
         android:layout_width="match_parent"
         android:layout_height="0dp" />
     //Icons
@@ -64,17 +65,18 @@
             <ImageView
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/icon_gift"
-                android:padding="5dp"
+                android:padding="7dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
             <ImageView
                 android:layout_marginLeft="10dp"
+                android:padding="3dp"
                 android:src="@drawable/icon_clothing"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
             <ImageView
                 android:layout_marginLeft="10dp"
-                android:paddingBottom="3dp"
+                android:paddingBottom="4dp"
                 android:src="@drawable/icon_food"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />

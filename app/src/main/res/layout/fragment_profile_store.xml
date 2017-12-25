@@ -5,32 +5,38 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context="com.threesome.shopme.AT.store.ProfileStoreFragment">
 
     <FrameLayout
         android:padding="5dp"
-        android:layout_weight="3.3"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="220dp">
         <ImageView
+            android:id="@+id/imgBanerStore"
             android:scaleType="fitXY"
             android:src="@drawable/bannerstore"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/imgChangeBanner"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </FrameLayout>
     <LinearLayout
         android:weightSum="4"
         android:orientation="vertical"
-        android:layout_weight="5.7"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_weight="1"
             android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="80dp">
             <LinearLayout
                 android:layout_weight="2"
                 android:layout_width="0dp"
@@ -51,6 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/txtStoreName"
                     android:textStyle="bold"
                     android:textSize="17dp"
                     android:gravity="center"
@@ -70,9 +77,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
                 <ImageView
+                    android:id="@+id/imgEditNameStore"
+                    android:visibility="gone"
                     android:paddingLeft="10dp"
-                    android:paddingTop="35dp"
-                    android:paddingBottom="35dp"
                     android:paddingRight="40dp"
                     android:src="@drawable/ic_editinfo"
                     android:layout_width="match_parent"
@@ -80,11 +87,10 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_weight="1"
             android:weightSum="10"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="80dp">
             <LinearLayout
                 android:layout_weight="2"
                 android:layout_width="0dp"
@@ -105,6 +111,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/txtStorePhoneNumber"
                     android:textStyle="bold"
                     android:textSize="17dp"
                     android:gravity="center"
@@ -124,9 +131,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
                 <ImageView
+                    android:id="@+id/imgEditPhoneStore"
+                    android:visibility="gone"
                     android:paddingLeft="10dp"
-                    android:paddingTop="35dp"
-                    android:paddingBottom="35dp"
                     android:paddingRight="40dp"
                     android:src="@drawable/ic_editinfo"
                     android:layout_width="match_parent"
@@ -135,10 +142,9 @@
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_weight="1"
             android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="80dp">
             <LinearLayout
                 android:layout_weight="2"
                 android:layout_width="0dp"
@@ -159,6 +165,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/txtStoreEmail"
                     android:textStyle="bold"
                     android:textSize="17dp"
                     android:gravity="center"
@@ -173,26 +180,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp" />
             </LinearLayout>
-            <LinearLayout
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:paddingLeft="10dp"
-                    android:paddingTop="35dp"
-                    android:paddingBottom="35dp"
-                    android:paddingRight="40dp"
-                    android:src="@drawable/ic_editinfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_weight="1"
             android:weightSum="10"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="90dp">
             <LinearLayout
                 android:layout_weight="2"
                 android:layout_width="0dp"
@@ -213,35 +206,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/txtStoreAddress"
                     android:textStyle="bold"
                     android:textSize="17dp"
                     android:gravity="center"
                     android:textColor="#34495e"
                     android:text="Khu Phố 6, Phường Linh Trung, Quận Thủ Đức"
-                    android:layout_weight="9.9"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp" />
-                <TextView
-                    android:background="#34495e"
-                    android:layout_weight="0.1"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:paddingLeft="10dp"
-                    android:paddingTop="35dp"
-                    android:paddingBottom="35dp"
-                    android:paddingRight="40dp"
-                    android:src="@drawable/ic_editinfo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
-
 </LinearLayout>

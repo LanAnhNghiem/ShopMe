@@ -89,13 +89,13 @@ public class ThirdFragment extends Fragment {
         if (requestCode == Constant.REQUEST_CODE_LOAD_IMAGE && resultCode == getActivity().RESULT_OK) {
             if (data.getAction() != null) {
                 bitmap = (Bitmap) data.getExtras().get("data");
-                bitmap = cropImage(bitmap);
+               // bitmap = cropImage(bitmap);
                 imgAvataStore.setImageBitmap(bitmap);
             } else {
                 Uri filePath = data.getData();
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
-                    bitmap = cropImage(bitmap);
+                 //   bitmap = cropImage(bitmap);
                     imgAvataStore.setImageBitmap(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -116,13 +116,6 @@ public class ThirdFragment extends Fragment {
             );
         }
         return srcBmp;
-    }
-    public boolean isComplete (){
-        boolean flag = true;
-        if (bitmap == null){
-            flag = false;
-        }
-        return flag;
     }
 
     public Bitmap getBitmap() {
