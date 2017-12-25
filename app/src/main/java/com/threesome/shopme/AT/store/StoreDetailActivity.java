@@ -43,18 +43,18 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_detail);
-        addControls ();
-        addEvents ();
-        setUpBanerStore ();
+        addControls();
+        addEvents();
+        setUpBanerStore();
     }
 
     private void setUpBanerStore() {
-        if (idStore != null){
+        if (idStore != null) {
             Store store = FirebaseDB.getInstance().getStoreDetail(idStore);
-            if (store != null && store.getLinkPhotoStore() != null){
+            if (store != null && store.getLinkPhotoStore() != null) {
                 GlideApp.with(this)
- //                     .placeholder()
- //                     .override(com.threesome.shopme.LA.Constant.PRODUCT_WIDTH, (int)(com.threesome.shopme.LA.Constant.PRODUCT_WIDTH/ com.threesome.shopme.LA.Constant.GOLDEN_RATIO))
+                        //                     .placeholder()
+                        //                     .override(com.threesome.shopme.LA.Constant.PRODUCT_WIDTH, (int)(com.threesome.shopme.LA.Constant.PRODUCT_WIDTH/ com.threesome.shopme.LA.Constant.GOLDEN_RATIO))
                         .load(store.getLinkPhotoStore())
                         .into(imgBanerStoreSlider);
             }
@@ -77,7 +77,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_Store);
         btnCreateProduct = findViewById(R.id.btnCreateProduct);
         layoutMyProfileStore = findViewById(R.id.layoutMyProfileStore);
-        layoutHomeDetailStore= findViewById(R.id.layoutHomeDetailStore);
+        layoutHomeDetailStore = findViewById(R.id.layoutHomeDetailStore);
         txtEditProfile = findViewById(R.id.txtEditProfile);
         mAuth = FirebaseAuth.getInstance();
     }
@@ -85,33 +85,38 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.imgSlideMenuStore){
+        if (id == R.id.imgSlideMenuStore) {
             if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.openDrawer(GravityCompat.START);
             } else {
                 super.onBackPressed();
             }
-        }if (id == R.id.txtEditProfile){
-            editProfile ();
-        }if (id == R.id.btnCreateProduct){
-            createProduct ();
-        }if (id == R.id.layoutMyProfileStore){
-            myProfileFragment ();
-        }if (id == R.id.imgSignOut){
-            signOut ();
-        }if (id == R.id.layoutHomeDetailStore){
-            homeDetailStore ();
+        }
+        if (id == R.id.txtEditProfile) {
+            editProfile();
+        }
+        if (id == R.id.btnCreateProduct) {
+            createProduct();
+        }
+        if (id == R.id.layoutMyProfileStore) {
+            myProfileFragment();
+        }
+        if (id == R.id.imgSignOut) {
+            signOut();
+        }
+        if (id == R.id.layoutHomeDetailStore) {
+            homeDetailStore();
         }
 
         //showTextEditProfile
-        if (indexEdit == 0){
+        if (indexEdit == 0) {
             txtEditProfile.setVisibility(View.GONE);
             txtEditProfile.setOnClickListener(null);
-        }else if (indexEdit == 1){
+        } else if (indexEdit == 1) {
             txtEditProfile.setVisibility(View.VISIBLE);
             txtEditProfile.setText("Edit");
             txtEditProfile.setOnClickListener(this);
-        }else if (indexEdit == 2){
+        } else if (indexEdit == 2) {
             txtEditProfile.setVisibility(View.VISIBLE);
             txtEditProfile.setText("Save");
             txtEditProfile.setOnClickListener(this);
@@ -143,11 +148,11 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void editProfile() {
-        if (indexEdit == 1){
+        if (indexEdit == 1) {
             indexEdit = 2;
             txtEditProfile.setText("Save");
             fragmentProfileStore.showIcon(true);
-        }else {
+        } else {
             indexEdit = 1;
             txtEditProfile.setText("Edit");
             fragmentProfileStore.showIcon(false);
@@ -188,9 +193,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         indexEdit = 0;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (homeStoreDetailFragment == null) {
-            homeStoreDetailFragment = new HomeStoreDetailFragment();
-        }
+        homeStoreDetailFragment = new HomeStoreDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constant.ID_STORE, idStore);
         homeStoreDetailFragment.setArguments(bundle);
@@ -206,15 +209,16 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
             startActivity(new Intent(StoreDetailActivity.this, CustomMapsActivity.class));
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null){
+        if (currentUser == null) {
             Toast.makeText(this, "Sign Outed", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(StoreDetailActivity.this, CustomMapsActivity.class));
-        }else {
+        } else {
             idStore = currentUser.getUid();
         }
     }

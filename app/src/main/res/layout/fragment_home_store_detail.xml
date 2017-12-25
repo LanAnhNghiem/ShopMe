@@ -1,15 +1,40 @@
-<FrameLayout
+<LinearLayout
+    android:orientation="vertical"
+    android:weightSum="10"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#d9d9d9"
     tools:context="com.threesome.shopme.AT.store.homeStoreDetail.HomeStoreDetailFragment">
 
+      <FrameLayout
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <ImageView
+            android:scaleType="fitXY"
+            android:src="@drawable/bannerstore"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TextView
+            android:gravity="center_vertical"
+            android:text="TẤT CẢ SẢN PHẨM"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewCategoryHome1"
+        android:background="#d9d9d9"
+        android:layout_weight="10"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp">
     </android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+</LinearLayout>

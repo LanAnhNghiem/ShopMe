@@ -51,13 +51,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
     @Override
     public void onBindViewHolder(final CategoryViewHolder holder, final int position) {
         Category category = arrCtegory.get(position);
-        holder.txtCategoryName.setText(category.getName());
+        holder.txtCategoryName.setText(category.getName() + " (" + category.getQuantity() + ")");
         holder.recyclerViewCategory.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-        Log.d("ARRP", arrProduct + "");
         arrProduct = mapCategory.get(category.getName());
-        adapter = new ProductAdapter(arrProduct, mContext);
-        holder.recyclerViewCategory.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        if (arrProduct != null) {
+            if (arrProduct.size() == 0){
+                arrCtegory.remove(position);
+            }
+            adapter = new ProductAdapter(arrProduct, mContext);
+            holder.recyclerViewCategory.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
 
     }
 
