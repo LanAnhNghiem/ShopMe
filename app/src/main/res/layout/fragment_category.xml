@@ -13,7 +13,7 @@
         android:id="@+id/rvCategory"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9.1"
+        android:layout_weight="9.2"
         app:layout_constraintBottom_toTopOf="@+id/btnStatistic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -23,13 +23,13 @@
     </android.support.v7.widget.RecyclerView>
 
     <FrameLayout
-        android:background="@color/color_green"
-        android:layout_weight="0.9"
+        android:background="#0f9d58"
+        android:layout_weight="0.8"
         android:layout_width="match_parent"
         android:layout_height="0dp">
         <ImageView
             android:layout_marginRight="40dp"
-            android:padding="7dp"
+            android:padding="10dp"
             android:layout_gravity="center"
             android:src="@drawable/icon_thongke"
             android:layout_width="wrap_content"

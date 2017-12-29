@@ -1,49 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v7.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:elevation="3dp"
+    app:cardCornerRadius="3dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginBottom="10dp"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
-    android:orientation="vertical">
-
-    <FrameLayout
-        android:layout_marginBottom="7dp"
-        android:layout_marginTop="10dp"
+    android:layout_height="215dp">
+    <LinearLayout
+        android:background="@android:color/white"
+        android:weightSum="10"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="30dp">
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:id="@+id/txtCategoryNameItem"
+                android:textColor="#595959"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="T - Shirt (12)"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                android:textColor="#0f9d58"
+                android:textStyle="bold"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:layout_gravity="right"
+                android:text="More"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </FrameLayout>
 
-        <TextView
-            android:id="@+id/txtCategoryNameItem"
-            android:layout_width="130dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_category"
-            android:layout_marginLeft="5dp"
-            android:gravity="center"
-            android:text="T-Shirt (0)"
-            android:textColor="@android:color/white"
-            android:textSize="15sp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/txtMoreCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewCategoryHome"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:gravity="bottom"
-            android:text="MORE"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="13sp" />
-    </FrameLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewCategoryHome"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="5dp">
-    </android.support.v7.widget.RecyclerView>
-
-
-</LinearLayout>
+            android:layout_weight="8"
+            tools:listitem="@layout/item_product_home"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -85,12 +85,15 @@
 
     <EditText
         android:id="@+id/txtProductName"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:hint="Product name"
         android:padding="10dp"
         android:inputType="text"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/txtPrice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,11 +102,14 @@
 
     <EditText
         android:id="@+id/txtPrice"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:hint="Price (VND)"
         android:padding="10dp"
+        android:textSize="15sp"
         android:inputType="numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/txtDescription"
         app:layout_constraintEnd_toEndOf="parent"
@@ -113,6 +119,8 @@
 
     <EditText
         android:id="@+id/txtDescription"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -120,6 +128,7 @@
         android:hint="Description"
         android:padding="10dp"
         android:inputType="text"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@id/layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,6 +144,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintVertical_weight="2">
 
@@ -145,6 +156,8 @@
             android:layout_marginEnd="5dp"
             android:layout_marginTop="20dp"
             android:layout_weight="5"
+            android:textStyle="bold"
+            android:textSize="14sp"
             android:background="@drawable/button_bg_1"
             android:text="Reset"
             android:textColor="@color/colorAccent" />
@@ -159,6 +172,8 @@
             android:layout_marginBottom="60dp"
             android:background="@drawable/button_bg_2"
             android:text="Continue"
+            android:textStyle="bold"
+            android:textSize="14sp"
             android:textColor="@android:color/white" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

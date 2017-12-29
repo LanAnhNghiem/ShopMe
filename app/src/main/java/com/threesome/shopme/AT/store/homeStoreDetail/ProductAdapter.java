@@ -36,12 +36,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
 
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
-        Product product = arrProduct.get(position);
-        holder.txtProductName.setText(product.getName());
-        holder.txtPrice.setText(product.getPrice() + " VND");
-        GlideApp.with(mContext)
-                  .load(product.getImage())
-                  .centerCrop().into(holder.imgProduct);
+        try {
+            Product product = arrProduct.get(position);
+            holder.txtProductName.setText(product.getName());
+            holder.txtPrice.setText(product.getPrice() + " VND");
+            GlideApp.with(mContext)
+                    .load(product.getImage())
+                    .centerCrop().into(holder.imgProduct);
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     @Override

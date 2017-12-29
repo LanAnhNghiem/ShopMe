@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,10 +35,12 @@ public class HomeStoreDetailFragment extends Fragment {
 
 
     private CategoryAdapter adapter;
+    private TextView txtAddressStore;
     private ArrayList<Category> arrCategory;
-    private ArrayList<Product> arrProduct;
+    private CategoryNameAdapter categoryNameAdapter;
     private HashMap<String, ArrayList<Product>> mapCategory;
-    private RecyclerView recyclerCatgory;
+    private ArrayList<Product> arrProduct;
+    private RecyclerView recyclerCatgory, recyclerViewCategoryName;
     private String idStore;
     private DatabaseReference mData;
     private DatabaseReference mCategory, mProduct;
@@ -54,8 +57,8 @@ public class HomeStoreDetailFragment extends Fragment {
             idStore = getArguments().getString(Constant.ID_STORE);
         }
         arrCategory = new ArrayList<>();
-        arrProduct = new ArrayList<>();
         mapCategory = new HashMap<>();
+        arrProduct = new ArrayList<>();
         mData = FirebaseDatabase.getInstance().getReference();
         mCategory = mData.child(com.threesome.shopme.LA.Constant.CATEGORIES_BY_STORE).child(idStore);
         mProduct = mData.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY);
@@ -67,7 +70,28 @@ public class HomeStoreDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_store_detail, container, false);
         recyclerCatgory = view.findViewById(R.id.recyclerViewCategoryHome1);
+        txtAddressStore = view.findViewById(R.id.txtAdressBottomStore);
+        recyclerViewCategoryName = view.findViewById(R.id.recyclerCategoryName);
+        loadInfoStore ();
         return view;
+    }
+
+    private void loadInfoStore() {
+        if (idStore != null){
+            mData.child(Constant.STORE).child(idStore).child(Constant.STORE_ADDRESS).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null){
+                        txtAddressStore.setText(dataSnapshot.getValue().toString());
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     public void addListCategories(){
@@ -76,6 +100,12 @@ public class HomeStoreDetailFragment extends Fragment {
         adapter.mapCategory = mapCategory;
         recyclerCatgory.setLayoutManager(layoutManager);
         recyclerCatgory.setAdapter(adapter);
+
+
+        categoryNameAdapter = new CategoryNameAdapter(arrCategory, getContext());
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewCategoryName.setLayoutManager(layoutManager1);
+        recyclerViewCategoryName.setAdapter(categoryNameAdapter);
         Log.d("MAP", mapCategory + "");
 
     }
@@ -89,32 +119,25 @@ public class HomeStoreDetailFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
                         mapCategory.clear();
-                        arrProduct.clear();
                         arrCategory.clear();
                         for(DataSnapshot data: dataSnapshot.getChildren()){
                             Log.d("TAG", String.valueOf(data.child("name").getValue()));
                             final Category category = data.getValue(Category.class);
                             arrCategory.add(category);
                             mProduct = mData.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY).child(category.getId());
-                            final ArrayList<Product> tmpList = new ArrayList<>();
                             mProduct.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    tmpList.clear();
-                                    //mList.clear();
-                                    int index = 0;
+                                    ArrayList<Product> arrP = new ArrayList<>();
                                     for(DataSnapshot data: dataSnapshot.getChildren()){
                                         Log.d("TAG", String.valueOf(data.getValue()));
                                         Product product = data.getValue(Product.class);
-                                        arrProduct.add(product);
-                                        if(index < 4){
-                                            tmpList.add(product);
+                                        if(arrP.size() < 5){
+                                            arrP.add(product);
                                         }
-                                        index++;
                                     }
 //
-                                    mapCategory.put(category.getName(), tmpList);
-                                    //publishProgress();
+                                    mapCategory.put(category.getName(), arrP);
                                 }
 
                                 @Override

@@ -60,7 +60,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
             }
             adapter = new ProductAdapter(arrProduct, mContext);
             holder.recyclerViewCategory.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            //adapter.notifyDataSetChanged();
         }
 
     }

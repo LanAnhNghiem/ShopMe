@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 
 public class ListProductActivity extends AppCompatActivity {
     private static final String TAG = ListProductActivity.class.getSimpleName();
-    private FloatingActionButton floatBtn;
+    private ImageView floatBtn, imgBack;
     private ProgressDialog progressDialog;
     private ArrayList<Product> mList = new ArrayList<>();
     private RecyclerView rvProduct;
@@ -49,9 +50,6 @@ public class ListProductActivity extends AppCompatActivity {
             mStoreId = intent.getStringExtra("storeId");
             Log.d(TAG,mCateId + " "+mStoreId);
         }
-        Toolbar myToolbar = findViewById(R.id.toolbar_product);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         progressDialog = new ProgressDialog(this);
         floatBtn = findViewById(R.id.btnAddProduct);
         floatBtn.setOnClickListener(new View.OnClickListener() {
@@ -64,8 +62,15 @@ public class ListProductActivity extends AppCompatActivity {
                 finish();
             }
         });
+        imgBack = findViewById(R.id.imgBackProductList);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         rvProduct = findViewById(R.id.rvProduct);
-        layoutManager = new GridLayoutManager(this, 2);
+        layoutManager = new GridLayoutManager(this, 3);
         rvProduct.setLayoutManager(layoutManager);
         adapter = new ProductAdapter(mList, this);
         rvProduct.setAdapter(adapter);
@@ -87,17 +92,6 @@ public class ListProductActivity extends AppCompatActivity {
         super.onStart();
         showProgress();
         new LoadDataTask().execute();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
