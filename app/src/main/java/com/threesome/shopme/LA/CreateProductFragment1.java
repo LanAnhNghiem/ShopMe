@@ -8,12 +8,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.threesome.shopme.R;
 import com.threesome.shopme.models.Product;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Created by LanAnh on 20/12/2017.
@@ -25,6 +31,9 @@ public class CreateProductFragment1 extends Fragment {
     Button btnReset, btnContinue;
     String mCateId="";
     String mStoreId = "";
+    private Spinner spinnerSizeProduct;
+    private String [] mangSize =  {"Big", "Normal", "Small"};
+    private ArrayList<String> arrSize;
     SendProductData sendProductData;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,12 +69,19 @@ public class CreateProductFragment1 extends Fragment {
                 }
             }
         });
+        spinnerSizeProduct = view.findViewById(R.id.spinnerSizeProduct);
+        arrSize = new ArrayList<>();
+        arrSize.addAll(Arrays.asList(mangSize));
+        ArrayAdapter adapter = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, arrSize);
+        spinnerSizeProduct.setAdapter(adapter);
         return view;
     }
 
     public void saveData(){
         Log.d(TAG, String.valueOf(txtPrice.getEditableText()));
-        Product product = new Product(txtProductName.getEditableText().toString(), String.valueOf(txtPrice.getEditableText()),txtDescription.getEditableText().toString());
+        HashMap<String, Integer> mapSize = new HashMap<>();
+        mapSize.put(spinnerSizeProduct.getSelectedItem().toString(), Integer.parseInt(txtPrice.getEditableText().toString()));
+        Product product = new Product(txtProductName.getEditableText().toString(), txtDescription.getEditableText().toString(), mapSize);
         sendProductData.getData(product);
     }
 }

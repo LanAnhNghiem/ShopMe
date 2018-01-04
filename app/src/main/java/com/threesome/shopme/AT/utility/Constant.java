@@ -8,9 +8,13 @@ public class Constant {
     public static final String STORE = "Stores";
     public static final String USER = "Users";
     public static final String ID_STORE = "Stores";
+    public static final String ID_PRODUCT = "idProduct";
+    public static final String ID_CATEGORY = "idCategory";
+    public static final String IS_STORE = "isStore";
     public static final String STORE_NAME = "nameStore";
     public static final String STORE_EMAIL = "emailStore";
     public static final String PASSWORD = "Password";
+    public static final String MAPSIZE = "mapSize";
     public static final String LINKCBANERSTORE = "linkPhotoStore";
     public static final String CONFIRM_PASSWORD = "Confirm_password";
     public static final String STORE_PHONENUMBER = "phoneNumber";

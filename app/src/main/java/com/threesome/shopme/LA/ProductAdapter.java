@@ -16,6 +16,7 @@ import com.threesome.shopme.R;
 import com.threesome.shopme.models.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //import com.bumptech.glide.annotation.GlideModule;
 
@@ -45,8 +46,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
                 .override(Constant.PRODUCT_WIDTH, (int)(Constant.PRODUCT_WIDTH/ Constant.GOLDEN_RATIO))
                 .centerCrop().into(holder.imgProduct);
         holder.txtName.setText(mList.get(position).getName());
-        String price = String.valueOf(mList.get(position).getPrice());
-        holder.txtPrice.setText(price+" VND");
+        HashMap<String, Integer> mapSize = new HashMap<>();
+        mapSize = mList.get(position).getMapSize();
+        int price = 0;
+        if (mapSize.containsKey("Big")){
+            price = mapSize.get("Big");
+        }else if (mapSize.containsKey("Normal")){
+            price = mapSize.get("Normal");
+        } else if (mapSize.containsKey("Small")){
+            price = mapSize.get("Small");
+        }
+        holder.txtPrice.setText(price + " VND");
     }
 
     @Override

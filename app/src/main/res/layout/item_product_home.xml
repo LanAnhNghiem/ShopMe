@@ -23,7 +23,7 @@
             android:id="@+id/txtNameProductHome"
             android:textColor="@android:color/black"
             android:gravity="center"
-            android:text="Trà sữa trà xanh"
+            android:text=""
             android:textSize="14sp"
             android:typeface="serif"
             android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:textSize="12sp"
                 android:textColor="@android:color/white"
                 android:gravity="center"
-                android:text="20.000 VND"
+                android:text=""
                 android:background="@drawable/bg_price"
                 android:layout_width="match_parent"
                 android:layout_height="25dp" />

@@ -23,7 +23,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="8"
                 android:padding="30dp"
-                android:src="@drawable/ic_default_category" />
+                android:src="@drawable/bg_category_default" />
             <TextView
                 android:id="@+id/space"
                 android:layout_width="match_parent"

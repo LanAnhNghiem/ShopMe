@@ -50,6 +50,7 @@ public class ListProductActivity extends AppCompatActivity {
             mStoreId = intent.getStringExtra("storeId");
             Log.d(TAG,mCateId + " "+mStoreId);
         }
+        setCountProduct();
         progressDialog = new ProgressDialog(this);
         floatBtn = findViewById(R.id.btnAddProduct);
         floatBtn.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +86,38 @@ public class ListProductActivity extends AppCompatActivity {
                 showProductDialog(position);
             }
         }));
+    }
+
+    private void setCountProduct() {
+        if (mCateId != null){
+            mData.child(Constant.PRODUCTS_BY_CATEGORY).child(mCateId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null){
+                        final int countProduct = (int) dataSnapshot.getChildrenCount();
+                        final DatabaseReference mChild = mData.child(Constant.CATEGORIES_BY_STORE).child(mStoreId).child(mCateId).child(Constant.QUANTITY);
+                        mChild.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue() != null){
+                                    mChild.setValue(countProduct);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -142,7 +175,7 @@ public class ListProductActivity extends AppCompatActivity {
         final EditText edtPrice = dialogView.findViewById(R.id.edtPrice);
         final EditText edtDescription = dialogView.findViewById(R.id.edtDescription);
         edtName.setText(mList.get(position).getName());
-        edtPrice.setText(mList.get(position).getPrice());
+        //edtPrice.setText(mList.get(position).getPrice());
         edtDescription.setText(mList.get(position).getDescription());
 
         AlertDialog dialog = new AlertDialog.Builder(this)

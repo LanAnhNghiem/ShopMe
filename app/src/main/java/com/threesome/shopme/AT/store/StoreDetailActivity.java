@@ -253,17 +253,18 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
             startActivity(new Intent(StoreDetailActivity.this, CustomMapsActivity.class));
         } else {
             idStore = currentUser.getUid();
+            drawerLayout.closeDrawers();
+            indexEdit = 0;
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            homeStoreDetailFragment = new HomeStoreDetailFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.ID_STORE, idStore);
+            homeStoreDetailFragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.category_container, homeStoreDetailFragment);
+            fragmentTransaction.commit();
         }
-        drawerLayout.closeDrawers();
-        indexEdit = 0;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        homeStoreDetailFragment = new HomeStoreDetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(Constant.ID_STORE, idStore);
-        homeStoreDetailFragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.category_container, homeStoreDetailFragment);
-        fragmentTransaction.commit();
+
     }
 
     @Override
@@ -285,6 +286,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
             startActivity(new Intent(StoreDetailActivity.this, CustomMapsActivity.class));
         } else {
             idStore = currentUser.getUid();
+            homeDetailStore();
         }
     }@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

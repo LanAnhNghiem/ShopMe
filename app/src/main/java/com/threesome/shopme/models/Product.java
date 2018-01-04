@@ -1,6 +1,7 @@
 package com.threesome.shopme.models;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * Created by LanAnh on 18/12/2017.
@@ -12,18 +13,33 @@ public class Product implements Serializable{
     private String storeId;
     private String image;
     private String name;
-    private String price;
     private String description;
+    private HashMap<String, Integer> mapSize;
 
     public Product(){}
-    public Product(String name, String price ,String description) {
-        this.id = "";
-        this.image = "";
+
+    public Product(String id, String cateId, String storeId, String image, String name, String description, HashMap<String, Integer> mapSize) {
+        this.id = id;
+        this.cateId = cateId;
+        this.storeId = storeId;
+        this.image = image;
         this.name = name;
-        this.price = price;
-        this.cateId = "";
-        this.storeId = "";
         this.description = description;
+        this.mapSize = mapSize;
+    }
+
+    public Product(String name, String description, HashMap<String, Integer> mapSize) {
+        this.name = name;
+        this.description = description;
+        this.mapSize = mapSize;
+    }
+
+    public HashMap<String, Integer> getMapSize() {
+        return mapSize;
+    }
+
+    public void setMapSize(HashMap<String, Integer> mapSize) {
+        this.mapSize = mapSize;
     }
 
     public String getId() {
@@ -48,14 +64,6 @@ public class Product implements Serializable{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
     }
 
     public String getDescription() {

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    app:cardBackgroundColor="@color/color_faded_green"
+    app:cardBackgroundColor="#a60f9d58"
     app:cardCornerRadius="3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="3dp"

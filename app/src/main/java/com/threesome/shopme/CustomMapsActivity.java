@@ -59,6 +59,7 @@ import com.skyfishjy.library.RippleBackground;
 import com.threesome.shopme.AT.signIn.RequestSignInActivity;
 import com.threesome.shopme.AT.store.Store;
 import com.threesome.shopme.AT.store.StoreDetailActivity;
+import com.threesome.shopme.AT.store.userStoreDetail.UserStoreDetailActivity;
 import com.threesome.shopme.AT.user.UserProfileActivity;
 import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.AT.utility.DirectionsJSONParser;
@@ -107,7 +108,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     private FirebaseAuth mAuth;
     private DatabaseReference mData;
     private boolean isStore = false;
-    private String idUser;
+    private String idUser, idStore;
     private int heightFindme, widthFindme;
 
     private SupportMapFragment mapFragment;
@@ -179,6 +180,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
         imgSlideMenu.setOnClickListener(this);
         txtAccount.setOnClickListener(this);
         rippleBackground.startRippleAnimation();
+        layoutStore1.setOnClickListener(this);
     }
 
     private void addControls() {
@@ -219,8 +221,22 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
             case R.id.txtAccount:
                 moveToAccountActivity();
                 break;
+            case R.id.layoutStore :
+                detailStoreForUser ();
+                break;
             default:
                 break;
+        }
+    }
+
+    private void detailStoreForUser() {
+        if (idStore != null) {
+            Intent intent = new Intent(CustomMapsActivity.this, UserStoreDetailActivity.class);
+            intent.putExtra(Constant.ID_STORE, idStore);
+            intent.putExtra(Constant.IS_STORE, false);
+            startActivity(intent);
+        }else {
+            Toast.makeText(this, "Lỗi định vị cửa hàng!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -523,6 +539,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.store_active)));
                             mMarker.setTag(arrGeoLocation.get(i).getKey());
                             drawDirection(latLng);
+                            idStore = arrGeoLocation.get(i).getKey().toString();
                             showStore(arrGeoLocation.get(i).getKey().toString());
                         } else {
                             Marker mMarker = mMap.addMarker(new MarkerOptions()
@@ -546,6 +563,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
                 double lat = arrGeoLocation.get(i).getLocation().latitude;
                 LatLng latLng = new LatLng(lat, lon);
                 if (key.contains(arrGeoLocation.get(i).getKey())) {
+                    idStore = arrGeoLocation.get(i).getKey().toString();
                     Marker mMarker = mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.store_active)));
@@ -649,8 +667,14 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        drawMarkerStoreAgain(marker.getTag().toString());
-        return false;
+        try {
+            drawMarkerStoreAgain(marker.getTag().toString());
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            Log.d("ER", ex.getMessage().toString());
+        }
+        return true;
     }
 
     private class DownloadTask extends AsyncTask<String, Void, String> {

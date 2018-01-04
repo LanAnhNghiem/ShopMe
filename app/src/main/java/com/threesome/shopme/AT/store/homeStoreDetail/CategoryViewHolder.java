@@ -13,9 +13,11 @@ import com.threesome.shopme.R;
 public class CategoryViewHolder extends RecyclerView.ViewHolder {
     public RecyclerView recyclerViewCategory;
     public TextView txtCategoryName;
+    public TextView txtMore;
     public CategoryViewHolder(View itemView) {
         super(itemView);
         recyclerViewCategory = itemView.findViewById(R.id.recyclerViewCategoryHome);
         txtCategoryName = itemView.findViewById(R.id.txtCategoryNameItem);
+        txtMore = itemView.findViewById(R.id.txtMoreCategory);
     }
 }

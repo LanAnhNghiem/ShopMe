@@ -43,7 +43,13 @@
             android:hardwareAccelerated="false"
             android:largeHeap="true"
             android:theme="@style/AppTheme.FullScreen" />
-        <activity android:name=".LA.SplashActivity"></activity>
+        <activity android:name=".LA.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".AT.createstore.RegisterStoreActivity" />
         <activity android:name=".AT.signIn.RequestSignInActivity" />
         <activity android:name=".AT.signIn.SignInStoreActivity" />
@@ -62,22 +68,24 @@
         <activity
             android:name=".AT.store.StoreDetailActivity"
             android:theme="@style/StoreTheme"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".AT.store.ResetPasswordActivity" />
-        <activity android:name=".AT.user.UserProfileActivity"></activity>
+        <activity android:name=".AT.user.UserProfileActivity" />
         <activity
             android:name=".LA.ListProductActivity"
             android:theme="@style/StoreTheme" />
         <activity
             android:name=".LA.CreateProductActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".AT.product.DetailProductActivity"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".AT.product.DetailProductActivity"
+            android:theme="@style/StoreTheme" />
+        <activity
+            android:name=".AT.store.userStoreDetail.UserStoreDetailActivity"
+            android:theme="@style/StoreTheme" />
+        <activity
+            android:name=".AT.store.homeStoreDetail.DetailProductStoreActivity"
+            android:theme="@style/StoreTheme"></activity>
     </application>
 
 </manifest>

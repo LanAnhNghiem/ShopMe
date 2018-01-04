@@ -13,6 +13,8 @@
     <color name="ballReleaseColor">#9a9a9a</color>
     <color name="green_light">#8adc94</color>
     <color name="green_ripple">#aef5b7</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
 
     <!-- custom color -->
     <color name="color_green">#01b216</color>

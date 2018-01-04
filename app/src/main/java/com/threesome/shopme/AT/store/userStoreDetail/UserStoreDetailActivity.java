@@ -1,17 +1,13 @@
-package com.threesome.shopme.AT.store.homeStoreDetail;
+package com.threesome.shopme.AT.store.userStoreDetail;
 
-
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +15,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.threesome.shopme.AT.store.homeStoreDetail.CategoryAdapter;
+import com.threesome.shopme.AT.store.homeStoreDetail.CategoryNameAdapter;
+import com.threesome.shopme.AT.store.homeStoreDetail.HomeStoreDetailFragment;
 import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.R;
 import com.threesome.shopme.models.Category;
@@ -26,86 +25,38 @@ import com.threesome.shopme.models.Product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class HomeStoreDetailFragment extends Fragment {
+public class UserStoreDetailActivity extends AppCompatActivity {
 
+    private DatabaseReference mCategory, mProduct;private TextView txtAddressStore;
 
-    private CategoryAdapter adapter;
-    private TextView txtAddressStore;
-    private ArrayList<Category> arrCategory;
-    private CategoryNameAdapter categoryNameAdapter;
     private HashMap<String, ArrayList<Product>> mapCategory;
-    private RecyclerView recyclerCatgory, recyclerViewCategoryName;
-    private String idStore;
+    private ArrayList<Category> arrCategory;
     private DatabaseReference mData;
-    private DatabaseReference mCategory, mProduct;
-
-
-    public HomeStoreDetailFragment() {
-        // Required empty public constructor
+    private CategoryAdapter adapter;
+    private RecyclerView recyclerCatgory, recyclerViewCategoryName;
+    private CategoryNameAdapter categoryNameAdapter;
+    private String idStore;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_store_detail);
+        addControls ();
+        new LoadDataTask().execute();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            idStore = getArguments().getString(Constant.ID_STORE);
-        }
+    private void addControls() {
+        recyclerCatgory = findViewById(R.id.recyclerViewCategoryHome1User);
+        txtAddressStore = findViewById(R.id.txtAdressBottomStoreUser);
+        recyclerViewCategoryName = findViewById(R.id.recyclerCategoryNameUser);
+        //Get Data
+        Intent intent = getIntent();
+        idStore = intent.getStringExtra(Constant.ID_STORE);
         arrCategory = new ArrayList<>();
         mapCategory = new HashMap<>();
         mData = FirebaseDatabase.getInstance().getReference();
         mCategory = mData.child(com.threesome.shopme.LA.Constant.CATEGORIES_BY_STORE).child(idStore);
         mProduct = mData.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY);
-        new LoadDataTask().execute();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home_store_detail, container, false);
-        recyclerCatgory = view.findViewById(R.id.recyclerViewCategoryHome1);
-        txtAddressStore = view.findViewById(R.id.txtAdressBottomStore);
-        recyclerViewCategoryName = view.findViewById(R.id.recyclerCategoryName);
-        loadInfoStore ();
-        return view;
-    }
-
-    private void loadInfoStore() {
-        if (idStore != null){
-            mData.child(Constant.STORE).child(idStore).child(Constant.STORE_ADDRESS).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.getValue() != null){
-                        txtAddressStore.setText(dataSnapshot.getValue().toString());
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
-    }
-
-    public void addListCategories(){
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        adapter = new CategoryAdapter(arrCategory, getContext(), true);
-        adapter.mapCategory = mapCategory;
-        recyclerCatgory.setLayoutManager(layoutManager);
-        recyclerCatgory.setAdapter(adapter);
-
-
-        categoryNameAdapter = new CategoryNameAdapter(arrCategory, getContext());
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewCategoryName.setLayoutManager(layoutManager1);
-        recyclerViewCategoryName.setAdapter(categoryNameAdapter);
-        Log.d("MAP", mapCategory + "");
-
     }
 
     private class LoadDataTask extends AsyncTask<Void, Void, Void> {
@@ -172,5 +123,18 @@ public class HomeStoreDetailFragment extends Fragment {
 
         }
     }
+    public void addListCategories(){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        adapter = new CategoryAdapter(arrCategory, this, false);
+        adapter.mapCategory = mapCategory;
+        recyclerCatgory.setLayoutManager(layoutManager);
+        recyclerCatgory.setAdapter(adapter);
 
+        categoryNameAdapter = new CategoryNameAdapter(arrCategory, this);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewCategoryName.setLayoutManager(layoutManager1);
+        recyclerViewCategoryName.setAdapter(categoryNameAdapter);
+        Log.d("MAP", mapCategory + "");
+
+    }
 }
