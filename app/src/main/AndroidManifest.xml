@@ -68,7 +68,7 @@
         <activity
             android:name=".AT.store.StoreDetailActivity"
             android:theme="@style/StoreTheme"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AT.store.ResetPasswordActivity" />
         <activity android:name=".AT.user.UserProfileActivity" />
         <activity
@@ -81,11 +81,14 @@
             android:name=".AT.product.DetailProductActivity"
             android:theme="@style/StoreTheme" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".AT.store.userStoreDetail.UserStoreDetailActivity"
             android:theme="@style/StoreTheme" />
         <activity
-            android:name=".AT.store.homeStoreDetail.DetailProductStoreActivity"
-            android:theme="@style/StoreTheme"></activity>
+            android:name=".AT.product.DetailProductStoreActivity"
+            android:theme="@style/StoreTheme" />
+        <activity android:name=".AT.cart.UserCartActivity" />
+        <activity android:name=".chat.ChatWithStoreActivity"></activity>
     </application>
 
 </manifest>

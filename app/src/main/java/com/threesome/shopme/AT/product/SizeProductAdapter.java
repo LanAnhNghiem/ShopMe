@@ -1,13 +1,11 @@
-package com.threesome.shopme.AT.store.userStoreDetail;
+package com.threesome.shopme.AT.product;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.threesome.shopme.AT.product.SizeProduct;
 import com.threesome.shopme.R;
 
 import java.util.ArrayList;
@@ -22,10 +20,12 @@ public class SizeProductAdapter extends RecyclerView.Adapter<SizeProductViewHold
     private ArrayList<SizeProduct> arrSize;
     private SizeProduct sizeProductSelected;
     private int index = 0, selected;
+    private boolean isStore;
 
-    public SizeProductAdapter(Context mContext, ArrayList<SizeProduct> arrSize) {
+    public SizeProductAdapter(Context mContext, ArrayList<SizeProduct> arrSize, boolean isStore) {
         this.mContext = mContext;
         this.arrSize = arrSize;
+        this.isStore = isStore;
     }
 
     @Override
@@ -69,6 +69,13 @@ public class SizeProductAdapter extends RecyclerView.Adapter<SizeProductViewHold
                 index = 1;
                 selected = position;
                 setSizeProductSelected(arrSize.get(selected));
+                if (isStore) {
+                    DetailProductStoreActivity detailProductStoreActivity = (DetailProductStoreActivity) mContext;
+                    detailProductStoreActivity.setPricce(arrSize.get(position).getPriceProduct() + " VND");
+                }else {
+                    DetailProductActivity detailProductActivity = (DetailProductActivity) mContext;
+                    detailProductActivity.setPrice(arrSize.get(position).getPriceProduct() + " VND");
+                }
                 SizeProductAdapter.this.notifyDataSetChanged();
 
             }

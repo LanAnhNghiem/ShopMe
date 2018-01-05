@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.threesome.shopme.CustomMapsActivity;
 import com.threesome.shopme.MapsActivity;
 import com.threesome.shopme.R;
 import com.threesome.shopme.models.User;
@@ -63,8 +64,8 @@ public class LoginFacebook {
             public void onSuccess(LoginResult loginResult) {
                 handleFacebookAccessToken(loginResult.getAccessToken());
                 //Toast.makeText(mActivity, R.string.login_success, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mActivity, MapsActivity.class);
-                mActivity.startActivity(intent);
+                //Intent intent = new Intent(mActivity, CustomMapsActivity.class);
+               // mActivity.startActivity(intent);
         }
 
             @Override
@@ -115,11 +116,12 @@ public class LoginFacebook {
                 if (dataSnapshot.getValue() == null){
                     userNode.setValue(user);
                     Toast.makeText(mActivity, mActivity.getResources().getString(R.string.login_success), Toast.LENGTH_SHORT).show();
-                    mActivity.startActivity(new Intent(mActivity, MapsActivity.class));
+                    mActivity.startActivity(new Intent(mActivity, CustomMapsActivity.class));
                 }
                 else {
                     hideProgress();
                     Toast.makeText(mActivity, mActivity.getResources().getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+                    mActivity.startActivity(new Intent(mActivity, CustomMapsActivity.class));
                 }
             }
 

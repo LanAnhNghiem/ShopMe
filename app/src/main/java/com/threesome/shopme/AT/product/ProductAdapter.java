@@ -1,4 +1,4 @@
-package com.threesome.shopme.AT.store.homeStoreDetail;
+package com.threesome.shopme.AT.product;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.threesome.shopme.AT.product.DetailProductActivity;
-import com.threesome.shopme.LA.Constant;
+import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.LA.GlideApp;
 import com.threesome.shopme.R;
-import com.threesome.shopme.models.Category;
 import com.threesome.shopme.models.Product;
 
 import java.util.ArrayList;
@@ -26,11 +24,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
     private ArrayList<Product> arrProduct;
     private Context mContext;
     private boolean isStore;
+    private String idStore;
 
-    public ProductAdapter(ArrayList<Product> arrProduct, Context mContext, boolean isStore) {
+    public ProductAdapter(ArrayList<Product> arrProduct, Context mContext, boolean isStore, String idStore) {
         this.arrProduct = arrProduct;
         this.mContext = mContext;
         this.isStore = isStore;
+        this.idStore = idStore;
     }
 
     @Override
@@ -66,11 +66,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
                         Intent intent = new Intent(mContext, DetailProductStoreActivity.class);
                         intent.putExtra(com.threesome.shopme.AT.utility.Constant.ID_PRODUCT, product.getId());
                         intent.putExtra(com.threesome.shopme.AT.utility.Constant.ID_CATEGORY, product.getCateId());
+                        intent.putExtra(Constant.ID_STORE, idStore);
                         mContext.startActivity(intent);
                     }else {
                         Intent intent = new Intent(mContext, DetailProductActivity.class);
                         intent.putExtra(com.threesome.shopme.AT.utility.Constant.ID_PRODUCT, product.getId());
                         intent.putExtra(com.threesome.shopme.AT.utility.Constant.ID_CATEGORY, product.getCateId());
+                        intent.putExtra(Constant.ID_STORE, idStore);
                         mContext.startActivity(intent);
                     }
                 }

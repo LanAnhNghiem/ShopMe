@@ -1,4 +1,4 @@
-package com.threesome.shopme.AT.store.homeStoreDetail;
+package com.threesome.shopme.AT.product;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

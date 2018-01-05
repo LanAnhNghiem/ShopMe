@@ -1,4 +1,4 @@
-package com.threesome.shopme.AT.store.homeStoreDetail;
+package com.threesome.shopme.AT.product;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,12 +22,10 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,15 +43,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.qhutch.bottomsheetlayout.BottomSheetLayout;
-import com.threesome.shopme.AT.product.DetailProductActivity;
-import com.threesome.shopme.AT.product.SizeProduct;
-import com.threesome.shopme.AT.store.StoreDetailActivity;
-import com.threesome.shopme.AT.store.userStoreDetail.SizeProductAdapter;
 import com.threesome.shopme.AT.utility.Constant;
-import com.threesome.shopme.LA.ClickListener;
 import com.threesome.shopme.LA.GlideApp;
-import com.threesome.shopme.LA.ItemTouchListener;
-import com.threesome.shopme.LA.ListProductActivity;
 import com.threesome.shopme.R;
 import com.threesome.shopme.models.Product;
 
@@ -65,8 +56,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import it.sephiroth.android.library.widget.HListView;
 
 public class DetailProductStoreActivity extends AppCompatActivity {
 
@@ -97,6 +86,8 @@ public class DetailProductStoreActivity extends AppCompatActivity {
         getDataProduct ();
         addEvents ();
     }
+
+    //Controls
 
     private void addControls() {
         mStorage = FirebaseStorage.getInstance().getReference();
@@ -132,7 +123,7 @@ public class DetailProductStoreActivity extends AppCompatActivity {
         rippleimgBackDetailProductStore = findViewById(R.id.rippleimgBackDetailProductStore);
         imgBackDetailProductStore = findViewById(R.id.imgBackDetailProductStore);
 
-        adapter = new SizeProductAdapter(this, arrSize);
+        adapter = new SizeProductAdapter(this, arrSize, true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(DetailProductStoreActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerSize.setAdapter(adapter);
         recyclerSize.setLayoutManager(layoutManager);
@@ -156,6 +147,8 @@ public class DetailProductStoreActivity extends AppCompatActivity {
 
 
     }
+
+    //Get Data of Product
 
     private void getDataProduct() {
         if (idProduct != null && idCategory != null){
@@ -215,6 +208,8 @@ public class DetailProductStoreActivity extends AppCompatActivity {
             Toast.makeText(this, "Lỗi định vị sản phẩm", Toast.LENGTH_SHORT).show();
         }
     }
+
+    //Events
 
     private void addEvents() {
         rippleimgBackDetailProductStore.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
@@ -321,74 +316,7 @@ public class DetailProductStoreActivity extends AppCompatActivity {
 
     }
 
-    private void editNameProduct() {
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(10, 10, 10, 0);
-        params.gravity = Gravity.CENTER;
-        TextView txtTitle = new TextView(this);
-        txtTitle.setText("Change Name Product");
-        txtTitle.setTextSize(18);
-        txtTitle.setTextColor(getResources().getColor(R.color.white));
-        txtTitle.setLayoutParams(params);
-        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params1.setMargins(10, 10, 10, 0);
-        params1.gravity = Gravity.CENTER;
-        final EditText edtNewName = new EditText(this);
-        edtNewName.setHint("Enter new name");
-        edtNewName.setTextSize(15);
-        edtNewName.getBackground().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
-        edtNewName.setLayoutParams(params1);
-        linearLayout.addView(txtTitle);
-        linearLayout.addView(edtNewName);
-        mBuilder.setView(linearLayout);
-        mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                String newName = edtNewName.getText().toString();
-                if (TextUtils.isEmpty(newName)){
-                    Toast.makeText(DetailProductStoreActivity.this, "Error Empty Name!!!", Toast.LENGTH_SHORT).show();
-                }else {
-                    mData.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY).child(idCategory).child(idProduct).child(com.threesome.shopme.LA.Constant.NAMEPRODUCT)
-                            .setValue(newName);
-                    Toast.makeText(DetailProductStoreActivity.this, "Change product name successful", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        mBuilder.setCancelable(false);
-        mBuilder.show();
-    }
-
-    private void deleteAllSize() {
-        final DatabaseReference mProduct = mData.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY).child(idCategory).child(idProduct);
-                mProduct.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null){
-                    mProduct.removeValue();
-                    hideProgress();
-                    finish();
-                    Toast.makeText(DetailProductStoreActivity.this, "Delete Successful", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void editProductOnFirebase() {
-    }
+    //change Image
 
     private void changeImage() {
         Intent pickIntent = new Intent();
@@ -401,6 +329,56 @@ public class DetailProductStoreActivity extends AppCompatActivity {
         startActivityForResult(chooserIntent, Constant.REQUEST_CODE_LOAD_IMAGE);
     }
 
+    private void updateBanerStore (){
+        if (bitmap != null) {
+            showProgressDialog("Loading...");
+            StorageReference mountainsRef = mStorage.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY).child(idCategory).child(idProduct);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            final byte[] data = baos.toByteArray();
+            UploadTask uploadTask = mountainsRef.putBytes(data);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    hideProgress();
+                    Toast.makeText(DetailProductStoreActivity.this, "Update baner Unsuccessfull", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    linkCoverStore = String.valueOf(downloadUrl);
+                    if (!linkCoverStore.equals("")) {
+                        final DatabaseReference mChild = mData.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY).child(idCategory).child(idProduct).child(com.threesome.shopme.LA.Constant.LINKIMAGEPRODUCT);
+                        mChild.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue() != null){
+                                    mChild.setValue(linkCoverStore);
+                                    imgProduct.setImageBitmap(bitmap);
+                                    imgProductSmallStore.setImageBitmap(bitmap);
+                                    hideProgress();
+                                    Toast.makeText(DetailProductStoreActivity.this, "Update baner successfuly", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    hideProgress();
+                                    Toast.makeText(DetailProductStoreActivity.this, "Update baner Unsuccessfuly, Please check again!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                hideProgress();
+                                Toast.makeText(DetailProductStoreActivity.this, databaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    //Collapse and Expanded Bottomsheet
+
     private void expanded() {
         if (layout.isExpended()) {
             layout.collapse();
@@ -408,6 +386,14 @@ public class DetailProductStoreActivity extends AppCompatActivity {
             layout.expand();
         }
     }
+
+    private void collapseLayout() {
+        if (layout.isExpended()){
+            layout.collapse();
+        }
+    }
+
+    //Delete size
 
     private void deleteProduct() {
         index = 2;
@@ -450,6 +436,28 @@ public class DetailProductStoreActivity extends AppCompatActivity {
         });
         mBuilder.show();
     }
+
+    private void deleteAllSize() {
+        final DatabaseReference mProduct = mData.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY).child(idCategory).child(idProduct);
+        mProduct.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null){
+                    mProduct.removeValue();
+                    hideProgress();
+                    finish();
+                    Toast.makeText(DetailProductStoreActivity.this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    //Add new size
 
     private void addNewSizeProduct() {
         index = 1;
@@ -561,15 +569,121 @@ public class DetailProductStoreActivity extends AppCompatActivity {
         }
     }
 
+    //Edit Price Size And Name of Product
+
     private void editProduct() {
         index = 0;
         txtBtnEditProductStore.setBackgroundResource(R.drawable.bg_btn_buy_now);
         txtBtnEditProductStore.setText("Edit");
     }
 
-    private void collapseLayout() {
-        if (layout.isExpended()){
-            layout.collapse();
+    private void editProductOnFirebase() {
+
+        final SizeProduct sizeProduct = adapter.getSizeProductSelected();
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10, 10, 10, 0);
+        params.gravity = Gravity.CENTER;
+        TextView txtTitle = new TextView(this);
+        txtTitle.setText("Change Product's Price");
+        txtTitle.setTextSize(18);
+        txtTitle.setTextColor(getResources().getColor(R.color.white));
+        txtTitle.setLayoutParams(params);
+        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params1.setMargins(10, 10, 10, 0);
+        params1.gravity = Gravity.CENTER;
+        final EditText edtNewPrice = new EditText(this);
+        edtNewPrice.setHint("Enter new name");
+        edtNewPrice.setTextSize(15);
+        edtNewPrice.setText(sizeProduct.getPriceProduct().toString());
+        edtNewPrice.getBackground().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+        edtNewPrice.setLayoutParams(params1);
+        linearLayout.addView(txtTitle);
+        linearLayout.addView(edtNewPrice);
+        mBuilder.setView(linearLayout);
+        mBuilder.setCancelable(false);
+        mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String newPrice = edtNewPrice.getText().toString();
+                if (TextUtils.isEmpty(newPrice)){
+                    Toast.makeText(DetailProductStoreActivity.this, "Error Empty Price!", Toast.LENGTH_SHORT).show();
+                }else {
+                    if (mapSize.containsKey(sizeProduct.getNameSize())){
+                        mapSize.remove(sizeProduct.getNameSize());
+                        mapSize.put(sizeProduct.getNameSize(), Integer.parseInt(edtNewPrice.getText().toString()));
+                        mData.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY).child(idCategory).child(idProduct).child(Constant.MAPSIZE).setValue(mapSize);
+                    }
+                }
+            }
+        });
+        mBuilder.show();
+    }
+
+    private void editNameProduct() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10, 10, 10, 0);
+        params.gravity = Gravity.CENTER;
+        TextView txtTitle = new TextView(this);
+        txtTitle.setText("Change Name Product");
+        txtTitle.setTextSize(18);
+        txtTitle.setTextColor(getResources().getColor(R.color.white));
+        txtTitle.setLayoutParams(params);
+        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params1.setMargins(10, 10, 10, 0);
+        params1.gravity = Gravity.CENTER;
+        final EditText edtNewName = new EditText(this);
+        edtNewName.setHint("Enter new name");
+        edtNewName.setTextSize(15);
+        edtNewName.getBackground().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+        edtNewName.setLayoutParams(params1);
+        linearLayout.addView(txtTitle);
+        linearLayout.addView(edtNewName);
+        mBuilder.setView(linearLayout);
+        mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String newName = edtNewName.getText().toString();
+                if (TextUtils.isEmpty(newName)){
+                    Toast.makeText(DetailProductStoreActivity.this, "Error Empty Name!!!", Toast.LENGTH_SHORT).show();
+                }else {
+                    mData.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY).child(idCategory).child(idProduct).child(com.threesome.shopme.LA.Constant.NAMEPRODUCT)
+                            .setValue(newName);
+                    Toast.makeText(DetailProductStoreActivity.this, "Change product name successful", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        mBuilder.setCancelable(false);
+        mBuilder.show();
+    }
+
+    //show and hide progressDialog
+    private void showProgressDialog (String s){
+        progressDialog.setMessage(s);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    private void hideProgress (){
+        if (progressDialog != null){
+            progressDialog.hide();
         }
     }
 
@@ -600,63 +714,8 @@ public class DetailProductStoreActivity extends AppCompatActivity {
 
     }
 
-    private void updateBanerStore (){
-        if (bitmap != null) {
-            showProgressDialog("Loading...");
-            StorageReference mountainsRef = mStorage.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY).child(idCategory).child(idProduct);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            final byte[] data = baos.toByteArray();
-            UploadTask uploadTask = mountainsRef.putBytes(data);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    hideProgress();
-                    Toast.makeText(DetailProductStoreActivity.this, "Update baner Unsuccessfull", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    linkCoverStore = String.valueOf(downloadUrl);
-                    if (!linkCoverStore.equals("")) {
-                        final DatabaseReference mChild = mData.child(com.threesome.shopme.LA.Constant.PRODUCTS_BY_CATEGORY).child(idCategory).child(idProduct).child(com.threesome.shopme.LA.Constant.LINKIMAGEPRODUCT);
-                        mChild.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getValue() != null){
-                                    mChild.setValue(linkCoverStore);
-                                    imgProduct.setImageBitmap(bitmap);
-                                    imgProductSmallStore.setImageBitmap(bitmap);
-                                    hideProgress();
-                                    Toast.makeText(DetailProductStoreActivity.this, "Update baner successfuly", Toast.LENGTH_SHORT).show();
-                                }else {
-                                    hideProgress();
-                                    Toast.makeText(DetailProductStoreActivity.this, "Update baner Unsuccessfuly, Please check again!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                hideProgress();
-                                Toast.makeText(DetailProductStoreActivity.this, databaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    }
-
-    private void showProgressDialog (String s){
-        progressDialog.setMessage(s);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-    }
-
-    private void hideProgress (){
-        if (progressDialog != null){
-            progressDialog.hide();
-        }
+    //setPrice of Size
+    public void setPricce (String price){
+        txtPriceProduct2.setText(price);
     }
 }

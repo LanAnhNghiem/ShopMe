@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +38,7 @@ public class UserStoreDetailActivity extends AppCompatActivity {
     private RecyclerView recyclerCatgory, recyclerViewCategoryName;
     private CategoryNameAdapter categoryNameAdapter;
     private String idStore;
+    private EditText edtSearchProductUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class UserStoreDetailActivity extends AppCompatActivity {
         recyclerCatgory = findViewById(R.id.recyclerViewCategoryHome1User);
         txtAddressStore = findViewById(R.id.txtAdressBottomStoreUser);
         recyclerViewCategoryName = findViewById(R.id.recyclerCategoryNameUser);
+        edtSearchProductUser = findViewById(R.id.edtSearchProductUser);
         //Get Data
         Intent intent = getIntent();
         idStore = intent.getStringExtra(Constant.ID_STORE);
@@ -125,7 +128,7 @@ public class UserStoreDetailActivity extends AppCompatActivity {
     }
     public void addListCategories(){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        adapter = new CategoryAdapter(arrCategory, this, false);
+        adapter = new CategoryAdapter(arrCategory, this, false, idStore);
         adapter.mapCategory = mapCategory;
         recyclerCatgory.setLayoutManager(layoutManager);
         recyclerCatgory.setAdapter(adapter);

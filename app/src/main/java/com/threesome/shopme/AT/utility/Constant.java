@@ -15,6 +15,7 @@ public class Constant {
     public static final String STORE_EMAIL = "emailStore";
     public static final String PASSWORD = "Password";
     public static final String MAPSIZE = "mapSize";
+    public static final String MYCART = "MyCart";
     public static final String LINKCBANERSTORE = "linkPhotoStore";
     public static final String CONFIRM_PASSWORD = "Confirm_password";
     public static final String STORE_PHONENUMBER = "phoneNumber";

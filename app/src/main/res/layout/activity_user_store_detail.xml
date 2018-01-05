@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:background="#eeeeee"
     android:theme="@style/ProductTheme"
+    android:focusable="true"
     tools:context=".AT.store.userStoreDetail.UserStoreDetailActivity">
 
     <FrameLayout
@@ -40,6 +41,7 @@
                     android:paddingTop="13dp"
                     android:src="@drawable/places_ic_search" />
                 <EditText
+                    android:id="@+id/edtSearchProductUser"
                     android:hint="Search"
                     android:paddingLeft="10dp"
                     android:textSize="14sp"

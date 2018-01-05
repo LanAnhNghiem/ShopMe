@@ -94,7 +94,7 @@ public class HomeStoreDetailFragment extends Fragment {
 
     public void addListCategories(){
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        adapter = new CategoryAdapter(arrCategory, getContext(), true);
+        adapter = new CategoryAdapter(arrCategory, getContext(), true, idStore);
         adapter.mapCategory = mapCategory;
         recyclerCatgory.setLayoutManager(layoutManager);
         recyclerCatgory.setAdapter(adapter);

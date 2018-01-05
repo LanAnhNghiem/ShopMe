@@ -55,6 +55,7 @@
                 android:textStyle="bold" />
 
             <FrameLayout
+                android:id="@+id/layoutCart"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
@@ -68,6 +69,8 @@
                     android:src="@drawable/ic_cart" />
 
                 <TextView
+                    android:id="@+id/txtCountCart"
+                    android:visibility="gone"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_gravity="center"
@@ -312,14 +315,19 @@
             android:orientation="horizontal"
             android:weightSum="4">
 
-            <ImageView
-                android:id="@+id/imgChatDetailProduct"
+            <com.andexert.library.RippleView
+                android:id="@+id/rippleChatDetailProduct"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#0f9d58"
-                android:padding="14dp"
-                android:src="@drawable/ic_chat" />
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/imgChatDetailProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#0f9d58"
+                    android:padding="14dp"
+                    android:src="@drawable/ic_chat" />
+            </com.andexert.library.RippleView>
 
             <TextView
                 android:layout_width="0dp"
@@ -338,16 +346,22 @@
                 android:padding="14dp"
                 android:src="@drawable/ic_add_cart" />
 
-            <TextView
-                android:id="@+id/txtBuyNow"
+            <com.andexert.library.RippleView
+                android:id="@+id/ripplePayment"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:background="@android:color/holo_red_dark"
-                android:gravity="center"
-                android:text="Buy now"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:layout_weight="2">
+                <TextView
+                    android:id="@+id/txtBuyNow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/holo_red_dark"
+                    android:gravity="center"
+                    android:text="Payment"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+            </com.andexert.library.RippleView>
+
         </LinearLayout>
     </LinearLayout>
     <com.qhutch.bottomsheetlayout.BottomSheetLayout
@@ -465,13 +479,20 @@
                    android:layout_weight="0.5"
                    android:layout_width="0dp"
                    android:layout_height="match_parent" />
-                <ImageView
-                    android:padding="10dp"
-                    android:src="@drawable/ic_min_minus"
+                <com.andexert.library.RippleView
+                    android:id="@+id/rippleDecrease"
                     android:layout_weight="0.5"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/imgDecrease"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_min_minus"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.andexert.library.RippleView>
                 <TextView
+                    android:id="@+id/txtNumberProduct"
                     android:textStyle="bold"
                     android:textSize="21sp"
                     android:textColor="@android:color/black"
@@ -480,12 +501,18 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent" />
-                <ImageView
-                    android:padding="10dp"
-                    android:src="@drawable/ic_addp"
+                <com.andexert.library.RippleView
+                    android:id="@+id/rippleIncrease"
                     android:layout_weight="0.5"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/imgIncrease"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_increase"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.andexert.library.RippleView>
             </LinearLayout>
             <TextView
                 android:layout_marginLeft="20dp"
@@ -496,6 +523,7 @@
                 android:layout_height="1dp" />
             //Button 40dp
             <TextView
+                android:id="@+id/txtAddToCart"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:gravity="center"

@@ -4,18 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.threesome.shopme.AT.utility.Constant;
+import com.threesome.shopme.AT.product.ProductAdapter;
 import com.threesome.shopme.LA.ListProductActivity;
 import com.threesome.shopme.R;
 import com.threesome.shopme.models.Category;
@@ -23,7 +16,6 @@ import com.threesome.shopme.models.Product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Handler;
 
 /**
  * Created by Kunpark_PC on 12/25/2017.
@@ -37,11 +29,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
     private ProductAdapter adapter;
     private Context mContext;
     private boolean isStore;
+    private String idStore;
 
-    public CategoryAdapter(ArrayList<Category> arrCtegory, Context mContext, boolean isStore) {
+    public CategoryAdapter(ArrayList<Category> arrCtegory, Context mContext, boolean isStore, String idStore) {
         this.arrCtegory = arrCtegory;
         this.mContext = mContext;
         this.isStore = isStore;
+        this.idStore = idStore;
         arrProduct = new ArrayList<>();
         mapCategory = new HashMap<>();
     }
@@ -62,7 +56,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
             }else {
                 holder.txtCategoryName.setText(category.getName() + " (" + category.getQuantity() + ")");
                 holder.recyclerViewCategory.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-                adapter = new ProductAdapter(arrProduct, mContext, isStore);
+                adapter = new ProductAdapter(arrProduct, mContext, isStore, idStore);
                 holder.recyclerViewCategory.setAdapter(adapter);
                 //adapter.notifyDataSetChanged();
                 holder.txtMore.setOnClickListener(new View.OnClickListener() {
