@@ -87,7 +87,11 @@
         <activity
             android:name=".AT.product.DetailProductStoreActivity"
             android:theme="@style/StoreTheme" />
-        <activity android:name=".AT.cart.UserCartActivity" />
+        <activity
+            android:theme="@style/StoreTheme"
+            android:name=".AT.cart.UserCartActivity">
+
+        </activity>
         <activity android:name=".chat.ChatWithStoreActivity"></activity>
     </application>
 

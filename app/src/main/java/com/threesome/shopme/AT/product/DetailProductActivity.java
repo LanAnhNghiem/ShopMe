@@ -33,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.qhutch.bottomsheetlayout.BottomSheetLayout;
 import com.threesome.shopme.AT.cart.DetailCart;
 import com.threesome.shopme.AT.cart.MyCart;
+import com.threesome.shopme.AT.cart.UserCartActivity;
 import com.threesome.shopme.AT.signIn.RequestSignInActivity;
 import com.threesome.shopme.AT.singleton.FirebaseDB;
 import com.threesome.shopme.AT.utility.Constant;
@@ -186,7 +187,10 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
         ripplePayment.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
             @Override
             public void onComplete(RippleView rippleView) {
-
+                Intent intent = new Intent(DetailProductActivity.this, UserCartActivity.class);
+                intent.putExtra(Constant.ID_STORE, idStore);
+                intent.putExtra(Constant.ID_PRODUCT, idProduct);
+                startActivity(intent);
             }
         });
         //Chat with store

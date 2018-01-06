@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="5"
+    android:background="@drawable/bg_item_cart"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+    <LinearLayout
+        android:id="@+id/layoutEdit"
+        android:visibility="gone"
+        android:weightSum="4"
+        android:orientation="horizontal"
+        android:layout_weight="4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:gravity="center_vertical"
+            android:textColor="@android:color/black"
+            android:text="Number"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <com.andexert.library.RippleView
+            android:id="@+id/rippleDecreaseOnCart"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/imgDecreaseOnCart"
+                android:padding="7dp"
+                android:src="@drawable/ic_min_minus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.andexert.library.RippleView>
+        <TextView
+            android:id="@+id/txtNumberProductOnCart"
+            android:textStyle="bold"
+            android:textSize="21sp"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:text="1"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <com.andexert.library.RippleView
+            android:id="@+id/rippleIncreaseOnCart"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/imgIncreaseOnCart"
+                android:padding="7dp"
+                android:src="@drawable/ic_increase"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.andexert.library.RippleView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layoutInfoSize"
+        android:weightSum="4"
+        android:layout_weight="4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/txtNameSizeItemSize"
+            android:background="@drawable/bg_item_cart"
+            android:gravity="center"
+            android:text="Big"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/txtCountSizeItemSize"
+            android:background="@drawable/bg_item_cart"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:text="2"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/txtPriceItemSize"
+            android:textSize="14sp"
+            android:background="@drawable/bg_item_cart"
+            android:gravity="center"
+            android:textColor="@android:color/holo_red_dark"
+            android:text="20000 VND"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/txtEditSizeItem"
+        android:background="@drawable/bg_item_cart"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:text="Edit"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+</LinearLayout>
