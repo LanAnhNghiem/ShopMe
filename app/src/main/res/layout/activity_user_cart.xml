@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,8 +13,7 @@
     //0.9
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.9"
+        android:layout_height="50dp"
         android:background="#0f9d58"
         android:orientation="horizontal"
         android:weightSum="10">
@@ -79,16 +78,16 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerProduct"
         xmlns:tools="http://schemas.android.com/tools"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8.3"
+        android:layout_height="match_parent"
         android:background="#eeeeee"
         tools:listitem="@layout/item_my_cart">
     </android.support.v7.widget.RecyclerView>
     <com.andexert.library.RippleView
-        android:layout_weight="0.8"
+        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="50dp">
         <TextView
             android:id="@+id/txtPayment"
             android:textStyle="bold"
@@ -96,9 +95,9 @@
             android:textSize="20sp"
             android:textColor="@android:color/white"
             android:text="Payment"
-            android:background="@android:color/holo_red_dark"
+            android:background="@drawable/bg_payment"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </TextView>
     </com.andexert.library.RippleView>
-</LinearLayout>
+</FrameLayout>

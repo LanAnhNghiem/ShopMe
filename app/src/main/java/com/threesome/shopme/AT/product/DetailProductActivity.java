@@ -165,6 +165,7 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
         imgProduct.setOnClickListener(this);
         imgDecrease.setOnClickListener(this);
         imgIncrease.setOnClickListener(this);
+        layoutCart.setOnClickListener(this);
 
         //Collapse BottomSheet
         layoutDetailProduct.setOnTouchListener(new View.OnTouchListener() {
@@ -307,6 +308,12 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
+            case R.id.layoutCart :
+                Intent intent = new Intent(DetailProductActivity.this, UserCartActivity.class);
+                intent.putExtra(Constant.ID_STORE, idStore);
+                intent.putExtra(Constant.ID_PRODUCT, idProduct);
+                startActivity(intent);
+                break;
             case R.id.imgAddToCart:
                 expandedLayoutAddToCart();
                 break;

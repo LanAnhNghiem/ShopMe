@@ -47,6 +47,7 @@
                         android:paddingTop="13dp"
                         android:src="@drawable/ic_slide_menu_black" />
                     <EditText
+                        android:id="@+id/edtSearch"
                         android:hint="Search"
                         android:paddingLeft="10dp"
                         android:textSize="14sp"

@@ -57,7 +57,6 @@
         android:layout_height="80dp">
         <LinearLayout
             android:id="@+id/layoutStore"
-            android:visibility="visible"
             android:orientation="vertical"
             android:layout_gravity="center"
             android:layout_width="match_parent"

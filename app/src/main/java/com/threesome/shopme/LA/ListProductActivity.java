@@ -6,14 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,11 +34,13 @@ public class ListProductActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ArrayList<Product> mList = new ArrayList<>();
     private RecyclerView rvProduct;
-    private ProductAdapter adapter;
+    private com.threesome.shopme.AT.product.ProductAdapter adapter;
     private GridLayoutManager layoutManager;
     private DatabaseReference mData = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference productsByCategory ;
     String mCateId = "", mStoreId = "";
+    private EditText edtSearch;
+    private ArrayList<String> nameList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +74,7 @@ public class ListProductActivity extends AppCompatActivity {
         rvProduct = findViewById(R.id.rvProduct);
         layoutManager = new GridLayoutManager(this, 3);
         rvProduct.setLayoutManager(layoutManager);
-        adapter = new ProductAdapter(mList, this);
+        adapter = new com.threesome.shopme.AT.product.ProductAdapter(mList, this, false, mStoreId);
         rvProduct.setAdapter(adapter);
         rvProduct.addOnItemTouchListener(new ItemTouchListener(this, rvProduct, new ClickListener() {
             @Override
@@ -86,6 +87,28 @@ public class ListProductActivity extends AppCompatActivity {
                 showProductDialog(position);
             }
         }));
+        edtSearch = findViewById(R.id.edtSearch);
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!editable.toString().isEmpty()){
+                    setAdapter(editable.toString());
+                }
+                if(editable.toString().isEmpty()){
+                    new LoadDataTask().execute();
+                }
+            }
+        });
     }
 
     private void setCountProduct() {
@@ -221,6 +244,37 @@ public class ListProductActivity extends AppCompatActivity {
                 .create();
         dialog.show();
     }
+    private void setAdapter(final String searchString){
+        productsByCategory= mData.child(Constant.PRODUCTS_BY_CATEGORY).child(mCateId);
+        productsByCategory.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mList.clear();
+                nameList.clear();
+                Log.d("datasnape", dataSnapshot.toString());
+                if (!dataSnapshot.exists()) {
+
+                } else {
+                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+                        String name = String.valueOf(data.child("name").getValue()).toLowerCase();
+                        if(name.contains(searchString)){
+                            Product product = data.getValue(Product.class);
+                            mList.add(product);
+                            Log.d(TAG, String.valueOf(data.child("name").getValue()));
+                            //adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+                adapter = new com.threesome.shopme.AT.product.ProductAdapter(mList, getBaseContext(), false, mStoreId);
+                rvProduct.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     private class LoadDataTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -237,6 +291,8 @@ public class ListProductActivity extends AppCompatActivity {
                         for(DataSnapshot data : dataSnapshot.getChildren()){
                             Product product = data.getValue(Product.class);
                             mList.add(product);
+                            nameList.add(String.valueOf(data.child("name").getValue()).toLowerCase());
+                            Log.d(TAG, String.valueOf(data.child("name").getValue()));
                             adapter.notifyDataSetChanged();
                             publishProgress();
                         }
@@ -253,7 +309,8 @@ public class ListProductActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
-            hideProgress();
+            if(progressDialog.isShowing())
+                hideProgress();
         }
     }
     private void showProgress (){

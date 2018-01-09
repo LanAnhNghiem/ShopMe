@@ -163,6 +163,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     private TextView txtStoreName;
     private TextView txtAddressStore;
     private MapRipple mapRipple;
+    private TextView txtShare;
     private LinearLayout layoutStore1;
 
     @Override
@@ -182,6 +183,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
         txtAccount.setOnClickListener(this);
         rippleBackground.startRippleAnimation();
         layoutStore1.setOnClickListener(this);
+        txtShare.setOnClickListener(this);
     }
 
     private void addControls() {
@@ -197,6 +199,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
         imageView = (ImageView) findViewById(R.id.centerImage);
         arrGeoLocation = new ArrayList<>();
 
+        txtShare = findViewById(R.id.txtShare);
         txtStoreName = findViewById(R.id.txtNameStoreList);
         txtAddressStore = findViewById(R.id.txtAddressStoreList);
     }
@@ -226,9 +229,20 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
             case R.id.layoutStore :
                 detailStoreForUser ();
                 break;
+            case R.id.txtShare:
+                shareApp();
+                break;
             default:
                 break;
         }
+    }
+
+    private void shareApp() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, "Share app ShopMe");
+        intent.setType("text/plain");
+        startActivity(Intent.createChooser(intent, "Send app"));
     }
 
     private void detailStoreForUser() {
@@ -585,9 +599,13 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
 
     private void showStore(String idStore) {
         if (isStore){
-            frameStore.setVisibility(View.INVISIBLE);
+            //frameStore.setVisibility(View.INVISIBLE);
+            layoutStore1.setOnClickListener(null);
+            //layoutStore1.setVisibility(View.GONE);
         }else {
-            frameStore.setVisibility(View.VISIBLE);
+            layoutStore1.setOnClickListener(this);
+           // layoutStore1.setVisibility(View.VISIBLE);
+           // frameStore.setVisibility(View.VISIBLE);
         }
         mData.child(Constant.STORE).child(idStore).addValueEventListener(new ValueEventListener() {
             @Override

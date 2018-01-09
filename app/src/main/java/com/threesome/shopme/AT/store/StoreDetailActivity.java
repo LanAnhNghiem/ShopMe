@@ -15,7 +15,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,6 +43,7 @@ import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.CustomMapsActivity;
 import com.threesome.shopme.LA.CategoryFragment;
 import com.threesome.shopme.LA.GlideApp;
+import com.threesome.shopme.LA.SearchFragment;
 import com.threesome.shopme.R;
 
 import java.io.ByteArrayOutputStream;
@@ -61,6 +65,9 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     private HomeStoreDetailFragment homeStoreDetailFragment;
     private StorageReference mStorage;
     private LinearLayout btnCreateProduct, layoutMyProfileStore, layoutHomeDetailStore;
+    private EditText edtSearch;
+    private int currentFragment = 1;
+    private static final int HOME = 1, CREATE_PRODUCT = 2, HISTORY = 3, NOTIFICATION = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +133,50 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         mData = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
+
+        edtSearch = findViewById(R.id.edtSearch);
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!editable.toString().isEmpty())
+                    addSearchFragment(editable.toString());
+                else{
+                    switch(currentFragment){
+                        case 1:
+                            homeDetailStore();
+                            break;
+                        case 2:
+                            createProduct();
+                            break;
+                        case 3:
+                            myProfileFragment();
+                            break;
+                    }
+                }
+            }
+        });
+    }
+
+    private void addSearchFragment(String search){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        SearchFragment fragmentSearch = new SearchFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("search", search);
+        bundle.putString(Constant.ID_STORE, idStore);
+        fragmentSearch.setArguments(bundle);
+        fragmentTransaction.replace(R.id.category_container, fragmentSearch);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -236,6 +287,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     private void myProfileFragment() {
         drawerLayout.closeDrawers();
         indexEdit = 1;
+        currentFragment = HISTORY;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (fragmentProfileStore == null) {
@@ -251,25 +303,27 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     private void createProduct() {
         drawerLayout.closeDrawers();
         indexEdit = 0;
+        currentFragment = CREATE_PRODUCT;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CategoryFragment fragmentCategory = new CategoryFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constant.ID_STORE, idStore);
         fragmentCategory.setArguments(bundle);
-        fragmentTransaction.add(R.id.category_container, fragmentCategory);
+        fragmentTransaction.replace(R.id.category_container, fragmentCategory);
         fragmentTransaction.commit();
     }
 
     private void homeDetailStore() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
-            Toast.makeText(this, "Sign Outed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Signed Out", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(StoreDetailActivity.this, CustomMapsActivity.class));
         } else {
             idStore = currentUser.getUid();
             drawerLayout.closeDrawers();
             indexEdit = 0;
+            currentFragment = HOME;
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             homeStoreDetailFragment = new HomeStoreDetailFragment();
