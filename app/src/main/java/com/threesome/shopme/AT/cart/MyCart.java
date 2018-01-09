@@ -1,12 +1,13 @@
 package com.threesome.shopme.AT.cart;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Kunpark_PC on 1/5/2018.
  */
 
-public class MyCart {
+public class MyCart implements Serializable{
     private String idStore;
     private String idCategory;
     private String idProduct;

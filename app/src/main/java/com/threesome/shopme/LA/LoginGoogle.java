@@ -59,7 +59,7 @@ public class LoginGoogle {
                     hideProgress();
                     Intent intent = new Intent(mActivity, MapsActivity.class);
                     mActivity.startActivity(intent);
-                    //Add new User to Database realtime
+                    //Add new Customer to Database realtime
                     email = task.getResult().getUser().getEmail();
                     userName = task.getResult().getUser().getDisplayName();
                     idUser = task.getResult().getUser().getUid();

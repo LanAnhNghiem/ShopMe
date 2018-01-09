@@ -81,18 +81,17 @@
             android:name=".AT.product.DetailProductActivity"
             android:theme="@style/StoreTheme" />
         <activity
-            android:windowSoftInputMode="adjustPan"
             android:name=".AT.store.userStoreDetail.UserStoreDetailActivity"
-            android:theme="@style/StoreTheme" />
+            android:theme="@style/StoreTheme"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".AT.product.DetailProductStoreActivity"
             android:theme="@style/StoreTheme" />
         <activity
-            android:theme="@style/StoreTheme"
-            android:name=".AT.cart.UserCartActivity">
-
-        </activity>
-        <activity android:name=".chat.ChatWithStoreActivity"></activity>
+            android:name=".AT.cart.UserCartActivity"
+            android:theme="@style/StoreTheme"></activity>
+        <activity android:name=".chat.ChatWithStoreActivity" />
+        <activity android:name=".AT.store.historyorder.OrderDetailActitivy"></activity>
     </application>
 
 </manifest>

@@ -7,6 +7,8 @@ package com.threesome.shopme.AT.utility;
 public class Constant {
     public static final String STORE = "Stores";
     public static final String USER = "Users";
+    public static final String ORDERSTORE = "OrderStore";
+    public static final String ORDERUSER = "OrderUser";
     public static final String ID_STORE = "Stores";
     public static final String ID_PRODUCT = "idProduct";
     public static final String ID_CATEGORY = "idCategory";
@@ -22,6 +24,15 @@ public class Constant {
     public static final String STORE_ADDRESS = "addressStore";
     public static final String LONGTITUDE = "longtitude";
     public static final String LATITUDE = "latitude";
+    public static final String CODE_SEND_ORDER = "714025";
+    public static final String SEEN = "seen" ;
+    public static final String STATUS = "status" ;
 
     public static final int REQUEST_CODE_LOAD_IMAGE = 4;
+    public static final int CODE_CHUA_NHAN = 0;
+    public static final int CODE_DA_NHAN = 1;
+    public static final int CODE_SHIP = 2;
+    public static final int CODE_DA_GIAO = 3;
+    public static final int CODE_DA_HUY = 4;
+
 }

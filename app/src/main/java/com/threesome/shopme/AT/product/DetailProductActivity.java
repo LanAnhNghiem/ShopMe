@@ -351,7 +351,7 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
             });
         } else {
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(DetailProductActivity.this);
-            mBuilder.setMessage("Please Login To Order!");
+            mBuilder.setMessage("Please Login To OrderStore!");
             mBuilder.setCancelable(false);
             mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
@@ -419,8 +419,10 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-        collapseLayout();
+        if(layout.isExpended())
+            collapseLayout();
+        else
+            super.onBackPressed();
     }
 
     public void setPrice(String price) {

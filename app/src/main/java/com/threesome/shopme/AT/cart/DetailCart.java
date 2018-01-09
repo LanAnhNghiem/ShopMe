@@ -1,10 +1,12 @@
 package com.threesome.shopme.AT.cart;
 
+import java.io.Serializable;
+
 /**
  * Created by Kunpark_PC on 1/5/2018.
  */
 
-public class DetailCart {
+public class DetailCart implements Serializable{
     private String nameSize;
     private String price;
     private String timeOrder;

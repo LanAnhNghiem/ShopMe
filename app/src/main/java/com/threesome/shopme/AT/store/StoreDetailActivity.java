@@ -56,6 +56,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     private TextView txtEditProfile, txtStoreName, txtEmailStore;
     private int indexEdit = 0;
     private ProfileStoreFragment fragmentProfileStore;
+    private HistoryOrderStoreFragment fragmentHistoryStore;
     private ProgressDialog progressDialog;
     private HomeStoreDetailFragment homeStoreDetailFragment;
     private StorageReference mStorage;
@@ -118,7 +119,7 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         imgSignOut = findViewById(R.id.imgSignOut);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_Store);
         btnCreateProduct = findViewById(R.id.btnCreateProduct);
-        layoutMyProfileStore = findViewById(R.id.layoutMyProfileStore);
+        layoutMyProfileStore = findViewById(R.id.linearHistoryStore);
         layoutHomeDetailStore = findViewById(R.id.layoutHomeDetailStore);
         txtEditProfile = findViewById(R.id.txtEditProfile);
         mAuth = FirebaseAuth.getInstance();
@@ -143,8 +144,8 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         if (id == R.id.btnCreateProduct) {
             createProduct();
         }
-        if (id == R.id.layoutMyProfileStore) {
-            myProfileFragment();
+        if (id == R.id.linearHistoryStore) {
+            storeHistoryFragment();
         }
         if (id == R.id.imgSignOut) {
             signOut();
@@ -168,6 +169,20 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
             txtEditProfile.setText("Save");
             txtEditProfile.setOnClickListener(this);
         }
+    }
+
+    private void storeHistoryFragment() {
+        drawerLayout.closeDrawers();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (fragmentHistoryStore == null) {
+            fragmentHistoryStore = new HistoryOrderStoreFragment();
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.ID_STORE, idStore);
+        fragmentHistoryStore.setArguments(bundle);
+        fragmentTransaction.replace(R.id.category_container, fragmentHistoryStore);
+        fragmentTransaction.commit();
     }
 
     private void changerBanerStore() {

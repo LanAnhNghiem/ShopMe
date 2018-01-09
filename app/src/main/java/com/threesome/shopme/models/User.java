@@ -9,6 +9,10 @@ public class User {
     private String email;
     private String userName;
     private String avatar;
+    private String phoneNumber;
+    private String address;
+
+    public User(){}
 
     public User(String id, String email, String userName, String avatar) {
         this.id = id;
@@ -47,5 +51,21 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

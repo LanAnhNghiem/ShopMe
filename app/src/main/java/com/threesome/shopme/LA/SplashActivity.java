@@ -179,7 +179,7 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    /*  Show Popup to access User Permission  */
+    /*  Show Popup to access Customer Permission  */
     private void requestLocationPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(SplashActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
             ActivityCompat.requestPermissions(SplashActivity.this,
