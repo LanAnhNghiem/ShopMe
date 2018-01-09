@@ -61,7 +61,7 @@ public class DetailProductStoreActivity extends AppCompatActivity {
 
     private TextView txtDeleteProduct, txtNameProduct1, txtNameProduct2, txtNameProduct3, txtPriceProduct1,
             txtPriceProduct2, txtPriceEdit, txtInfoProduct, txtBtnEditProductStore;
-    private ImageView imgProduct, imgBackDetailProductStore, imgProductSmallStore, imgEditProduct, imgAddSizeProduct, imgEditNameProduct;
+    private ImageView imgProduct, imgBackDetailProductStore, imgProductSmallStore, imgEditProduct, imgAddSizeProduct, imgEditNameProduct, imgBack;
     private RippleView rippleimgBackDetailProductStore, rippleDeleteProduct, rippleEditNameProduct;
     private String idProduct, idCategory, linkCoverStore;
     private DatabaseReference mData;
@@ -120,9 +120,8 @@ public class DetailProductStoreActivity extends AppCompatActivity {
         txtPriceProduct1 = findViewById(R.id.txtPriceProductDetailStore);
         txtInfoProduct = findViewById(R.id.txtInfoProductDetailStore);
         imgProduct = findViewById(R.id.imgProductDetailStore);
-        rippleimgBackDetailProductStore = findViewById(R.id.rippleimgBackDetailProductStore);
+        //rippleimgBackDetailProductStore = findViewById(R.id.rippleimgBackDetailProductStore);
         imgBackDetailProductStore = findViewById(R.id.imgBackDetailProductStore);
-
         adapter = new SizeProductAdapter(this, arrSize, true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(DetailProductStoreActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerSize.setAdapter(adapter);
@@ -212,12 +211,12 @@ public class DetailProductStoreActivity extends AppCompatActivity {
     //Events
 
     private void addEvents() {
-        rippleimgBackDetailProductStore.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
-            @Override
-            public void onComplete(RippleView rippleView) {
-                finish();
-            }
-        });
+//        rippleimgBackDetailProductStore.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+//            @Override
+//            public void onComplete(RippleView rippleView) {
+//                finish();
+//            }
+//        });
         layoutDetailProductStore.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -247,6 +246,12 @@ public class DetailProductStoreActivity extends AppCompatActivity {
                 expanded ();
                 rippleEditNameProduct.setVisibility(View.GONE);
                 deleteProduct ();
+            }
+        });
+        imgBackDetailProductStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
         imgProduct.setOnClickListener(new View.OnClickListener() {
@@ -535,7 +540,7 @@ public class DetailProductStoreActivity extends AppCompatActivity {
                     mSize.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue() != null) {
+                            if (dataSnapshot.getValue() != null && edtPrice.getText().toString() != "") {
                                 mapSize.put(spinner.getSelectedItem().toString(), Integer.parseInt(edtPrice.getText().toString()));
                                 mSize.setValue(mapSize);
                                 collapseLayout();

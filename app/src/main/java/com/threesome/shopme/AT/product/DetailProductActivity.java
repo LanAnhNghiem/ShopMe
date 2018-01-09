@@ -5,8 +5,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,7 +34,6 @@ import com.threesome.shopme.AT.cart.DetailCart;
 import com.threesome.shopme.AT.cart.MyCart;
 import com.threesome.shopme.AT.cart.UserCartActivity;
 import com.threesome.shopme.AT.signIn.RequestSignInActivity;
-import com.threesome.shopme.AT.singleton.FirebaseDB;
 import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.LA.GlideApp;
 import com.threesome.shopme.R;
@@ -52,7 +50,7 @@ import java.util.Set;
 public class DetailProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private CardView cardViewProductImage;
-    private ImageView imgProduct, imgProductSmall, imgLove, imgAddToCart, imgIncrease, imgDecrease;
+    private ImageView imgProduct, imgProductSmall, imgLove, imgAddToCart, imgIncrease, imgDecrease, imgBack;
     private TextView txtCountCart, txtAddToCart, txtNumberProduct, txtProductName1, txtProductName2, txtPriceProduct, txtInfoProduct, txtProductName3, txtPriceProductSmall;
     private BottomSheetLayout layout;
     private LinearLayout layoutDetailProduct, layoutLove, layoutComment;
@@ -176,12 +174,12 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
         });
 
         //Back
-        rippleimgBackDetailProduct.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
-            @Override
-            public void onComplete(RippleView rippleView) {
-                finish();
-            }
-        });
+//        rippleimgBackDetailProduct.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+//            @Override
+//            public void onComplete(RippleView rippleView) {
+//                finish();
+//            }
+//        });
 
         //Payment all cart
         ripplePayment.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
@@ -251,10 +249,17 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
         layoutLove = findViewById(R.id.layoutLoveDetailproduct);
         layoutComment = findViewById(R.id.layoutCommentDetailProduct);
         imgAddToCart = findViewById(R.id.imgAddToCart);
-        rippleimgBackDetailProduct = findViewById(R.id.rippleimgBackDetailProduct);
+        //rippleimgBackDetailProduct = findViewById(R.id.rippleimgBackDetailProduct);
         imgProductSmall = findViewById(R.id.imgProductSmall);
         txtProductName3 = findViewById(R.id.txtNameProductSmall);
         txtPriceProductSmall = findViewById(R.id.txtPriceProductDetailSmall);
+        imgBack = findViewById(R.id.imgBackDetailProduct);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         mData = FirebaseDatabase.getInstance().getReference();
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -294,6 +299,9 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
                 break;
             case R.id.txtAddToCart:
                 addToCart();
+                break;
+            case R.id.imgBackDetailProduct:
+                finish();
                 break;
         }
     }
@@ -421,6 +429,7 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
     public void onBackPressed() {
         //super.onBackPressed();
         collapseLayout();
+        finish();
     }
 
     public void setPrice(String price) {

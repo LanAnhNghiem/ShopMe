@@ -58,7 +58,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
                 holder.recyclerViewCategory.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
                 adapter = new ProductAdapter(arrProduct, mContext, isStore, idStore);
                 holder.recyclerViewCategory.setAdapter(adapter);
-                //adapter.notifyDataSetChanged();
                 holder.txtMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
