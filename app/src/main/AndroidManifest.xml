@@ -73,7 +73,8 @@
         <activity android:name=".AT.user.UserProfileActivity" />
         <activity
             android:name=".LA.ListProductActivity"
-            android:theme="@style/StoreTheme" />
+            android:theme="@style/StoreTheme"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".LA.CreateProductActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -90,7 +91,9 @@
         <activity
             android:name=".AT.cart.UserCartActivity"
             android:theme="@style/StoreTheme"></activity>
-        <activity android:name=".chat.ChatWithStoreActivity" />
+        <activity android:name=".chat.ChatWithStoreActivity"
+            android:theme="@style/StoreTheme"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AT.store.historyorder.OrderDetailActitivy"></activity>
     </application>
 

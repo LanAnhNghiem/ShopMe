@@ -43,7 +43,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductH
     @Override
     public void onBindViewHolder(ProductHolder holder, int position) {
         GlideApp.with(mContext).load(mList.get(position).getImage()).placeholder(scaleImage(mPlaceHolder, Constant.PRODUCT_WIDTH, (int)(Constant.PRODUCT_WIDTH/ Constant.GOLDEN_RATIO)))
-                .override(Constant.PRODUCT_WIDTH, (int)(Constant.PRODUCT_WIDTH/ Constant.GOLDEN_RATIO))
                 .centerCrop().into(holder.imgProduct);
         holder.txtName.setText(mList.get(position).getName());
         HashMap<String, Integer> mapSize = new HashMap<>();

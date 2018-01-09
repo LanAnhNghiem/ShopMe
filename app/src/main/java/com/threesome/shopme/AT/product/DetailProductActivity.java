@@ -197,8 +197,8 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
         rippleChatDetailProduct.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
             @Override
             public void onComplete(RippleView rippleView) {
-                Intent intent = new Intent(DetailProductActivity.this, ChatWithStoreActivity.class);
-                startActivity(intent);
+                moveToChatBox();
+
             }
         });
         //Decrease and Increase Product
@@ -214,6 +214,32 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
 
             }
         });
+    }
+
+    private void moveToChatBox() {
+        if (idUser != null) {
+            Intent intent = new Intent(DetailProductActivity.this, ChatWithStoreActivity.class);
+            intent.putExtra(Constant.ID_STORE, idStore);
+            intent.putExtra(Constant.ID_USER, idUser);
+            startActivity(intent);
+        } else {
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(DetailProductActivity.this);
+            mBuilder.setMessage("Please Login To OrderStore!");
+            mBuilder.setCancelable(false);
+            mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    startActivity(new Intent(DetailProductActivity.this, RequestSignInActivity.class));
+                }
+            });
+            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            mBuilder.show();
+        }
     }
 
     private void addControls() {

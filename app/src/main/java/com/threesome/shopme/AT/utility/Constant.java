@@ -35,4 +35,6 @@ public class Constant {
     public static final int CODE_DA_GIAO = 3;
     public static final int CODE_DA_HUY = 4;
 
+    public static final String CHAT = "ChatMessage";
+    public static final String ID_USER = "idUser";
 }
