@@ -94,7 +94,9 @@
         <activity android:name=".chat.ChatWithStoreActivity"
             android:theme="@style/StoreTheme"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".AT.store.historyorder.OrderDetailActitivy"></activity>
+        <activity
+            android:theme="@style/StoreTheme"
+            android:name=".AT.store.historyorder.OrderDetailActitivy"></activity>
     </application>
 
 </manifest>

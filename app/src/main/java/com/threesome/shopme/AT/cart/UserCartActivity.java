@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.threesome.shopme.AT.product.SizeProduct;
 import com.threesome.shopme.AT.utility.Constant;
 import com.threesome.shopme.CustomMapsActivity;
 import com.threesome.shopme.NN.user.Customer;
@@ -29,6 +30,7 @@ import com.threesome.shopme.R;
 import com.threesome.shopme.models.User;
 import com.threesome.shopme.AT.store.Store;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class UserCartActivity extends AppCompatActivity {
@@ -113,9 +115,13 @@ public class UserCartActivity extends AppCompatActivity {
         }
 
         //Day len store
+        String hour = new SimpleDateFormat("HH").format(new java.util.Date());
+        String minutes = new SimpleDateFormat("mm").format(new java.util.Date());
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+        final String currentTime = hour + " giờ " + minutes + " phút " + "ngày " + date;
         String idOrderOfUser = mData.child(Constant.ORDERSTORE).child(idStore).push().getKey();
         final DatabaseReference mOrderStore =  mData.child(Constant.ORDERSTORE).child(idStore).child(idOrderOfUser);
-        final OrderStore orderStore = new OrderStore(new Customer(user.getUserName() , user.getPhoneNumber(), user.getAvatar()),arrMyCart, idStore , idOrderOfUser);
+        final OrderStore orderStore = new OrderStore(new Customer(user.getUserName() , user.getPhoneNumber(), user.getAvatar()),arrMyCart, idStore , idOrderOfUser, currentTime, idUser);
         mOrderStore.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

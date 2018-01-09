@@ -113,7 +113,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
 
     private SupportMapFragment mapFragment;
 
-    private int radius = 3;
+    private int radius = 100;
     private IGoogleAPI mService;
 
     private boolean isFirstLoad = false;
@@ -157,6 +157,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     //Createtor AnhTam : 19/12/2017
     private RippleBackground rippleBackground;
     private ImageView imageView;
+    private FrameLayout frameStore;
     private ArrayList<GeoLocat> arrGeoLocation;
     private int index = 0;
     private TextView txtStoreName;
@@ -186,6 +187,7 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     private void addControls() {
         txtAccount = findViewById(R.id.txtAccount);
         layoutStore1 = findViewById(R.id.layoutStore);
+        frameStore= findViewById(R.id.frameStore);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         imgLogin = (ImageView) findViewById(R.id.imgLogin);
         imgSlideMenu = findViewById(R.id.imgSlideMenuMap);
@@ -582,6 +584,11 @@ public class CustomMapsActivity extends FragmentActivity implements GoogleMap.On
     }
 
     private void showStore(String idStore) {
+        if (isStore){
+            frameStore.setVisibility(View.INVISIBLE);
+        }else {
+            frameStore.setVisibility(View.VISIBLE);
+        }
         mData.child(Constant.STORE).child(idStore).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

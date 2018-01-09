@@ -37,4 +37,8 @@ public class Constant {
 
     public static final String CHAT = "ChatMessage";
     public static final String ID_USER = "idUser";
+
+    public static final int CODE_USER = 1005;
+    public static final int CODE_STORE = 1006;
+    public static final String ID_USERORSTORE = "StoreOrUser";
 }

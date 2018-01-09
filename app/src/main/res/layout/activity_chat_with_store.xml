@@ -5,31 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
+    android:background="#EEEEEE"
     tools:context="com.threesome.shopme.chat.ChatWithStoreActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabSend"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:tint="@android:color/white"
+        android:tint="#33B5E5"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_send"
+        app:backgroundTint="@color/white"
         app:fabSize="mini"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/fabSend"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
-        <EditText
-            android:id="@+id/edtInputMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Message..."/>
-    </android.support.design.widget.TextInputLayout>
 
     <ListView
         android:id="@+id/list_of_message"
@@ -38,8 +30,24 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:dividerHeight="16dp"
+        android:background="#EEEEEE"
         android:divider="@android:color/transparent"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="68dp"/>
 
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/fabSend"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="8dp">
+        <EditText
+            android:id="@+id/edtInputMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:hint="Message..."/>
+    </android.support.design.widget.TextInputLayout>
 
 </RelativeLayout>

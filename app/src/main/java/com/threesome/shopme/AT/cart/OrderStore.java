@@ -20,18 +20,37 @@ public class OrderStore implements Serializable , Comparable<OrderStore>{
     private boolean isSeen;
     private String idOrderOfUser;
     private String idStore;
+    private String timeCreate;
+    private String idUser;
 
     public OrderStore(){}
 
-    public OrderStore(Customer customer, ArrayList<MyCart> myCarts ,String idStore , String idOrderOfUser) {
+    public OrderStore(Customer customer, ArrayList<MyCart> myCarts ,String idStore , String idOrderOfUser, String timeCreate, String idUser) {
         this.customer = customer;
         this.myCarts = myCarts;
         this.idStore = idStore;
+        this.timeCreate = timeCreate;
         status = 0;
         this.idOrderOfUser = idOrderOfUser;
         isSeen = false;
+        this.idUser = idUser;
     }
 
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getTimeCreate() {
+        return timeCreate;
+    }
+
+    public void setTimeCreate(String timeCreate) {
+        this.timeCreate = timeCreate;
+    }
 
     public String getIdOrderOfUser() {
         return idOrderOfUser;

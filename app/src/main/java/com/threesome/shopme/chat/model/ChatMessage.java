@@ -11,15 +11,25 @@ import java.util.Date;
 public class ChatMessage {
     private String messageText;
     private String messageUser;
-    private String linkAvatar;
     private long messageTime;
+    private boolean isSend;
 
-    public ChatMessage(String messageText, String messageUser, String linkAvatar) {
+    public ChatMessage() {
+    }
+
+    public ChatMessage(String messageText, String messageUser, boolean isSend) {
         this.messageText = messageText;
         this.messageUser = messageUser;
-        this.linkAvatar = linkAvatar;
-
+        this.isSend = isSend;
         messageTime = new Date().getTime();
+    }
+
+    public boolean isSend() {
+        return isSend;
+    }
+
+    public void setSend(boolean send) {
+        isSend = send;
     }
 
     public String getMessageText() {
@@ -36,14 +46,6 @@ public class ChatMessage {
 
     public void setMessageUser(String messageUser) {
         this.messageUser = messageUser;
-    }
-
-    public String getLinkAvatar() {
-        return linkAvatar;
-    }
-
-    public void setLinkAvatar(String linkAvatar) {
-        this.linkAvatar = linkAvatar;
     }
 
     public long getMessageTime() {

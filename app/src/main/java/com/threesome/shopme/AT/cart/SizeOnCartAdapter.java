@@ -43,7 +43,7 @@ public class SizeOnCartAdapter extends RecyclerView.Adapter<SizeOnCartViewHolder
             holder.txtChangeCountSize.setText(detailCart.getCount() + "");
             holder.txtNameSize.setText(detailCart.getNameSize());
 
-            final int[] count = {arrDetailCart.get(position).getCount()};
+            /*final int[] count = {arrDetailCart.get(position).getCount()};
             holder.txtEditSizeItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -77,7 +77,7 @@ public class SizeOnCartAdapter extends RecyclerView.Adapter<SizeOnCartViewHolder
                     }
                     holder.txtChangeCountSize.setText(countProduct + "");
                 }
-            });
+            });*/
         }
     }
 

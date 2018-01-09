@@ -70,6 +70,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
                     }
                 });
             }
+        }else {
+            holder.itemView.setVisibility(View.GONE);
         }
 
     }

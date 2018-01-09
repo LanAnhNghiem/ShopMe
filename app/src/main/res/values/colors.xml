@@ -21,4 +21,5 @@
     <color name="color_text">#cbcbcb</color>
     <color name="color_faded_green">#9e01b216</color>
     <color name="color_green_new">#0f9d58</color>
+    <color name="color_seen">#c2c2c2</color>
 </resources>

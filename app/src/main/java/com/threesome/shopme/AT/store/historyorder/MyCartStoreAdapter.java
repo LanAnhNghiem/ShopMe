@@ -38,7 +38,7 @@ public class MyCartStoreAdapter extends RecyclerView.Adapter<MyCartStoreAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_my_cart, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_order_detail, parent, false);
         return new ViewHolder(view);
     }
 
@@ -48,6 +48,14 @@ public class MyCartStoreAdapter extends RecyclerView.Adapter<MyCartStoreAdapter.
         if (myCart != null){
             holder.txtTotal.setText(myCart.getSumPrice() + " VND");
             holder.txtNameProduct.setText(myCart.getNameProduct());
+            StringBuilder mBuilder = new StringBuilder();
+            for (int i = 0; i< myCart.getArrDetailCart().size(); i++){
+                mBuilder.append(myCart.getArrDetailCart().get(i).getNameSize());
+                if (i != myCart.getArrDetailCart().size() - 1) {
+                    mBuilder.append(", ");
+                }
+            }
+            holder.txtSize.setText(mBuilder.toString());
             GlideApp.with(context)
                     .load(myCart.getLinkImageProduct())
                     .centerCrop().into(holder.imgProduct);
@@ -81,15 +89,15 @@ public class MyCartStoreAdapter extends RecyclerView.Adapter<MyCartStoreAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView imgProduct;
-        public TextView txtNameProduct, txtTotal, txtDelete;
+        public TextView txtNameProduct, txtTotal, txtSize;
         public RecyclerView recyclerViewSize;
         public LinearLayout layoutRecyclerViewSize, layoutInfoProductItem;
         public ViewHolder(View itemView) {
             super(itemView);
             imgProduct = itemView.findViewById(R.id.imgProductItemCart);
             txtNameProduct = itemView.findViewById(R.id.txtProductNameItemCart);
+            txtSize = itemView.findViewById(R.id.txtSizeOrderDetail);
             txtTotal = itemView.findViewById(R.id.txtSumPriceProductDetail);
-            txtDelete = itemView.findViewById(R.id.txtDeleteProductItemCart);
             recyclerViewSize = itemView.findViewById(R.id.recyclerViewSizeItem);
             layoutRecyclerViewSize = itemView.findViewById(R.id.layoutRecyclerViewSize);
             layoutInfoProductItem= itemView.findViewById(R.id.layoutInfoProductItem);

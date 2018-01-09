@@ -221,6 +221,7 @@ public class DetailProductActivity extends AppCompatActivity implements View.OnC
             Intent intent = new Intent(DetailProductActivity.this, ChatWithStoreActivity.class);
             intent.putExtra(Constant.ID_STORE, idStore);
             intent.putExtra(Constant.ID_USER, idUser);
+            intent.putExtra(Constant.ID_USERORSTORE, Constant.CODE_USER);
             startActivity(intent);
         } else {
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(DetailProductActivity.this);

@@ -51,23 +51,38 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
         final OrderStore order = orderStores.get(position);
         if (order != null){
             holder.txtNameUserOrder.setText(order.getCustomer().getName());
+            int sumPrice = 0;
+            for (int i =0; i<order.getMyCarts().size(); i++){
+                sumPrice += order.getMyCarts().get(i).getSumPrice();
+            }
+            holder.txtSumPriceProductDetail.setText(sumPrice + " Vnd");
             int status = order.getStatus();
-            if(status == Constant.CODE_CHUA_NHAN)
+            if(status == Constant.CODE_CHUA_NHAN) {
                 holder.txtStatusOrderStore.setText("Đơn mới");
-            else if(status == Constant.CODE_DA_NHAN)
+                holder.txtStatusOrderStore.setBackgroundResource(R.drawable.bg_new_order);
+            }
+            else if(status == Constant.CODE_DA_NHAN) {
                 holder.txtStatusOrderStore.setText("Đang tiến hành");
-            else if(status == Constant.CODE_SHIP)
+                holder.txtStatusOrderStore.setBackgroundResource(R.drawable.bg_progress_order);
+            }
+            else if(status == Constant.CODE_SHIP) {
                 holder.txtStatusOrderStore.setText("Đang giao");
-            else if(status == Constant.CODE_DA_GIAO)
+                holder.txtStatusOrderStore.setBackgroundResource(R.drawable.bg_progress_order);
+            }
+            else if(status == Constant.CODE_DA_GIAO) {
                 holder.txtStatusOrderStore.setText("Đã giao");
-            else if (status == Constant.CODE_DA_HUY)
+                holder.txtStatusOrderStore.setBackgroundResource(R.drawable.bg_progress_order);
+            }
+            else if (status == Constant.CODE_DA_HUY) {
                 holder.txtStatusOrderStore.setText("Đã hủy");
+                holder.txtStatusOrderStore.setBackgroundResource(R.drawable.bg_delete);
+            }
 
             if(order.isSeen() == true){
-                holder.layoutOrderList.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                holder.layoutOrderList.setBackgroundColor(Color.parseColor("#ffffff"));
             }
             else{
-                holder.layoutOrderList.setBackgroundColor(Color.parseColor("#777777"));
+                holder.layoutOrderList.setBackgroundColor(Color.parseColor("#c2c2c2"));
             }
 
             GlideApp.with(mContext)
@@ -87,7 +102,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
     public class OrderListAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public ImageView imgAvatarUserOrder;
-        public TextView txtStatusOrderStore, txtNameUserOrder;
+        public TextView txtStatusOrderStore, txtNameUserOrder, txtSumPriceProductDetail;
         public LinearLayout layoutOrderList;
 
         public OrderListAdapterViewHolder(View itemView) {
@@ -96,6 +111,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
             imgAvatarUserOrder = itemView.findViewById(R.id.imgAvatarUserOrder);
             txtStatusOrderStore = itemView.findViewById(R.id.txtStatusOrderStore);
             txtNameUserOrder = itemView.findViewById(R.id.txtNameUserOrder);
+            txtSumPriceProductDetail = itemView.findViewById(R.id.txtSumPriceProductDetail);
             layoutOrderList = itemView.findViewById(R.id.layoutOrderList);
         }
 
