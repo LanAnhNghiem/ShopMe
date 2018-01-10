@@ -261,7 +261,7 @@ public class ListProductActivity extends AppCompatActivity {
                             Product product = data.getValue(Product.class);
                             mList.add(product);
                             Log.d(TAG, String.valueOf(data.child("name").getValue()));
-                            //adapter.notifyDataSetChanged();
+                            adapter.notifyDataSetChanged();
                         }
                     }
                 }

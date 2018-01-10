@@ -37,6 +37,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.threesome.shopme.AT.cart.OrderStore;
 import com.threesome.shopme.AT.singleton.FirebaseDB;
 import com.threesome.shopme.AT.store.homeStoreDetail.HomeStoreDetailFragment;
 import com.threesome.shopme.AT.utility.Constant;
@@ -57,16 +58,17 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
     private DatabaseReference mData;
     private Bitmap bitmap = null;
     private String idStore, linkCoverStore;
-    private TextView txtEditProfile, txtStoreName, txtEmailStore;
+    private TextView txtEditProfile, txtStoreName, txtEmailStore, txtCountNotificationSlider;
     private int indexEdit = 0;
     private ProfileStoreFragment fragmentProfileStore;
     private HistoryOrderStoreFragment fragmentHistoryStore;
     private ProgressDialog progressDialog;
     private HomeStoreDetailFragment homeStoreDetailFragment;
     private StorageReference mStorage;
-    private LinearLayout btnCreateProduct, layoutMyProfileStore, layoutHomeDetailStore;
+    private LinearLayout btnCreateProduct, layoutMyProfileStore, layoutHomeDetailStore, layoutNotification;
     private EditText edtSearch;
     private int currentFragment = 1;
+    private int countNotification = 0;
     private static final int HOME = 1, CREATE_PRODUCT = 2, HISTORY = 3, NOTIFICATION = 4;
 
     @Override
@@ -77,6 +79,35 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         addEvents();
         homeDetailStore();
         setUpBanerStore();
+        getCountNotification ();
+    }
+
+    private void getCountNotification() {
+        mData.child(Constant.ORDERSTORE).child(idStore).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                countNotification = 0;
+                if (dataSnapshot.getValue() != null){
+                    for (DataSnapshot dt : dataSnapshot.getChildren()){
+                        OrderStore orderStore = dt.getValue(OrderStore.class);
+                        if (orderStore!= null && !orderStore.isSeen()){
+                            countNotification += 1;
+                        }
+                    }
+                    if (countNotification == 0){
+                        txtCountNotificationSlider.setVisibility(View.GONE);
+                    }else {
+                        txtCountNotificationSlider.setVisibility(View.VISIBLE);
+                        txtCountNotificationSlider.setText(countNotification + "");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void setUpBanerStore() {
@@ -114,10 +145,13 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
         layoutHomeDetailStore.setOnClickListener(this);
         imgSignOut.setOnClickListener(this);
         imgChangeBaner.setOnClickListener(this);
+        layoutNotification.setOnClickListener(this);
 
     }
 
     private void addControls() {
+        txtCountNotificationSlider = findViewById(R.id.txtCountNotificationSlider);
+        layoutNotification = findViewById(R.id.layoutNotification);
         imgChangeBaner = findViewById(R.id.imgChangeBanerMenu);
         txtStoreName = findViewById(R.id.txtStoreNameMenu);
         txtEmailStore = findViewById(R.id.txtEmailStoreMenu);
@@ -196,6 +230,10 @@ public class StoreDetailActivity extends AppCompatActivity implements View.OnCli
             createProduct();
         }
         if (id == R.id.linearHistoryStore) {
+            Toast.makeText(this, "History Fragment", Toast.LENGTH_SHORT).show();
+            //storeHistoryFragment();
+        }
+        if (id == R.id.layoutNotification){
             storeHistoryFragment();
         }
         if (id == R.id.imgSignOut) {

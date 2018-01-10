@@ -25,6 +25,13 @@
         <item name="colorPrimaryDark">#0c7e46</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <!-- Base chat theme. -->
+    <style name="ChatTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">#6696fd</item>
+        <item name="colorAccent">#6696fd</item>
+    </style>
 
     <!-- Translucent statusbar -->
     <style name="CustomStyle" parent="Theme.AppCompat.Light.DarkActionBar">

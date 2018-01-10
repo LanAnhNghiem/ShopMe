@@ -6,6 +6,7 @@
         android:name="com.javapapers.currentlocationinmap.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -70,7 +71,9 @@
             android:theme="@style/StoreTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".AT.store.ResetPasswordActivity" />
-        <activity android:name=".AT.user.UserProfileActivity" />
+        <activity
+            android:theme="@style/StoreTheme"
+            android:name=".AT.user.UserProfileActivity" />
         <activity
             android:name=".LA.ListProductActivity"
             android:theme="@style/StoreTheme"
@@ -92,7 +95,7 @@
             android:name=".AT.cart.UserCartActivity"
             android:theme="@style/StoreTheme"></activity>
         <activity android:name=".chat.ChatWithStoreActivity"
-            android:theme="@style/StoreTheme"
+            android:theme="@style/ChatTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:theme="@style/StoreTheme"

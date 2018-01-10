@@ -60,7 +60,7 @@ public class UserSearchFragment extends Fragment {
         categoriesByStore.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                mListProduct.clear();
                 Log.d("datasnape", dataSnapshot.toString());
                 if(!dataSnapshot.exists()){
 
@@ -71,7 +71,7 @@ public class UserSearchFragment extends Fragment {
                         productsByCategory.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                mListProduct.clear();
+
                                 Log.d("datasnape", dataSnapshot.toString());
                                 if (!dataSnapshot.exists()) {
 
@@ -81,6 +81,7 @@ public class UserSearchFragment extends Fragment {
                                         if(name.contains(searchString)){
                                             Product product = data.getValue(Product.class);
                                             mListProduct.add(product);
+                                            //adapter.notifyDataSetChanged();
                                         }
                                     }
                                 }

@@ -689,8 +689,11 @@ public class DetailProductStoreActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-        collapseLayout();
+        if (layout.isExpended()){
+            layout.collapse();
+        }else {
+            super.onBackPressed();
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

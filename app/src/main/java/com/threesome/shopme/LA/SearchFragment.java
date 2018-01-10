@@ -62,6 +62,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //mListCategory.clear();
+                mListProduct.clear();
                 Log.d("datasnape", dataSnapshot.toString());
                 if(!dataSnapshot.exists()){
 
@@ -70,10 +71,11 @@ public class SearchFragment extends Fragment {
                         Category category = data.getValue(Category.class);
                         //mListCategory.add(category);
                         productsByCategory= mData.child(Constant.PRODUCTS_BY_CATEGORY).child(category.getId());
+
                         productsByCategory.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                mListProduct.clear();
+
                                 Log.d("datasnape", dataSnapshot.toString());
                                 if (!dataSnapshot.exists()) {
 
