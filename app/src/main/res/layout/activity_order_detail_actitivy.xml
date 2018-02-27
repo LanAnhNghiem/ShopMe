@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.threesome.shopme.AT.store.historyorder.OrderDetailActitivy">
+
+    //0.9
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#0f9d58"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <com.andexert.library.RippleView
+            android:id="@+id/rippleimgBackDetailOrder"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/imgBackDetailOrder"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/ic_back_white" />
+        </com.andexert.library.RippleView>
+
+        <TextView
+            android:id="@+id/txtNameProductDetail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="My Cart"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    //Info User
+    <LinearLayout
+        android:background="#eeeeee"
+        android:weightSum="10"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgAvatarUserOrder"
+            android:layout_marginLeft="10dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/avatar"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/color_green"/>
+        <FrameLayout
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:weightSum="8"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.v4.widget.Space
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+                <TextView
+                    android:id="@+id/txtNameUserOrder"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"
+                    android:text="Dương Ngọc Nhẫn"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+                <TextView
+                    android:id="@+id/txtTimeOrder"
+                    android:textSize="15sp"
+                    android:gravity="top"
+                    android:textColor="@color/color_green_new"
+                    android:text="1 ngày trước"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+                <com.andexert.library.RippleView
+                    android:layout_weight="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+                    <LinearLayout
+                        android:id="@+id/layoutSendMesage"
+                        android:weightSum="2"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:src="@drawable/ic_chat_2"
+                            android:layout_width="15dp"
+                            android:layout_height="match_parent" />
+                        <TextView
+                            android:textColor="@color/btnRegister"
+                            android:paddingLeft="10dp"
+                            android:paddingBottom="5dp"
+                            android:gravity="center_vertical"
+                            android:text="Send Message"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+                </com.andexert.library.RippleView>
+
+
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/imgStt"
+                android:src="@drawable/ic_chuanhan"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="right"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerOrderDetailList"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_marginTop="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="8.3"
+        android:background="#eeeeee"
+        tools:listitem="@layout/item_my_cart">
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:background="#eeeeee"
+        android:layout_marginBottom="1dp"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <com.andexert.library.RippleView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/txtHuyDon"
+                android:background="@drawable/bg_cancel"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_marginLeft="1dp"
+                android:textColor="@color/white"
+                android:text="Hủy đơn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.andexert.library.RippleView>
+        <com.andexert.library.RippleView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/txtNhanDon"
+                android:background="@drawable/bg_stt"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:textColor="@color/white"
+                android:text="Đã giao"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.andexert.library.RippleView>
+    </LinearLayout>
+</FrameLayout>

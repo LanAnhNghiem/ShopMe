@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
+    tools:context="com.threesome.shopme.chat.ChatWithStoreActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#34B4E3"
+        android:paddingLeft="10dp"
+        android:orientation="horizontal">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgChat"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:id="@+id/txtNameChat"
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="match_parent"
+            android:gravity="center|left"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Quan bobabop"
+            android:textColor="@color/white"
+            />
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/imgCall"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_phone_call"
+                android:layout_gravity="center"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_gravity="center"
+                android:background="@android:color/holo_green_dark"
+                android:layout_marginBottom="10dp"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="48dp">
+            <EditText
+                android:id="@+id/edtInputMessage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:hint="Message..."
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:tint="#33B5E5"
+            android:layout_gravity="right|center"
+            android:src="@drawable/ic_send"
+            app:backgroundTint="@color/white"
+            app:fabSize="mini"/>
+
+    </FrameLayout>
+
+
+    <ListView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/list_of_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:dividerHeight="16dp"
+        android:background="#EEEEEE"
+        android:divider="@android:color/transparent"
+        android:layout_marginBottom="78dp"
+        android:layout_marginTop="48dp"/>
+
+
+
+</RelativeLayout>

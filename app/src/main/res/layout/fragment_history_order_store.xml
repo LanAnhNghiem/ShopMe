@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context="com.threesome.shopme.AT.store.HistoryOrderStoreFragment">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerOrderList"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eeeeee"
+        tools:listitem="@layout/item_orderlist_store">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

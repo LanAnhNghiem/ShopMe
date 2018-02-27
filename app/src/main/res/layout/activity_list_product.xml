@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/ProductTheme"
+    android:background="#eeeeee"
+    tools:context="com.threesome.shopme.LA.ListProductActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="#0f9d58"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <android.support.v7.widget.CardView
+            app:cardElevation="2dp"
+            app:cardCornerRadius="3dp"
+            android:layout_margin="10dp"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:weightSum="10"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/imgBackProductList"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:src="@drawable/ic_back_new" />
+                <EditText
+                    android:id="@+id/edtSearch"
+                    android:hint="Search"
+                    android:paddingLeft="10dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/color_text"
+                    android:background="@android:color/transparent"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+                <ImageView
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="13dp"
+                    android:paddingTop="13dp"
+                    android:src="@drawable/ic_microphone" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <TextView
+            android:id="@+id/txtEditProfile"
+            android:visibility="gone"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:text="Edit"
+            android:layout_gravity="right"
+            android:layout_width="70dp"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+    <TextView
+        android:layout_marginTop="75dp"
+        android:textColor="#0f9d58"
+        android:text="TẤT CẢ SẢN PHẨM"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvProduct"
+        android:background="#eeeeee"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="100dp">
+    </android.support.v7.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/btnAddProduct"
+        android:padding="14dp"
+        android:background="@drawable/bg_add_product"
+        android:src="@drawable/ic_add_p"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+</FrameLayout>

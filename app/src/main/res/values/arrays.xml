@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="color_tabBar">
+        <item>#30ff7f</item>
+        <item>#414eff</item>
+        <item>#fc424c</item>
+    </string-array>
+</resources>

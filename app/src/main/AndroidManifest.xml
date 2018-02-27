@@ -2,6 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.threesome.shopme">
 
+    <permission
+        android:name="com.javapapers.currentlocationinmap.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,13 +24,82 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".StartActivity" />
+        <activity android:name=".StoreLoginActivity" />
+        <activity android:name=".CustomerLoginActivity" />
+        <activity
+            android:name=".CustomMapsActivity"
+            android:hardwareAccelerated="false"
+            android:largeHeap="true"
+            android:theme="@style/AppTheme.FullScreen" />
+        <activity android:name=".LA.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AT.createstore.RegisterStoreActivity" />
+        <activity android:name=".AT.signIn.RequestSignInActivity" />
+        <activity android:name=".AT.signIn.SignInStoreActivity" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AT.store.StoreDetailActivity"
+            android:theme="@style/StoreTheme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".AT.store.ResetPasswordActivity" />
+        <activity
+            android:theme="@style/StoreTheme"
+            android:name=".AT.user.UserProfileActivity" />
+        <activity
+            android:name=".LA.ListProductActivity"
+            android:theme="@style/StoreTheme"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".LA.CreateProductActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".AT.product.DetailProductActivity"
+            android:theme="@style/StoreTheme" />
+        <activity
+            android:name=".AT.store.userStoreDetail.UserStoreDetailActivity"
+            android:theme="@style/StoreTheme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".AT.product.DetailProductStoreActivity"
+            android:theme="@style/StoreTheme" />
+        <activity
+            android:name=".AT.cart.UserCartActivity"
+            android:theme="@style/StoreTheme"></activity>
+        <activity android:name=".chat.ChatWithStoreActivity"
+            android:theme="@style/ChatTheme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:theme="@style/StoreTheme"
+            android:name=".AT.store.historyorder.OrderDetailActitivy"></activity>
     </application>
 
 </manifest>

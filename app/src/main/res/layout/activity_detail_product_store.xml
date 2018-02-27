@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".AT.product.DetailProductStoreActivity">
+
+    <LinearLayout
+        android:id="@+id/layoutDetailProductStore"
+        android:background="#eeeeee"
+        android:orientation="vertical"
+        android:weightSum="10"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        //0.9
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.9"
+            android:background="#0f9d58"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <com.andexert.library.RippleView
+                android:id="@+id/rippleimgBackDetailProductStore"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/imgBackDetailProductStore"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="12dp"
+                    android:paddingTop="12dp"
+                    android:src="@drawable/ic_back_white" />
+            </com.andexert.library.RippleView>
+
+            <TextView
+                android:id="@+id/txtNameProductDetailStore"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Trà Sữa Thái Xanh"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <com.andexert.library.RippleView
+                android:id="@+id/rippleDeleteProduct"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginRight="5dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </com.andexert.library.RippleView>
+
+
+        </LinearLayout>
+
+        //8.2
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8.21"
+            android:background="#eeeeee">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardViewProductStore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
+                    <ImageView
+                        android:id="@+id/imgProductDetailStore"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_below="@+id/cardViewProductStore"
+                    android:id="@+id/infoProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:orientation="vertical"
+                        android:weightSum="10">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="4"
+                            android:orientation="horizontal"
+                            android:weightSum="5">
+
+                            <TextView
+                                android:id="@+id/txtNameProductDetailStore2"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="3"
+                                android:gravity="center_vertical|bottom"
+                                android:text="Trà Sữa Thái Xanh"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:id="@+id/layoutLoveDetailproduct"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_love"
+                                android:weightSum="5">
+
+                                <TextView
+                                    android:gravity="center"
+                                    android:text="121"
+                                    android:textColor="#0f9d58"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="3" />
+
+                                <ImageView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2"
+                                    android:padding="5dp"
+                                    android:src="@drawable/ic_love" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_love"
+                                android:weightSum="5">
+
+                                <TextView
+                                    android:gravity="center"
+                                    android:text="121"
+                                    android:textColor="#0f9d58"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="3" />
+
+                                <ImageView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2"
+                                    android:padding="5dp"
+                                    android:src="@drawable/ic_cmt" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="2"
+                            android:orientation="horizontal"
+                            android:weightSum="4">
+
+                            <TextView
+                                android:id="@+id/txtPriceProductDetailStore"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:gravity="center_vertical"
+                                android:text="20.000 VND"
+                                android:textColor="#0f9d58">
+                            </TextView>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="2"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_star_red" />
+
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_star_red" />
+
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_star_red" />
+
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_star_red" />
+
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_non_star_red" />
+                            <TextView
+                                android:textSize="12sp"
+                                android:layout_marginLeft="5dp"
+                                android:textColor="#e74c3c"
+                                android:text="4.5/5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_below="@+id/infoProduct"
+                    android:id="@+id/cardViewProductInfoProduct"
+                    app:cardElevation="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:background="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:gravity="center"
+                            android:textColor="@android:color/black"
+                            android:text="Thông Tin Sản Phẩm"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp" />
+                        <TextView
+                            android:background="@color/color_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp" />
+                        <TextView
+                            android:id="@+id/txtInfoProductDetailStore"
+                            android:layout_margin="10dp"
+                            android:textColor="@color/btnRegister"
+                            android:text="Trà sữa trà xanh được làm từ trà xanh nguyên chất ,Trà sữa trà xanh được làm từ trà xanh nguyên chất , Trà sữa trà xanh được làm từ trà xanh nguyên chất , Trà sữa trà xanh được làm từ trà xanh nguyên chất , Trà sữa trà xanh được làm từ trà xanh nguyên chất ,  "
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+                <TextView
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_below="@+id/cardViewProductInfoProduct"
+                    android:background="#eeeeee"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+            </RelativeLayout>
+        </ScrollView>
+
+        //0.9
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.9"
+            android:background="#0f9d58"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <ImageView
+                android:id="@+id/imgEditSizeProduct"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#0f9d58"
+                android:padding="18dp"
+                android:src="@drawable/ic_edit_product" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.02"
+                android:background="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/imgAddSizeProduct"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#0f9d58"
+                android:padding="18dp"
+                android:src="@drawable/ic_add_size" />
+
+            <TextView
+                android:id="@+id/txtDeleteProduct"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@android:color/holo_red_dark"
+                android:gravity="center"
+                android:text="Delete"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <com.qhutch.bottomsheetlayout.BottomSheetLayout
+        android:id="@+id/bottom_sheet_layout_store"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:collapsedHeight="0dp">
+
+        <FrameLayout
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            //Image product 100dp
+            <android.support.v7.widget.CardView
+                android:background="@android:color/white"
+                android:elevation="2dp"
+                app:cardCornerRadius="5sp"
+                android:layout_marginLeft="30dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp" >
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/imgProductSmallStore"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/drink_default"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:id="@+id/layoutChangeImageProduct"
+                        android:background="#a74b7c9b"
+                        android:layout_gravity="bottom"
+                        android:weightSum="5"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp">
+                        <ImageView
+                            android:padding="3dp"
+                            android:src="@drawable/ic_change_camera"
+                            android:layout_weight="2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent" />
+                        <TextView
+                            android:textColor="@android:color/white"
+                            android:text="change"
+                            android:textSize="15sp"
+                            android:gravity="center_vertical"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+                </FrameLayout>
+            </android.support.v7.widget.CardView>
+            //Background maxParent
+            <LinearLayout
+                android:background="@android:color/white"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+            </LinearLayout>
+            //Name of Product 20dp
+            <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="10"
+                android:layout_marginLeft="150dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="20dp">
+                <TextView
+                    android:id="@+id/txtNameProductDetailStore3"
+                    android:maxLines="1"
+                    android:gravity="center_vertical|bottom"
+                    android:text="Trà Sữa Thái Xanh"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_weight="8"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+                <com.andexert.library.RippleView
+                    android:id="@+id/rippleEditNameProduct"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/imgEditNameProduct"
+                        android:padding="3dp"
+                        android:src="@drawable/ic_edit_black"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.andexert.library.RippleView>
+            </LinearLayout>
+            //Price of Product 20dp
+            <TextView
+                android:id="@+id/txtPriceProductDetailSmallStore"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:text="20.000 VND"
+                android:textColor="#0f9d58">
+            </TextView>
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="120dp"
+                android:background="@color/color_text"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+            //Choose type of product 20dp
+            <TextView
+                android:textColor="@android:color/black"
+                android:text="Type of Product"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="130dp"
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+            //Type of Product 30dp
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerSizeStore"
+                android:layout_marginTop="160dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+            </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="210dp"
+                android:background="@color/color_text"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+            //Button 40dp
+            <TextView
+                android:id="@+id/txtBtnEditProductStore"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="Add To Cart"
+                android:background="@drawable/bg_btn_buy_now"
+                android:textColor="@android:color/white"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="240dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+        </FrameLayout>
+
+    </com.qhutch.bottomsheetlayout.BottomSheetLayout>
+</FrameLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="35dp">
+    <TextView
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:typeface="serif"
+        android:textSize="15sp"
+        android:textColor="@android:color/white"
+        android:text="Áo Thun"
+        android:id="@+id/txtCategoryName2"
+        android:background="@drawable/bg_price"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</android.support.constraint.ConstraintLayout>
